@@ -11,7 +11,6 @@ open import elementary-number-theory.inequality-natural-numbers
 open import elementary-number-theory.maximum-natural-numbers
 open import elementary-number-theory.natural-numbers
 open import elementary-number-theory.positive-rational-numbers
-open import elementary-number-theory.strict-inequality-natural-numbers
 
 open import foundation.binary-relations
 open import foundation.cartesian-product-types
@@ -58,7 +57,7 @@ module _
     Π-Prop
       ( ℕ)
       ( λ (n : ℕ) →
-        hom-Prop (le-ℕ-Prop N n) (neighbourhood-Metric-Space M d x (u n)))
+        hom-Prop (leq-ℕ-Prop N n) (neighbourhood-Metric-Space M d x (u n)))
 
   is-modulus-limit-Sequence-Metric-Space : (d : ℚ⁺) (N : ℕ) → UU l2
   is-modulus-limit-Sequence-Metric-Space d N =
@@ -121,31 +120,17 @@ module _
       Ny = modulus-limit-Sequence-Metric-Space M u y K d₂
 
       N : ℕ
-      N = succ-ℕ (max-ℕ Nx Ny)
+      N = max-ℕ Nx Ny
 
       α : is-in-neighbourhood-Metric-Space M d₁ x (u N)
       α =
         is-modulus-modulus-limit-Sequence-Metric-Space M u x H d₁ N
-          ( concatenate-leq-le-ℕ
-            { Nx}
-            { max-ℕ Nx Ny}
-            { N}
-            ( leq-left-leq-max-ℕ (max-ℕ Nx Ny) Nx Ny (refl-leq-ℕ (max-ℕ Nx Ny)))
-            ( succ-le-ℕ N))
+          (leq-left-leq-max-ℕ N Nx Ny (refl-leq-ℕ N))
 
       β : is-in-neighbourhood-Metric-Space M d₂ y (u N)
       β =
         is-modulus-modulus-limit-Sequence-Metric-Space M u y K d₂ N
-          ( concatenate-leq-le-ℕ
-            { Ny}
-            { max-ℕ Nx Ny}
-            { N}
-            ( leq-right-leq-max-ℕ
-              ( max-ℕ Nx Ny)
-              ( Nx)
-              ( Ny)
-              ( refl-leq-ℕ (max-ℕ Nx Ny)))
-            ( succ-le-ℕ N))
+          (leq-right-leq-max-ℕ N Nx Ny (refl-leq-ℕ N))
 ```
 
 ### Two limits of a sequence in a metric space are equal
@@ -207,9 +192,9 @@ module _
           ( ℕ)
           ( λ (m : ℕ) →
             hom-Prop
-              ( le-ℕ-Prop N n)
+              ( leq-ℕ-Prop N n)
               ( hom-Prop
-                ( le-ℕ-Prop N m)
+                ( leq-ℕ-Prop N m)
                 ( neighbourhood-Metric-Space M d (u n) (u m))))))
 
   is-modulus-cauchy-Sequence-Metric-Space : (d : ℚ⁺) (N : ℕ) → UU l2
@@ -265,14 +250,12 @@ module _
           β : is-in-neighbourhood-Metric-Space M d₁ x (u p)
           β =
             is-modulus-modulus-limit-Sequence-Metric-Space M u x H d₁ p
-              ( concatenate-leq-le-ℕ {Np} {N} {p}
-                ( leq-left-leq-max-ℕ N Np Nq (refl-leq-ℕ N))
-                ( I))
+              ( transitive-leq-ℕ Np N p I
+                ( leq-left-leq-max-ℕ N Np Nq (refl-leq-ℕ N)))
 
           γ : is-in-neighbourhood-Metric-Space M d₂ x (u q)
           γ =
             is-modulus-modulus-limit-Sequence-Metric-Space M u x H d₂ q
-              ( concatenate-leq-le-ℕ {Nq} {N} {q}
-                ( leq-right-leq-max-ℕ N Np Nq (refl-leq-ℕ N))
-                ( J))
+              ( transitive-leq-ℕ Nq N q J
+                ( leq-right-leq-max-ℕ N Np Nq (refl-leq-ℕ N)))
 ```

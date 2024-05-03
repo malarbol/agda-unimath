@@ -14,6 +14,7 @@ open import elementary-number-theory.addition-rational-numbers
 open import elementary-number-theory.additive-group-of-rational-numbers
 open import elementary-number-theory.cross-multiplication-difference-integer-fractions
 open import elementary-number-theory.difference-rational-numbers
+open import elementary-number-theory.inequality-rational-numbers
 open import elementary-number-theory.integer-fractions
 open import elementary-number-theory.integers
 open import elementary-number-theory.multiplication-integer-fractions
@@ -176,6 +177,18 @@ module _
     is-positive-le-zero-ℚ : le-ℚ zero-ℚ x → is-positive-ℚ x
     is-positive-le-zero-ℚ =
       is-positive-eq-ℤ (cross-mul-diff-zero-fraction-ℤ (fraction-ℚ x))
+```
+
+### The difference of a rational number with a lesser rational number is positive
+
+```agda
+is-positive-diff-le-ℚ : (x y : ℚ) → le-ℚ x y → is-positive-ℚ (y -ℚ x)
+is-positive-diff-le-ℚ x y H =
+  is-positive-le-zero-ℚ
+    ( y -ℚ x)
+    ( backward-implication
+      ( iff-translate-diff-le-zero-ℚ x y)
+      ( H))
 ```
 
 ### A nonzero rational number or its negative is positive
@@ -491,4 +504,30 @@ le-mediant-zero-ℚ⁺ x =
     ( zero-ℚ)
     ( rational-ℚ⁺ x)
     ( le-zero-is-positive-ℚ (rational-ℚ⁺ x) (is-positive-rational-ℚ⁺ x)))
+```
+
+### The addition with a positive rational number is an increasing map
+
+```agda
+le-left-add-rational-ℚ⁺ : (x : ℚ) (d : ℚ⁺) → le-ℚ x ((rational-ℚ⁺ d) +ℚ x)
+le-left-add-rational-ℚ⁺ x d =
+  concatenate-leq-le-ℚ
+    ( x)
+    ( zero-ℚ +ℚ x)
+    ( (rational-ℚ⁺ d) +ℚ x)
+    ( inv-tr (leq-ℚ x) (left-unit-law-add-ℚ x) (refl-leq-ℚ x))
+    ( preserves-le-left-add-ℚ
+      ( x)
+      ( zero-ℚ)
+      ( rational-ℚ⁺ d)
+      ( le-zero-is-positive-ℚ
+        ( rational-ℚ⁺ d)
+        ( is-positive-rational-ℚ⁺ d)))
+
+le-right-add-rational-ℚ⁺ : (x : ℚ) (d : ℚ⁺) → le-ℚ x (x +ℚ (rational-ℚ⁺ d))
+le-right-add-rational-ℚ⁺ x d =
+  inv-tr
+    ( le-ℚ x)
+    ( commutative-add-ℚ x (rational-ℚ⁺ d))
+    ( le-left-add-rational-ℚ⁺ x d)
 ```

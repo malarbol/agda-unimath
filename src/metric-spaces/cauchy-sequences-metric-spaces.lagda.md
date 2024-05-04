@@ -40,10 +40,10 @@ criterion.
 
 ```agda
 module _
-  {l1 l2 : Level} (M : Metric-Space l1 l2) (u : Sequence-Metric-Space M)
+  {l : Level} (M : Metric-Space l) (u : Sequence-Metric-Space M)
   where
 
-  is-modulus-cauchy-prop-Sequence-Metric-Space : (d : ℚ⁺) (N : ℕ) → Prop l2
+  is-modulus-cauchy-prop-Sequence-Metric-Space : (d : ℚ⁺) (N : ℕ) → Prop l
   is-modulus-cauchy-prop-Sequence-Metric-Space d N =
     Π-Prop
       ( ℕ)
@@ -57,11 +57,11 @@ module _
                 ( leq-ℕ-Prop N m)
                 ( neighbourhood-Metric-Space M d (u n) (u m))))))
 
-  is-modulus-cauchy-Sequence-Metric-Space : (d : ℚ⁺) (N : ℕ) → UU l2
+  is-modulus-cauchy-Sequence-Metric-Space : (d : ℚ⁺) (N : ℕ) → UU l
   is-modulus-cauchy-Sequence-Metric-Space d N =
     type-Prop (is-modulus-cauchy-prop-Sequence-Metric-Space d N)
 
-  is-cauchy-Sequence-Metric-Space : UU l2
+  is-cauchy-Sequence-Metric-Space : UU l
   is-cauchy-Sequence-Metric-Space =
     (d : ℚ⁺) → Σ ℕ (is-modulus-cauchy-Sequence-Metric-Space d)
 ```
@@ -70,7 +70,7 @@ module _
 
 ```agda
 module _
-  {l1 l2 : Level} (M : Metric-Space l1 l2) (u : Sequence-Metric-Space M)
+  {l : Level} (M : Metric-Space l) (u : Sequence-Metric-Space M)
   where
 
   is-cauchy-is-convergent-Sequence-Metric-Space :

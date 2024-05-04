@@ -38,22 +38,22 @@ Convergent sequences in metric spaces are sequences that have a limit.
 
 ```agda
 module _
-  {l1 l2 : Level} (M : Metric-Space l1 l2) (u : Sequence-Metric-Space M)
+  {l : Level} (M : Metric-Space l) (u : Sequence-Metric-Space M)
   (x : type-Metric-Space M)
   where
 
-  is-modulus-limit-prop-Sequence-Metric-Space : (d : ℚ⁺) (N : ℕ) → Prop l2
+  is-modulus-limit-prop-Sequence-Metric-Space : (d : ℚ⁺) (N : ℕ) → Prop l
   is-modulus-limit-prop-Sequence-Metric-Space d N =
     Π-Prop
       ( ℕ)
       ( λ (n : ℕ) →
         hom-Prop (leq-ℕ-Prop N n) (neighbourhood-Metric-Space M d x (u n)))
 
-  is-modulus-limit-Sequence-Metric-Space : (d : ℚ⁺) (N : ℕ) → UU l2
+  is-modulus-limit-Sequence-Metric-Space : (d : ℚ⁺) (N : ℕ) → UU l
   is-modulus-limit-Sequence-Metric-Space d N =
     type-Prop (is-modulus-limit-prop-Sequence-Metric-Space d N)
 
-  is-limit-Sequence-Metric-Space : UU l2
+  is-limit-Sequence-Metric-Space : UU l
   is-limit-Sequence-Metric-Space =
     (d : ℚ⁺) → Σ ℕ (is-modulus-limit-Sequence-Metric-Space d)
 
@@ -73,10 +73,10 @@ module _
 
 ```agda
 module _
-  {l1 l2 : Level} (M : Metric-Space l1 l2) (u : Sequence-Metric-Space M)
+  {l : Level} (M : Metric-Space l) (u : Sequence-Metric-Space M)
   where
 
-  is-convergent-Sequence-Metric-Space : UU (l1 ⊔ l2)
+  is-convergent-Sequence-Metric-Space : UU l
   is-convergent-Sequence-Metric-Space =
     Σ (type-Metric-Space M) (is-limit-Sequence-Metric-Space M u)
 ```
@@ -87,7 +87,7 @@ module _
 
 ```agda
 module _
-  {l1 l2 : Level} (M : Metric-Space l1 l2) (u : Sequence-Metric-Space M)
+  {l : Level} (M : Metric-Space l) (u : Sequence-Metric-Space M)
   (x y : type-Metric-Space M)
   where
 
@@ -141,7 +141,7 @@ module _
 
 ```agda
 module _
-  {l1 l2 : Level} (M : Metric-Space l1 l2) (u : Sequence-Metric-Space M)
+  {l : Level} (M : Metric-Space l) (u : Sequence-Metric-Space M)
   (x y : type-Metric-Space M)
   where
 
@@ -158,7 +158,7 @@ module _
 
 ```agda
 module _
-  {l1 l2 : Level} (M : Metric-Space l1 l2) (x : type-Metric-Space M)
+  {l : Level} (M : Metric-Space l) (x : type-Metric-Space M)
   where
 
   is-convergent-constant-Sequence-Metric-Space :

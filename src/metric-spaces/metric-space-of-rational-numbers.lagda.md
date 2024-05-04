@@ -134,7 +134,7 @@ pr2 metric-structure-ℚ = is-metric-neighbourhood-ℚ
 ### The standard metric space of rational numbers
 
 ```agda
-metric-space-ℚ : Metric-Space lzero lzero
+metric-space-ℚ : Metric-Space lzero
 pr1 metric-space-ℚ = ℚ-Set
 pr2 metric-space-ℚ = metric-structure-ℚ
 ```

@@ -37,10 +37,10 @@ Sequences in metric spaces are sequences in the underlyng types.
 
 ```agda
 module _
-  {l1 l2 : Level} (M : Metric-Space l1 l2)
+  {l : Level} (M : Metric-Space l)
   where
 
-  Sequence-Metric-Space : UU l1
+  Sequence-Metric-Space : UU l
   Sequence-Metric-Space = ℕ → type-Metric-Space M
 ```
 
@@ -48,7 +48,7 @@ module _
 
 ```agda
 module _
-  {l1 l2 : Level} (M : Metric-Space l1 l2) (x : type-Metric-Space M)
+  {l : Level} (M : Metric-Space l) (x : type-Metric-Space M)
   where
 
   constant-Sequence-Metric-Space : Sequence-Metric-Space M

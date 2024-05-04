@@ -74,33 +74,33 @@ module _
 ### The type of metric spaces
 
 ```agda
-Metric-Space : (l1 l2 : Level) → UU ((lsuc l1) ⊔ (lsuc l2))
-Metric-Space l1 l2 = Σ (Set l1) (Metric-Structure l2)
+Metric-Space : (l : Level) → UU (lsuc l)
+Metric-Space l = Σ (Set l) (Metric-Structure l)
 
 module _
-  {l1 l2 : Level} (M : Metric-Space l1 l2)
+  {l : Level} (M : Metric-Space l)
   where
 
-  set-Metric-Space : Set l1
+  set-Metric-Space : Set l
   set-Metric-Space = pr1 M
 
-  type-Metric-Space : UU l1
+  type-Metric-Space : UU l
   type-Metric-Space = type-Set set-Metric-Space
 
   is-set-type-Metric-Space : is-set type-Metric-Space
   is-set-type-Metric-Space = is-set-type-Set set-Metric-Space
 
-  structure-Metric-Space : Metric-Structure l2 set-Metric-Space
+  structure-Metric-Space : Metric-Structure l set-Metric-Space
   structure-Metric-Space = pr2 M
 
-  neighbourhood-Metric-Space : Neighbourhood-Relation-Prop l2 type-Metric-Space
+  neighbourhood-Metric-Space : Neighbourhood-Relation-Prop l type-Metric-Space
   neighbourhood-Metric-Space = pr1 structure-Metric-Space
 
   is-metric-neighbourhood-Metric-Space :
     is-metric-Neighbourhood set-Metric-Space neighbourhood-Metric-Space
   is-metric-neighbourhood-Metric-Space = pr2 structure-Metric-Space
 
-  is-in-neighbourhood-Metric-Space : ℚ⁺ → Relation l2 type-Metric-Space
+  is-in-neighbourhood-Metric-Space : ℚ⁺ → Relation l type-Metric-Space
   is-in-neighbourhood-Metric-Space =
     is-in-Neighbourhood neighbourhood-Metric-Space
 

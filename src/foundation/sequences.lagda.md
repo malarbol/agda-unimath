@@ -42,6 +42,7 @@ map-sequence :
   {l1 l2 : Level} {A : UU l1} {B : UU l2} → (A → B) → sequence A → sequence B
 map-sequence f a = f ∘ a
 ```
+
 ### The equivalence relation of being asymptotically equal sequences
 
 #### The relation of being asymptotically equal sequences
@@ -81,9 +82,9 @@ module _
   symmetric-eq-∞-sequence : eq-∞-sequence u v → eq-∞-sequence v u
   symmetric-eq-∞-sequence =
     map-Σ
-     ( is-modulus-eq-∞-sequence v u)
-     ( id)
-     ( λ N H m K → inv (H m K))
+      ( is-modulus-eq-∞-sequence v u)
+      ( id)
+      ( λ N H m K → inv (H m K))
 ```
 
 #### Being asymptotically equal is a transitive relation

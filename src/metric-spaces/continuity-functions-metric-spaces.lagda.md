@@ -144,7 +144,7 @@ module _
   is-uniformly-continuous-id-Metric-Space ε = ε , λ x y H → H
 ```
 
-### The image of a convergent sequence by a function continuous at the limit point converes to the image of the limit point
+### The image of a convergent sequence by a function continuous at the limit point converges to the image of the limit point
 
 ```agda
 module _

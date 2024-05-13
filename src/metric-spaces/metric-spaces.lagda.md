@@ -125,6 +125,27 @@ module _
     pr2 (pr2 (pr2 is-metric-neighbourhood-Metric-Space))
 ```
 
+## Properties
+
+### Any set can be equipped with a metric structure
+
+```agda
+module _
+  {l : Level} (A : Set l)
+  where
+
+  discrete-Metric-Structure : Metric-Structure l A
+  pr1 discrete-Metric-Structure d x y = Id-Prop A x y
+  pr2 discrete-Metric-Structure =
+    ( λ d x y H → inv H) ,
+    ( λ d x → refl) ,
+    ( λ x y H → H one-ℚ⁺) ,
+    ( λ x y z d₁ d₂ H K → K ∙ H)
+
+  discrete-Metric-Space : Metric-Space l
+  discrete-Metric-Space = A , discrete-Metric-Structure
+```
+
 ## External links
 
 - [MetricSpaces.Type](https://www.cs.bham.ac.uk/~mhe/TypeTopology/MetricSpaces.Type.html)

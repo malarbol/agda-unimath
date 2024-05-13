@@ -127,6 +127,24 @@ module _
 
 ## Properties
 
+### Equal elements in a metric space are indistinguishable
+
+```agda
+module _
+  {l : Level} (M : Metric-Space l)
+  where
+
+  indistinguishable-eq-Metric-Space :
+    (x y : type-Metric-Space M) →
+    x ＝ y →
+    is-indistinguishable-Neighbourhood
+      ( neighbourhood-Metric-Space M)
+      ( x)
+      ( y)
+  indistinguishable-eq-Metric-Space x .x refl d =
+    is-reflexive-neighbourhood-Metric-Space M d x
+```
+
 ### Any set can be equipped with a metric structure
 
 ```agda

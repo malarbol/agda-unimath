@@ -17,6 +17,7 @@ open import foundation.cartesian-product-types
 open import foundation.dependent-pair-types
 open import foundation.identity-types
 open import foundation.propositions
+open import foundation.sequences
 open import foundation.sets
 open import foundation.transport-along-identifications
 open import foundation.universe-levels
@@ -41,7 +42,7 @@ module _
   where
 
   Sequence-Metric-Space : UU l
-  Sequence-Metric-Space = ℕ → type-Metric-Space M
+  Sequence-Metric-Space = sequence (type-Metric-Space M)
 ```
 
 ### Constant sequences in metric spaces

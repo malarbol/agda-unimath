@@ -73,12 +73,32 @@ module _
 
 ```agda
 module _
-  {l : Level} (M : Metric-Space l) (u : Sequence-Metric-Space M)
+  {l : Level} (M : Metric-Space l)
   where
 
-  is-convergent-Sequence-Metric-Space : UU l
-  is-convergent-Sequence-Metric-Space =
+  is-convergent-Sequence-Metric-Space : (u : Sequence-Metric-Space M) → UU l
+  is-convergent-Sequence-Metric-Space u =
     Σ (type-Metric-Space M) (is-limit-Sequence-Metric-Space M u)
+
+  Convergent-Sequence-Metric-Space : UU l
+  Convergent-Sequence-Metric-Space =
+    Σ (Sequence-Metric-Space M) is-convergent-Sequence-Metric-Space
+
+module _
+  {l : Level} (M : Metric-Space l) (u : Convergent-Sequence-Metric-Space M)
+  where
+
+  sequence-Convergent-Sequence-Metric-Space : Sequence-Metric-Space M
+  sequence-Convergent-Sequence-Metric-Space = pr1 u
+
+  limit-Convergent-Sequence-Metric-Space : type-Metric-Space M
+  limit-Convergent-Sequence-Metric-Space = pr1 (pr2 u)
+
+  is-limit-Convergent-Sequence-Metric-Space :
+    is-limit-Sequence-Metric-Space M
+      sequence-Convergent-Sequence-Metric-Space
+      limit-Convergent-Sequence-Metric-Space
+  is-limit-Convergent-Sequence-Metric-Space = pr2 (pr2 u)
 ```
 
 ## Properties

@@ -17,6 +17,7 @@ open import foundation.cartesian-product-types
 open import foundation.dependent-pair-types
 open import foundation.identity-types
 open import foundation.propositions
+open import foundation.sequences
 open import foundation.sets
 open import foundation.transport-along-identifications
 open import foundation.universe-levels
@@ -99,6 +100,26 @@ module _
       sequence-Convergent-Sequence-Metric-Space
       limit-Convergent-Sequence-Metric-Space
   is-limit-Convergent-Sequence-Metric-Space = pr2 (pr2 u)
+
+  modulus-Convergent-Sequence-Metric-Space : ℚ⁺ → ℕ
+  modulus-Convergent-Sequence-Metric-Space =
+    modulus-limit-Sequence-Metric-Space M
+      sequence-Convergent-Sequence-Metric-Space
+      limit-Convergent-Sequence-Metric-Space
+      is-limit-Convergent-Sequence-Metric-Space
+
+  is-modulus-modulus-Convergent-Sequence-Metric-Space :
+    (d : ℚ⁺) →
+    is-modulus-limit-Sequence-Metric-Space M
+      ( sequence-Convergent-Sequence-Metric-Space)
+      ( limit-Convergent-Sequence-Metric-Space)
+      ( d)
+      ( modulus-Convergent-Sequence-Metric-Space d)
+  is-modulus-modulus-Convergent-Sequence-Metric-Space =
+    is-modulus-modulus-limit-Sequence-Metric-Space M
+      ( sequence-Convergent-Sequence-Metric-Space)
+      ( limit-Convergent-Sequence-Metric-Space)
+      ( is-limit-Convergent-Sequence-Metric-Space)
 ```
 
 ## Properties
@@ -186,4 +207,53 @@ module _
   pr1 is-convergent-constant-Sequence-Metric-Space = x
   pr2 is-convergent-constant-Sequence-Metric-Space d =
     ( zero-ℕ , λ n H → is-reflexive-neighbourhood-Metric-Space M d x)
+```
+
+### Asymptotically constant sequences in metric spaces are convergent
+
+```agda
+module _
+  {l : Level} (M : Metric-Space l) (u : Sequence-Metric-Space M)
+  where
+
+  is-convergent-is-asymptotically-constant-Sequence-Metric-Space :
+    is-asymptotically-constant u →
+    is-convergent-Sequence-Metric-Space M u
+  is-convergent-is-asymptotically-constant-Sequence-Metric-Space H =
+    ( ∞-value-∞-constant-sequence u H) ,
+    ( λ d →
+      ( modulus-∞-constant-sequence u H) ,
+      ( λ n K →
+        indistinguishable-eq-Metric-Space M
+          ( ∞-value-∞-constant-sequence u H)
+          ( u n)
+          ( is-modulus-modulus-∞-constant-sequence u H n K)
+          ( d)))
+```
+
+### Convergent sequences in discrete metric spaces are asymptotically constant
+
+```agda
+module _
+  {l : Level} {A : Set l}
+  (u : Convergent-Sequence-Metric-Space (discrete-Metric-Space A))
+  where
+
+  is-∞-constant-Convergent-Sequence-discrete-Metric-Space :
+    is-asymptotically-constant
+      ( sequence-Convergent-Sequence-Metric-Space
+        ( discrete-Metric-Space A)
+        ( u))
+  is-∞-constant-Convergent-Sequence-discrete-Metric-Space =
+    ( limit-Convergent-Sequence-Metric-Space
+      ( discrete-Metric-Space A)
+      ( u)) ,
+    ( ( modulus-Convergent-Sequence-Metric-Space
+        ( discrete-Metric-Space A)
+        ( u)
+        ( one-ℚ⁺)) ,
+      ( is-modulus-modulus-Convergent-Sequence-Metric-Space
+        ( discrete-Metric-Space A)
+        ( u)
+        ( one-ℚ⁺)))
 ```

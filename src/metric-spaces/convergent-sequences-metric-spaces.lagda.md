@@ -257,3 +257,34 @@ module _
         ( u)
         ( one-ℚ⁺)))
 ```
+
+### Asymptotical equality preserves limits
+
+```agda
+module _
+  {l : Level} (M : Metric-Space l) (u v : Sequence-Metric-Space M)
+  (x : type-Metric-Space M)
+  where
+
+  preserves-limit-eq-∞-Sequence-Metric-Space :
+    eq-∞-sequence u v →
+    is-limit-Sequence-Metric-Space M u x →
+    is-limit-Sequence-Metric-Space M v x
+  pr1 (preserves-limit-eq-∞-Sequence-Metric-Space I H d) =
+      max-ℕ (pr1 I) (modulus-limit-Sequence-Metric-Space M u x H d)
+  pr2 (preserves-limit-eq-∞-Sequence-Metric-Space I H d) n K =
+    tr
+      ( is-in-neighbourhood-Metric-Space M d x)
+      ( pr2 I n
+        ( leq-left-leq-max-ℕ
+          ( n)
+          ( pr1 I)
+          ( modulus-limit-Sequence-Metric-Space M u x H d)
+          ( K)))
+      ( is-modulus-modulus-limit-Sequence-Metric-Space M u x H d n
+        ( leq-right-leq-max-ℕ
+          ( n)
+          ( pr1 I)
+          ( modulus-limit-Sequence-Metric-Space M u x H d)
+          ( K)))
+```

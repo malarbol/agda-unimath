@@ -118,7 +118,7 @@ module _
     is-prop-type-Prop is-symmetric-Neighbourhood-Prop
 ```
 
-### A neighbourhood relation is tight if any to indistinguishable elements are equal
+### A neighbourhood-relation is tight if any to indistinguishable elements are equal
 
 ```agda
 module _

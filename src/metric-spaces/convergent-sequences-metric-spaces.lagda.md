@@ -12,6 +12,7 @@ open import elementary-number-theory.maximum-natural-numbers
 open import elementary-number-theory.natural-numbers
 open import elementary-number-theory.positive-rational-numbers
 
+open import foundation.asymptotically-constant-sequences
 open import foundation.binary-relations
 open import foundation.cartesian-product-types
 open import foundation.dependent-pair-types
@@ -80,10 +81,30 @@ module _
   is-convergent-Sequence-Metric-Space : (u : Sequence-Metric-Space M) → UU l
   is-convergent-Sequence-Metric-Space u =
     Σ (type-Metric-Space M) (is-limit-Sequence-Metric-Space M u)
+```
+
+```agda
+module _
+  {l : Level} (M : Metric-Space l) (u : Sequence-Metric-Space M)
+  (H : is-convergent-Sequence-Metric-Space M u)
+  where
+
+  limit-Sequence-Metric-Space : type-Metric-Space M
+  limit-Sequence-Metric-Space = pr1 H
+
+  is-limit-limit-Sequence-Metric-Space :
+    is-limit-Sequence-Metric-Space M u limit-Sequence-Metric-Space
+  is-limit-limit-Sequence-Metric-Space = pr2 H
+```
+
+```agda
+module _
+  {l : Level} (M : Metric-Space l)
+  where
 
   Convergent-Sequence-Metric-Space : UU l
   Convergent-Sequence-Metric-Space =
-    Σ (Sequence-Metric-Space M) is-convergent-Sequence-Metric-Space
+    Σ (Sequence-Metric-Space M) (is-convergent-Sequence-Metric-Space M)
 
 module _
   {l : Level} (M : Metric-Space l) (u : Convergent-Sequence-Metric-Space M)
@@ -202,60 +223,15 @@ module _
   {l : Level} (M : Metric-Space l) (x : type-Metric-Space M)
   where
 
+  is-limit-constant-Sequence-Metric-Space :
+    is-limit-Sequence-Metric-Space M (λ n → x) x
+  is-limit-constant-Sequence-Metric-Space d =
+    (zero-ℕ , λ n H → is-reflexive-neighbourhood-Metric-Space M d x)
+
   is-convergent-constant-Sequence-Metric-Space :
     is-convergent-Sequence-Metric-Space M (λ n → x)
-  pr1 is-convergent-constant-Sequence-Metric-Space = x
-  pr2 is-convergent-constant-Sequence-Metric-Space d =
-    ( zero-ℕ , λ n H → is-reflexive-neighbourhood-Metric-Space M d x)
-```
-
-### Asymptotically constant sequences in metric spaces are convergent
-
-```agda
-module _
-  {l : Level} (M : Metric-Space l) (u : Sequence-Metric-Space M)
-  where
-
-  is-convergent-is-asymptotically-constant-Sequence-Metric-Space :
-    is-asymptotically-constant u →
-    is-convergent-Sequence-Metric-Space M u
-  is-convergent-is-asymptotically-constant-Sequence-Metric-Space H =
-    ( ∞-value-∞-constant-sequence u H) ,
-    ( λ d →
-      ( modulus-∞-constant-sequence u H) ,
-      ( λ n K →
-        indistinguishable-eq-Metric-Space M
-          ( ∞-value-∞-constant-sequence u H)
-          ( u n)
-          ( is-modulus-modulus-∞-constant-sequence u H n K)
-          ( d)))
-```
-
-### Convergent sequences in discrete metric spaces are asymptotically constant
-
-```agda
-module _
-  {l : Level} {A : Set l}
-  (u : Convergent-Sequence-Metric-Space (discrete-Metric-Space A))
-  where
-
-  is-∞-constant-Convergent-Sequence-discrete-Metric-Space :
-    is-asymptotically-constant
-      ( sequence-Convergent-Sequence-Metric-Space
-        ( discrete-Metric-Space A)
-        ( u))
-  is-∞-constant-Convergent-Sequence-discrete-Metric-Space =
-    ( limit-Convergent-Sequence-Metric-Space
-      ( discrete-Metric-Space A)
-      ( u)) ,
-    ( ( modulus-Convergent-Sequence-Metric-Space
-        ( discrete-Metric-Space A)
-        ( u)
-        ( one-ℚ⁺)) ,
-      ( is-modulus-modulus-Convergent-Sequence-Metric-Space
-        ( discrete-Metric-Space A)
-        ( u)
-        ( one-ℚ⁺)))
+  is-convergent-constant-Sequence-Metric-Space =
+    (x , is-limit-constant-Sequence-Metric-Space)
 ```
 
 ### Asymptotical equality preserves limits
@@ -287,4 +263,112 @@ module _
           ( pr1 I)
           ( modulus-limit-Sequence-Metric-Space M u x H d)
           ( K)))
+```
+
+### Asymptotically constant sequences in metric spaces converge to their asymptotical value
+
+```agda
+module _
+  {l : Level} (M : Metric-Space l) (u : Sequence-Metric-Space M)
+  where
+
+  is-limit-∞-value-∞-constant-Sequence-Metric-Space :
+    (H : is-∞-constant-sequence u) →
+    is-limit-Sequence-Metric-Space M u (∞-value-∞-constant-sequence u H)
+  is-limit-∞-value-∞-constant-Sequence-Metric-Space H =
+    ( preserves-limit-eq-∞-Sequence-Metric-Space M
+      ( λ n → ∞-value-∞-constant-sequence u H)
+      ( u)
+      ( ∞-value-∞-constant-sequence u H)
+      ( eq-∞-constant-sequence u H)
+      ( is-limit-constant-Sequence-Metric-Space M
+        ( ∞-value-∞-constant-sequence u H)))
+```
+
+### Asymptotically constant sequences in metric spaces are convergent
+
+```agda
+module _
+  {l : Level} (M : Metric-Space l) (u : Sequence-Metric-Space M)
+  where
+
+  is-convergent-is-∞-constant-Sequence-Metric-Space :
+    is-∞-constant-sequence u →
+    is-convergent-Sequence-Metric-Space M u
+  is-convergent-is-∞-constant-Sequence-Metric-Space H =
+    ( ∞-value-∞-constant-sequence u H) ,
+    ( is-limit-∞-value-∞-constant-Sequence-Metric-Space M u H)
+```
+
+### Convergent sequences in discrete metric spaces are asymptotically constant
+
+```agda
+module _
+  {l : Level} {A : Set l} (u : sequence (type-Set A))
+  where
+
+  is-∞-constant-is-convergent-Sequence-discrete-Metric-Space :
+    is-convergent-Sequence-Metric-Space
+      (discrete-Metric-Space A)
+      ( u) →
+    is-∞-constant-sequence u
+  pr1 (is-∞-constant-is-convergent-Sequence-discrete-Metric-Space H) =
+    modulus-limit-Sequence-Metric-Space
+      ( discrete-Metric-Space A)
+      ( u)
+      ( limit-Sequence-Metric-Space
+        ( discrete-Metric-Space A)
+        ( u)
+        ( H))
+      ( is-limit-limit-Sequence-Metric-Space (discrete-Metric-Space A) u H)
+      ( one-ℚ⁺)
+  pr2 (is-∞-constant-is-convergent-Sequence-discrete-Metric-Space H) p q I J =
+    (inv α) ∙ β
+    where
+
+    α :
+      Id
+        ( limit-Sequence-Metric-Space
+          ( discrete-Metric-Space A)
+          ( u)
+          ( H))
+        ( u p)
+    α =
+      is-modulus-modulus-limit-Sequence-Metric-Space
+        ( discrete-Metric-Space A)
+        ( u)
+        ( limit-Sequence-Metric-Space
+          ( discrete-Metric-Space A)
+          ( u)
+          ( H))
+        ( is-limit-limit-Sequence-Metric-Space
+          ( discrete-Metric-Space A)
+          ( u)
+          ( H))
+        ( one-ℚ⁺)
+        ( p)
+        ( I)
+
+    β :
+      Id
+        ( limit-Sequence-Metric-Space
+          ( discrete-Metric-Space A)
+          ( u)
+          ( H))
+        ( u q)
+    β =
+      is-modulus-modulus-limit-Sequence-Metric-Space
+        ( discrete-Metric-Space A)
+        ( u)
+        ( limit-Sequence-Metric-Space
+          ( discrete-Metric-Space A)
+          ( u)
+          ( H))
+        ( is-limit-limit-Sequence-Metric-Space
+          ( discrete-Metric-Space A)
+          ( u)
+          ( H))
+        ( one-ℚ⁺)
+        ( q)
+        ( J)
 ```

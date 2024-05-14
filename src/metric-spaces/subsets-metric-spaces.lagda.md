@@ -9,23 +9,14 @@ module metric-spaces.subsets-metric-spaces where
 ```agda
 open import elementary-number-theory.positive-rational-numbers
 
-open import foundation.action-on-identifications-functions
-open import foundation.cartesian-product-types
 open import foundation.dependent-pair-types
-open import foundation.empty-types
-open import foundation.function-types
-open import foundation.identity-types
-open import foundation.propositional-extensionality
-open import foundation.propositions
 open import foundation.sets
 open import foundation.subtypes
-open import foundation.transport-along-identifications
 open import foundation.universe-levels
 
-open import metric-spaces.continuity-functions-metric-spaces
+open import metric-spaces.functions-metric-spaces
 open import metric-spaces.metric-spaces
-open import metric-spaces.neighbourhood-relations
-open import metric-spaces.sequences-metric-spaces
+open import metric-spaces.uniform-continuity-functions-metric-spaces
 ```
 
 </details>
@@ -67,7 +58,7 @@ module _
       is-triangular-neighbourhood-Metric-Space A (pr1 x) (pr1 y) (pr1 z))
 
   subspace-Metric-Space : Metric-Space l
-  subspace-Metric-Space = set-subset-Metric-Space , substructure-Metric-Space
+  subspace-Metric-Space = (set-subset-Metric-Space , substructure-Metric-Space)
 
   inclusion-subspace-Metric-Space : fun-Metric-Space subspace-Metric-Space A
   inclusion-subspace-Metric-Space x = pr1 x
@@ -77,7 +68,7 @@ module _
       subspace-Metric-Space
       A
       inclusion-subspace-Metric-Space
-  is-uniformly-continuous-inclusion-subspace-Metric-Space ε = ε , λ x y H → H
+  is-uniformly-continuous-inclusion-subspace-Metric-Space ε = (ε , λ x y H → H)
 ```
 
 ## Properties

@@ -132,7 +132,21 @@ module _
     ( is-continuity-modulus-continuity-modulus-fun-Metric-Space A B f H ε x)
 ```
 
-### The identity function is uniformly continuous
+### Constant functions between metric spaces are uniformly continuous
+
+```agda
+module _
+  {l1 l2 : Level} (A : Metric-Space l1) (B : Metric-Space l2)
+  (b : type-Metric-Space B)
+  where
+
+  is-uniformly-continuous-constant-fun-Metric-Space :
+    is-uniformly-continuous-fun-Metric-Space A B (λ _ → b)
+  is-uniformly-continuous-constant-fun-Metric-Space ε =
+    (ε , λ x y H → is-reflexive-neighbourhood-Metric-Space B ε b)
+```
+
+### The identity function on a metric space is uniformly continuous
 
 ```agda
 module _
@@ -141,7 +155,7 @@ module _
 
   is-uniformly-continuous-id-Metric-Space :
     is-uniformly-continuous-fun-Metric-Space A A id
-  is-uniformly-continuous-id-Metric-Space ε = ε , λ x y H → H
+  is-uniformly-continuous-id-Metric-Space ε = (ε , λ x y H → H)
 ```
 
 ### The image of a convergent sequence by a function continuous at the limit point converges to the image of the limit point

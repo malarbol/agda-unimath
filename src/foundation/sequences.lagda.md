@@ -53,8 +53,7 @@ module _
   where
 
   is-modulus-eq-∞-sequence : ℕ → UU l
-  is-modulus-eq-∞-sequence N =
-    (m : ℕ) → leq-ℕ N m → u m ＝ v m
+  is-modulus-eq-∞-sequence N = (m : ℕ) → leq-ℕ N m → u m ＝ v m
 
   eq-∞-sequence : UU l
   eq-∞-sequence = Σ ℕ is-modulus-eq-∞-sequence
@@ -94,19 +93,13 @@ module _
   {l : Level} {A : UU l} (u v w : sequence A)
   where
 
-  is-modulus-max-modulus-eq-∞-sequence :
-    (m n : ℕ) →
-    is-modulus-eq-∞-sequence v w n →
-    is-modulus-eq-∞-sequence u v m →
-    is-modulus-eq-∞-sequence u w (max-ℕ m n)
-  is-modulus-max-modulus-eq-∞-sequence m n H K p I =
-    ( K p (leq-left-leq-max-ℕ p m n I)) ∙
-    ( H p (leq-right-leq-max-ℕ p m n I))
-
   transitive-eq-∞-sequence :
     eq-∞-sequence v w →
     eq-∞-sequence u v →
     eq-∞-sequence u w
   transitive-eq-∞-sequence (n , H) (m , K) =
-    (max-ℕ m n , is-modulus-max-modulus-eq-∞-sequence m n H K)
+    ( max-ℕ m n) ,
+    ( λ p I →
+      ( K p (leq-left-leq-max-ℕ p m n I)) ∙
+      ( H p (leq-right-leq-max-ℕ p m n I)))
 ```

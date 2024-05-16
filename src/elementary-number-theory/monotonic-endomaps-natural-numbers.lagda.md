@@ -30,6 +30,30 @@ inverse (strict) inequality of natural numbers.
 
 ## Definition
 
+### Increasing endomaps of natural numbers
+
+```agda
+module _
+  (f : ℕ → ℕ)
+  where
+
+  is-increasing-endomap-prop-ℕ : Prop lzero
+  is-increasing-endomap-prop-ℕ =
+    Π-Prop ℕ
+      ( λ i →
+        Π-Prop ℕ
+          ( λ j → hom-Prop (leq-ℕ-Prop i j) (leq-ℕ-Prop (f i) (f j))))
+
+  is-increasing-endomap-ℕ : UU lzero
+  is-increasing-endomap-ℕ =
+    type-Prop is-increasing-endomap-prop-ℕ
+
+  is-prop-is-increasing-endomap-ℕ :
+    is-prop is-increasing-endomap-ℕ
+  is-prop-is-increasing-endomap-ℕ =
+    is-prop-type-Prop is-increasing-endomap-prop-ℕ
+```
+
 ### Strictly increasing endomaps of natural numbers
 
 ```agda
@@ -102,7 +126,7 @@ module _
 
 ## Properties
 
-### There exist no strictly descreasing endomaps of natural numbers
+### There exist no strictly decreasing endomaps of natural numbers
 
 ```agda
 no-strictly-decreasing-endomap-leq-ℕ :

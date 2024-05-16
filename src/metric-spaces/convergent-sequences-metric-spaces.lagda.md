@@ -1,4 +1,4 @@
-# Converget sequences in metric spaces
+# Convergent sequences in metric spaces
 
 ```agda
 module metric-spaces.convergent-sequences-metric-spaces where
@@ -9,6 +9,7 @@ module metric-spaces.convergent-sequences-metric-spaces where
 ```agda
 open import elementary-number-theory.inequality-natural-numbers
 open import elementary-number-theory.maximum-natural-numbers
+open import elementary-number-theory.monotonic-endomaps-natural-numbers
 open import elementary-number-theory.natural-numbers
 open import elementary-number-theory.positive-rational-numbers
 
@@ -16,10 +17,13 @@ open import foundation.asymptotically-constant-sequences
 open import foundation.binary-relations
 open import foundation.cartesian-product-types
 open import foundation.dependent-pair-types
+open import foundation.function-types
+open import foundation.functoriality-dependent-pair-types
 open import foundation.identity-types
 open import foundation.propositions
 open import foundation.sequences
 open import foundation.sets
+open import foundation.subsequences
 open import foundation.transport-along-identifications
 open import foundation.universe-levels
 
@@ -263,6 +267,58 @@ module _
           ( pr1 I)
           ( modulus-limit-Sequence-Metric-Space M u x H d)
           ( K)))
+```
+
+### A subsequence of a convergent sequence converges to the same limit
+
+```agda
+module _
+  {l : Level} (M : Metric-Space l) (u : Sequence-Metric-Space M)
+  (x : type-Metric-Space M)
+  where
+
+  preserves-limit-subsequence-Metric-Space :
+    (v : subsequence u) →
+    is-limit-Sequence-Metric-Space M u x →
+    is-limit-Sequence-Metric-Space M (sequence-subsequence u v) x
+  preserves-limit-subsequence-Metric-Space v H d =
+    map-Σ
+      ( is-modulus-limit-Sequence-Metric-Space M
+        ( sequence-subsequence u v) x d)
+      ( λ N →
+        pr1
+          ( limit-∞-is-strictly-increasing-endomap-ℕ
+            ( extract-subsequence u v)
+            ( is-strictly-increasing-extract-subsequence u v)
+            ( N)))
+      ( λ N K p I →
+        K
+          ( extract-subsequence u v p)
+          ( pr2
+            ( limit-∞-is-strictly-increasing-endomap-ℕ
+              ( extract-subsequence u v)
+              ( is-strictly-increasing-extract-subsequence u v)
+              ( N))
+              ( p)
+              ( I)))
+          ( H d)
+```
+
+### A sequence has a limit if all its subsequences have this limit
+
+```agda
+module _
+  {l : Level} (M : Metric-Space l) (u : Sequence-Metric-Space M)
+  (x : type-Metric-Space M)
+  where
+
+  reflects-limit-subsequence-Metric-Space :
+    ( ( v : subsequence u) →
+      ( is-limit-Sequence-Metric-Space M
+        ( sequence-subsequence u v)
+        ( x))) →
+    is-limit-Sequence-Metric-Space M u x
+  reflects-limit-subsequence-Metric-Space H = H (refl-subsequence u)
 ```
 
 ### Asymptotically constant sequences in metric spaces converge to their asymptotical value

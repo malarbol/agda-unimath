@@ -14,6 +14,7 @@ open import elementary-number-theory.natural-numbers
 open import elementary-number-theory.positive-rational-numbers
 
 open import foundation.asymptotically-constant-sequences
+open import foundation.asymptotically-equal-sequences
 open import foundation.binary-relations
 open import foundation.cartesian-product-types
 open import foundation.dependent-pair-types

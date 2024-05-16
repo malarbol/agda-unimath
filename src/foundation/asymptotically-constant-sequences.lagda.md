@@ -11,9 +11,10 @@ open import elementary-number-theory.inequality-natural-numbers
 open import elementary-number-theory.monotonic-endomaps-natural-numbers
 open import elementary-number-theory.natural-numbers
 
+open import foundation.asymptotically-equal-sequences
 open import foundation.dependent-pair-types
-open import foundation.identity-types
 open import foundation.functoriality-dependent-pair-types
+open import foundation.identity-types
 open import foundation.sequences
 open import foundation.subsequences
 open import foundation.universe-levels

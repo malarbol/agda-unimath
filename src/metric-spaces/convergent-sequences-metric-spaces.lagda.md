@@ -285,23 +285,19 @@ module _
     map-Σ
       ( is-modulus-limit-Sequence-Metric-Space M
         ( sequence-subsequence u v) x d)
-      ( λ N →
-        pr1
-          ( limit-∞-is-strictly-increasing-endomap-ℕ
-            ( extract-subsequence u v)
-            ( is-strictly-increasing-extract-subsequence u v)
-            ( N)))
+      ( modulus-limit-∞-is-strictly-increasing-endomap-ℕ
+        ( extract-subsequence u v)
+        ( is-strictly-increasing-extract-subsequence u v))
       ( λ N K p I →
         K
           ( extract-subsequence u v p)
-          ( pr2
-            ( limit-∞-is-strictly-increasing-endomap-ℕ
-              ( extract-subsequence u v)
-              ( is-strictly-increasing-extract-subsequence u v)
-              ( N))
-              ( p)
-              ( I)))
-          ( H d)
+          ( is-modulus-modulus-limit-∞-is-strictly-increasing-endomap-ℕ
+            ( extract-subsequence u v)
+            ( is-strictly-increasing-extract-subsequence u v)
+            ( N)
+            ( p)
+            ( I)))
+      ( H d)
 ```
 
 ### A sequence has a limit if all its subsequences have this limit

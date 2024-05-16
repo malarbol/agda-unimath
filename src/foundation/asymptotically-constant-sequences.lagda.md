@@ -8,11 +8,14 @@ module foundation.asymptotically-constant-sequences where
 
 ```agda
 open import elementary-number-theory.inequality-natural-numbers
+open import elementary-number-theory.monotonic-endomaps-natural-numbers
 open import elementary-number-theory.natural-numbers
 
 open import foundation.dependent-pair-types
 open import foundation.identity-types
+open import foundation.functoriality-dependent-pair-types
 open import foundation.sequences
+open import foundation.subsequences
 open import foundation.universe-levels
 ```
 
@@ -82,4 +85,49 @@ module _
       ( modulus-∞-constant-sequence u H)
       ( n)
       (refl-leq-ℕ (modulus-∞-constant-sequence u H)))
+```
+
+### A subsequence of an asymptotically constant sequence is asymptotically constant
+
+```agda
+module _
+  {l : Level} {A : UU l} (u : sequence A) (v : subsequence u)
+  where
+
+  is-∞-constant-subsequence :
+    is-∞-constant-sequence u → is-∞-constant-sequence (sequence-subsequence u v)
+  is-∞-constant-subsequence =
+    map-Σ
+      ( is-modulus-∞-constant-sequence (sequence-subsequence u v))
+      ( modulus-limit-∞-is-strictly-increasing-endomap-ℕ
+        ( extract-subsequence u v)
+        ( is-strictly-increasing-extract-subsequence u v))
+      ( λ N K p q I J →
+        K
+          ( extract-subsequence u v p)
+          ( extract-subsequence u v q)
+          ( is-modulus-modulus-limit-∞-is-strictly-increasing-endomap-ℕ
+            ( extract-subsequence u v)
+            ( is-strictly-increasing-extract-subsequence u v)
+            ( N)
+            ( p)
+            ( I))
+          ( is-modulus-modulus-limit-∞-is-strictly-increasing-endomap-ℕ
+            ( extract-subsequence u v)
+            ( is-strictly-increasing-extract-subsequence u v)
+            ( N)
+            ( q)
+            ( J)))
+```
+
+### A sequence is asymptotically constant if all its subsequences are asymptotically constant
+
+```agda
+module _
+  {l : Level} {A : UU l} (u : sequence A)
+  (H : (v : subsequence u) → is-∞-constant-sequence (sequence-subsequence u v))
+  where
+
+  is-∞-constant-is-∞-constant-subsequence : is-∞-constant-sequence u
+  is-∞-constant-is-∞-constant-subsequence = H (refl-subsequence u)
 ```

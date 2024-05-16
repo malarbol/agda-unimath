@@ -192,4 +192,16 @@ module _
                 ( succ-le-ℕ N)
                 ( I)))))
       ( limit-∞-is-strictly-increasing-endomap-ℕ M)
+
+  modulus-limit-∞-is-strictly-increasing-endomap-ℕ : ℕ → ℕ
+  modulus-limit-∞-is-strictly-increasing-endomap-ℕ M =
+    pr1 (limit-∞-is-strictly-increasing-endomap-ℕ M)
+
+  is-modulus-modulus-limit-∞-is-strictly-increasing-endomap-ℕ :
+    (M : ℕ) →
+    (p : ℕ) →
+    leq-ℕ (modulus-limit-∞-is-strictly-increasing-endomap-ℕ M) p →
+    leq-ℕ M (f p)
+  is-modulus-modulus-limit-∞-is-strictly-increasing-endomap-ℕ M =
+    pr2 (limit-∞-is-strictly-increasing-endomap-ℕ M)
 ```

@@ -51,6 +51,7 @@ open import elementary-number-theory.equality-natural-numbers public
 open import elementary-number-theory.euclidean-division-natural-numbers public
 open import elementary-number-theory.eulers-totient-function public
 open import elementary-number-theory.exponentiation-natural-numbers public
+open import elementary-number-theory.extended-natural-numbers public
 open import elementary-number-theory.factorials public
 open import elementary-number-theory.falling-factorials public
 open import elementary-number-theory.fibonacci-sequence public

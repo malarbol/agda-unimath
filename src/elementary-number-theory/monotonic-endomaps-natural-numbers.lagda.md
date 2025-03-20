@@ -197,11 +197,11 @@ module _
   modulus-is-unbounded-is-strictly-increasing-endomap-ℕ M =
     pr1 (is-unbounded-is-strictly-increasing-endomap-ℕ M)
 
-  is-modulus-modulus-is-unbounded-is-strictly-increasing-endomap-ℕ :
+  leq-bound-is-strictly-increasing-endomap-ℕ :
     (M : ℕ) →
     (p : ℕ) →
     leq-ℕ (modulus-is-unbounded-is-strictly-increasing-endomap-ℕ M) p →
     leq-ℕ M (f p)
-  is-modulus-modulus-is-unbounded-is-strictly-increasing-endomap-ℕ M =
+  leq-bound-is-strictly-increasing-endomap-ℕ M =
     pr2 (is-unbounded-is-strictly-increasing-endomap-ℕ M)
 ```

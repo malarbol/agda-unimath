@@ -64,6 +64,7 @@ open import elementary-number-theory.equality-integers public
 open import elementary-number-theory.equality-natural-numbers public
 open import elementary-number-theory.equality-rational-numbers public
 open import elementary-number-theory.euclid-mullin-sequence public
+open import elementary-number-theory.euclidean-division-integers public
 open import elementary-number-theory.euclidean-division-natural-numbers public
 open import elementary-number-theory.eulers-totient-function public
 open import elementary-number-theory.exponentiation-natural-numbers public

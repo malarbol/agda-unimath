@@ -145,6 +145,45 @@ le-succ-ℤ x =
     ( is-positive-int-positive-ℤ one-positive-ℤ)
 ```
 
+### An integer strictly lesser than the successor of integer is lesser than or equal to it
+
+```agda
+leq-le-succ-ℤ : (x y : ℤ) → le-ℤ x (succ-ℤ y) → leq-ℤ x y
+leq-le-succ-ℤ x y H =
+  tr
+    ( is-nonnegative-ℤ)
+    ( ( ap pred-ℤ (left-successor-law-diff-ℤ y x)) ∙
+      ( is-retraction-pred-ℤ (y -ℤ x)))
+    ( is-nonnegative-pred-is-positive-ℤ H)
+
+le-succ-leq-ℤ : (x y : ℤ) → leq-ℤ x y → le-ℤ x (succ-ℤ y)
+le-succ-leq-ℤ x y H =
+  tr
+    ( is-positive-ℤ)
+    ( inv (left-successor-law-diff-ℤ y x))
+    ( is-positive-succ-is-nonnegative-ℤ H)
+```
+
+### Concatenation of inequality and strict inequality
+
+```agda
+concatenate-leq-le-ℤ :
+  (x y z : ℤ) → leq-ℤ x y → le-ℤ y z → le-ℤ x z
+concatenate-leq-le-ℤ x y z Hxy Hyz =
+  tr
+    ( is-positive-ℤ)
+    ( triangle-diff-ℤ z y x)
+    ( is-positive-add-positive-nonnegative-ℤ Hyz Hxy)
+
+concatenate-le-leq-ℤ :
+  (x y z : ℤ) → le-ℤ x y → leq-ℤ y z → le-ℤ x z
+concatenate-le-leq-ℤ x y z Hxy Hyz =
+  tr
+    ( is-positive-ℤ)
+    ( triangle-diff-ℤ z y x)
+    ( is-positive-add-nonnegative-positive-ℤ Hyz Hxy)
+```
+
 ### Strict inequality on the integers is invariant by translation
 
 ```agda

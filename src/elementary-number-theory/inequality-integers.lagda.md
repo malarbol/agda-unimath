@@ -185,6 +185,20 @@ reflects-leq-right-add-ℤ z x y =
   is-nonnegative-eq-ℤ (left-translation-diff-ℤ y x z)
 ```
 
+### Zero is lesser than or equal to all the integer images of natural numbers
+
+```agda
+leq-zero-int-ℕ : (n : ℕ) → leq-ℤ zero-ℤ (int-ℕ n)
+leq-zero-int-ℕ zero-ℕ = refl-leq-ℤ zero-ℤ
+leq-zero-int-ℕ (succ-ℕ n) =
+  transitive-leq-ℤ
+    ( zero-ℤ)
+    ( int-ℕ n)
+    ( in-pos-ℤ n)
+    ( tr (leq-ℤ (int-ℕ n)) (succ-int-ℕ n) (succ-leq-ℤ (int-ℕ n)))
+    ( leq-zero-int-ℕ n)
+```
+
 ### The inclusion of ℕ into ℤ preserves inequality
 
 ```agda

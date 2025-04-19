@@ -77,6 +77,15 @@ pr2 one-nonzero-ℤ = is-nonzero-one-ℤ
 
 ## Properties
 
+### Being nonzero is decidable
+
+```agda
+decide-is-nonzero-ℤ : (k : ℤ) → is-zero-ℤ k + is-nonzero-ℤ k
+decide-is-nonzero-ℤ (inl x) = inr (λ ())
+decide-is-nonzero-ℤ (inr (inl x)) = inl refl
+decide-is-nonzero-ℤ (inr (inr x)) = inr (λ ())
+```
+
 ### The integer image of a nonzero natural number is nonzero
 
 ```agda

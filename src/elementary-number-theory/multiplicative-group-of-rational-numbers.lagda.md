@@ -17,7 +17,9 @@ open import elementary-number-theory.ring-of-rational-numbers
 
 open import foundation.coproduct-types
 open import foundation.dependent-pair-types
+open import foundation.equality-dependent-pair-types
 open import foundation.function-types
+open import foundation.functoriality-dependent-pair-types
 open import foundation.identity-types
 open import foundation.subtypes
 open import foundation.universe-levels
@@ -62,6 +64,9 @@ group-mul-ℚˣ = group-of-units-Ring ring-ℚ
 
 one-ℚˣ : ℚˣ
 one-ℚˣ = unit-group-of-units-Ring ring-ℚ
+
+rational-ℚˣ : ℚˣ → ℚ
+rational-ℚˣ = pr1
 ```
 
 ### Operations of the multiplicative group of rational numbers
@@ -144,4 +149,17 @@ eq-is-invertible-element-prop-is-nonzero-prop-ℚ =
     ( is-invertible-element-prop-Ring ring-ℚ)
     ( is-invertible-element-ring-is-nonzero-ℚ)
     ( is-nonzero-is-invertible-element-ring-ℚ)
+
+invertible-nonzero-ℚ : nonzero-ℚ → ℚˣ
+invertible-nonzero-ℚ = tot is-invertible-element-ring-is-nonzero-ℚ
+
+nonzero-ℚˣ : ℚˣ → nonzero-ℚ
+nonzero-ℚˣ = tot is-nonzero-is-invertible-element-ring-ℚ
+```
+
+### The inverse of a nonzero rational number
+
+```agda
+inv-nonzero-ℚ : nonzero-ℚ → nonzero-ℚ
+inv-nonzero-ℚ = nonzero-ℚˣ ∘ inv-ℚˣ ∘ invertible-nonzero-ℚ
 ```

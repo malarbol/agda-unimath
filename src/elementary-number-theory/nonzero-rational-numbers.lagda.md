@@ -95,6 +95,17 @@ module _
     is-nonzero-is-nonzero-numerator-ℚ H = H ∘ (ap numerator-ℚ)
 ```
 
+### Being nonzero is decidable
+
+```agda
+decide-is-nonzero-ℚ : (x : ℚ) → is-zero-ℚ x + is-nonzero-ℚ x
+decide-is-nonzero-ℚ x =
+  map-coproduct
+    ( is-zero-is-zero-numerator-ℚ x)
+    ( is-nonzero-is-nonzero-numerator-ℚ x)
+    ( decide-is-nonzero-ℤ (numerator-ℚ x))
+```
+
 ### one-ℚ is nonzero
 
 ```agda

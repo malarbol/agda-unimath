@@ -26,6 +26,7 @@ open import foundation.universe-levels
 open import metric-spaces.cauchy-approximations-metric-spaces
 open import metric-spaces.cauchy-pseudocompletions-of-metric-spaces
 open import metric-spaces.convergent-cauchy-approximations-metric-spaces
+open import metric-spaces.functoriality-short-maps-cauchy-pseudocompletions-of-pseudometric-spaces
 open import metric-spaces.limits-of-cauchy-approximations-metric-spaces
 open import metric-spaces.metric-spaces
 open import metric-spaces.pseudometric-spaces
@@ -248,6 +249,71 @@ module _
   iff-is-complete-retraction-short-map-unit-cauchy-precompletion-Metric-Space =
     iff-is-complete-extension-id-short-map-cauchy-pseuducompletion-Metric-Space
       ( M)
+```
+
+### A metric space is complete if and only if all short maps into it are precomplete
+
+```agda
+module _
+  {l1 l2 : Level}
+  (M : Metric-Space l1 l2)
+  where
+
+  all-precomplete-short-map-is-complete-Metric-Space :
+    is-complete-Metric-Space M →
+    {l3 l4 : Level} →
+    (X : Pseudometric-Space l3 l4) →
+    (f : short-map-Pseudometric-Space X (pseudometric-Metric-Space M)) →
+    is-precomplete-short-map-Pseudometric-Space X M f
+  all-precomplete-short-map-is-complete-Metric-Space H X f =
+    H ∘
+    map-short-map-cauchy-pseudocompletion-Pseudometric-Space
+      ( X)
+      ( pseudometric-Metric-Space M)
+      ( f)
+
+  is-complete-all-precomplete-short-map-Metric-Space :
+    ( {l3 l4 : Level} →
+      (X : Pseudometric-Space l3 l4) →
+      (f : short-map-Pseudometric-Space X (pseudometric-Metric-Space M)) →
+      is-precomplete-short-map-Pseudometric-Space X M f) →
+    is-complete-Metric-Space M
+  is-complete-all-precomplete-short-map-Metric-Space H =
+    H (pseudometric-Metric-Space M) (id-short-map-Metric-Space M)
+```
+
+### A metric space is complete if and only if all short maps into it extends to the Cauchy pseudocompletion
+
+```agda
+module _
+  {l1 l2 : Level}
+  (M : Metric-Space l1 l2)
+  where
+
+  all-exten-short-map-cauchy-pseudocompletion-is-complete-Metric-Space :
+    is-complete-Metric-Space M →
+    {l3 l4 : Level} →
+    (X : Pseudometric-Space l3 l4) →
+    (f : short-map-Pseudometric-Space X (pseudometric-Metric-Space M)) →
+    extension-short-map-cauchy-pseudocompletion-Pseudometric-Space X M f
+  all-exten-short-map-cauchy-pseudocompletion-is-complete-Metric-Space H X f =
+    exten-precomplete-short-map-cauchy-pseudocompletion-Pseudometric-Space X M
+      (f , all-precomplete-short-map-is-complete-Metric-Space M H X f)
+
+  is-complete-all-exten-short-map-cauchy-pseudocompletion-Metric-Space :
+    ( {l3 l4 : Level} →
+      (X : Pseudometric-Space l3 l4) →
+      (f : short-map-Pseudometric-Space X (pseudometric-Metric-Space M)) →
+      extension-short-map-cauchy-pseudocompletion-Pseudometric-Space X M f) →
+    is-complete-Metric-Space M
+  is-complete-all-exten-short-map-cauchy-pseudocompletion-Metric-Space H =
+    is-complete-all-precomplete-short-map-Metric-Space M
+      ( λ X f →
+        is-precomplete-extension-short-map-cauchy-pseudocompletion-Pseudometric-Space
+          ( X)
+          ( M)
+          ( f)
+          ( H X f))
 ```
 
 ## External links

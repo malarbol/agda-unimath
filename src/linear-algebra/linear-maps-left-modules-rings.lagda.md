@@ -7,6 +7,7 @@ module linear-algebra.linear-maps-left-modules-rings where
 <details><summary>Imports</summary>
 
 ```agda
+open import foundation.action-on-identifications-binary-functions
 open import foundation.action-on-identifications-functions
 open import foundation.binary-relations
 open import foundation.conjunction
@@ -14,6 +15,7 @@ open import foundation.constant-maps
 open import foundation.dependent-pair-types
 open import foundation.function-extensionality
 open import foundation.function-types
+open import foundation.functoriality-cartesian-product-types
 open import foundation.homotopies
 open import foundation.identity-types
 open import foundation.propositions
@@ -148,6 +150,48 @@ module _
 ```
 
 ## Properties
+
+### Homotopies preserve linear maps
+
+```agda
+module _
+  {l1 l2 l3 : Level}
+  (R : Ring l1)
+  (M : left-module-Ring l2 R)
+  (N : left-module-Ring l3 R)
+  {f g : type-left-module-Ring R M → type-left-module-Ring R N}
+  (f~g : f ~ g)
+  where
+
+  is-additive-map-htpy-left-module-Ring :
+    is-additive-map-left-module-Ring R M N f →
+    is-additive-map-left-module-Ring R M N g
+  is-additive-map-htpy-left-module-Ring H x y =
+    ( inv (f~g (add-left-module-Ring R M x y))) ∙
+    ( H x y) ∙
+    ( ap-binary
+      ( add-left-module-Ring R N)
+      ( f~g x)
+      ( f~g y))
+
+  is-homogeneous-map-htpy-left-module-Ring :
+    is-homogeneous-map-left-module-Ring R M N f →
+    is-homogeneous-map-left-module-Ring R M N g
+  is-homogeneous-map-htpy-left-module-Ring H c x =
+    ( inv (f~g (mul-left-module-Ring R M c x))) ∙
+    ( H c x) ∙
+    ( ap
+      ( mul-left-module-Ring R N c)
+      ( f~g x))
+
+  is-linear-map-htpy-left-module-Ring :
+    is-linear-map-left-module-Ring R M N f →
+    is-linear-map-left-module-Ring R M N g
+  is-linear-map-htpy-left-module-Ring =
+    map-product
+      ( is-additive-map-htpy-left-module-Ring)
+      ( is-homogeneous-map-htpy-left-module-Ring)
+```
 
 ### A linear map is an abelian group homomorphism on the abelian groups of the left modules
 

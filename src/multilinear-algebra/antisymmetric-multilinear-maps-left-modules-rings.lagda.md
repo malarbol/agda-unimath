@@ -9,8 +9,11 @@ module multilinear-algebra.antisymmetric-multilinear-maps-left-modules-rings whe
 ```agda
 open import elementary-number-theory.natural-numbers
 
+open import finite-group-theory.transpositions-standard-finite-types
+
 open import foundation.dependent-pair-types
 open import foundation.identity-types
+open import foundation.function-types
 open import foundation.negated-equality
 open import foundation.propositions
 open import foundation.sets
@@ -42,12 +45,13 @@ a [ring](ring-theory.rings.md) `R` and `n : ℕ` a
 `f : Mⁿ⁺¹ → N` is called
 {{#concept "antisymmetric" Disambiguation="multilinear map between left modules" Agda=is-antisymmetric-multilinear-map-left-module-Ring}}
 if for any [indices](univalent-combinatorics.standard-finite-types.md)
-`(i ≠ j : ℕₙ)`, `f ∘ ρᵢⱼ ~ - f`, where `ρᵢⱼ` extracts the coordinate at `j` and
-put it at `i`:
+`(i ≠ j : ℕₙ)`, `f ∘ τᵢⱼ ~ - f`, where `τᵢⱼ` is the action of the
+[transposition](finite-group-theory.transpositions-standard-finite-types.md)
+swapping the coordinates at `i` and `j`:
 
 ```text
   ∀ ((xₒ,...xᵢ₋₁,xᵢ,xᵢ₊₁,...,xⱼ₋₁,xⱼ,xⱼ₊₁,...,xₙ) : Mⁿ⁺¹) →
-  f (xₒ,...xᵢ₋₁,xⱼ,xᵢ,xᵢ₊₁,...,xⱼ₋₁,xⱼ₊₁,...,xₙ) ＝
+  f (xₒ,...xᵢ₋₁,xⱼ,xᵢ₊₁,...,xⱼ₋₁,xᵢ,xⱼ₊₁,...,xₙ) ＝
   - f (xₒ,...xᵢ₋₁,xᵢ,xᵢ₊₁,...,xⱼ₋₁,xⱼ,xⱼ₊₁,...,xₙ)
 ```
 
@@ -82,7 +86,7 @@ module _
                     Id-Prop
                       ( set-left-module-Ring R N)
                       ( map-multilinear-map-left-module-Ring R M N n f
-                        ( replace-at-finite-sequence n i j u))
+                        ( u ∘ map-transposition-Fin (succ-ℕ n) i j i≠j))
                       ( neg-left-module-Ring R N
                         ( map-multilinear-map-left-module-Ring R M N n f u))))))
 
@@ -136,7 +140,7 @@ module _
     (i≠j : i ≠ j) →
     (u : fin-sequence (type-left-module-Ring R M) (succ-ℕ n)) →
     map-antisymmetric-multilinear-map-left-module-Ring
-      ( replace-at-finite-sequence n i j u) ＝
+      ( u ∘ map-transposition-Fin (succ-ℕ n) i j i≠j) ＝
     neg-left-module-Ring R N
       ( map-antisymmetric-multilinear-map-left-module-Ring u)
   is-antisymmetric-map-antisymmetric-multilinear-map-left-module-Ring = pr2 f

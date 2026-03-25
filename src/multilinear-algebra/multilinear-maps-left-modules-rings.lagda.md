@@ -52,7 +52,7 @@ if, for any [index](univalent-combinatorics.standard-finite-types.md) `i : ℕ�
 and any element `(u₀,...,uᵢ₋₁,uᵢ₊₁,...,uₙ) : Mⁿ`, the map
 
 ```text
-x ↦ f (u₀,...,uᵢ₋₁,x,uᵢ₊₁,...,uₙ)
+  x ↦ f (u₀,...,uᵢ₋₁,x,uᵢ₊₁,...,uₙ)
 ```
 
 is [linear](linear-algebra.linear-maps-left-modules-rings.md).
@@ -129,6 +129,46 @@ module _
     is-multilinear-map-left-module-Ring R M N n
       map-multilinear-map-left-module-Ring
   is-multilinear-map-multilinear-map-left-module-Ring = pr2 f
+```
+
+### Homotopies between multilinear maps
+
+```agda
+module _
+  {l1 l2 l3 : Level}
+  (R : Ring l1)
+  (M : left-module-Ring l2 R)
+  (N : left-module-Ring l3 R)
+  (n : ℕ)
+  (f g : multilinear-map-left-module-Ring R M N n)
+  where
+
+  htpy-multilinear-map-left-module-Ring : UU (l2 ⊔ l3)
+  htpy-multilinear-map-left-module-Ring =
+    map-multilinear-map-left-module-Ring R M N n f ~
+    map-multilinear-map-left-module-Ring R M N n g
+```
+
+## Properties
+
+### Homotopic multilinear maps are equal
+
+```agda
+module _
+  {l1 l2 l3 : Level}
+  (R : Ring l1)
+  (M : left-module-Ring l2 R)
+  (N : left-module-Ring l3 R)
+  (n : ℕ)
+  {f g : multilinear-map-left-module-Ring R M N n}
+  where
+
+  eq-htpy-multilinear-map-left-module-Ring :
+    htpy-multilinear-map-left-module-Ring R M N n f g → f ＝ g
+  eq-htpy-multilinear-map-left-module-Ring f~g =
+    eq-type-subtype
+      ( is-multilinear-map-prop-left-module-Ring R M N n)
+      ( eq-htpy f~g)
 ```
 
 ## External links

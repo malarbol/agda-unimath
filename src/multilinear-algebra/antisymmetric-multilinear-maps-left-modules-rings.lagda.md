@@ -12,8 +12,8 @@ open import elementary-number-theory.natural-numbers
 open import finite-group-theory.transpositions-standard-finite-types
 
 open import foundation.dependent-pair-types
-open import foundation.identity-types
 open import foundation.function-types
+open import foundation.identity-types
 open import foundation.negated-equality
 open import foundation.propositions
 open import foundation.sets
@@ -25,7 +25,6 @@ open import linear-algebra.left-modules-rings
 open import linear-algebra.linear-maps-left-modules-rings
 
 open import lists.finite-sequences
-open import lists.replace-at-index-finite-sequences
 
 open import multilinear-algebra.multilinear-maps-left-modules-rings
 

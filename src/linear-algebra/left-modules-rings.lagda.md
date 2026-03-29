@@ -124,6 +124,14 @@ module _
 
 ## Properties
 
+### Equality in a left module is propositional
+
+```agda
+  eq-prop-left-module-Ring :
+    (x y : type-left-module-Ring) → Prop l2
+  eq-prop-left-module-Ring = Id-Prop (set-left-module-Ring)
+```
+
 ### Associativity of addition
 
 ```agda

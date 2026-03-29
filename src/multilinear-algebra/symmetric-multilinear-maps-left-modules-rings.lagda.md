@@ -21,6 +21,7 @@ open import foundation.sets
 open import foundation.subtypes
 open import foundation.universe-levels
 
+open import linear-algebra.finite-sequences-in-left-modules-rings
 open import linear-algebra.finite-sequences-in-rings
 open import linear-algebra.left-modules-rings
 open import linear-algebra.linear-maps-left-modules-rings
@@ -42,14 +43,14 @@ Let `M` and `N` be two [left modules](linear-algebra.left-modules-rings.md) over
 a [ring](ring-theory.rings.md) `R` and `n : ℕ` a
 [natural number](elementary-number-theory.natural-numbers.md); a
 [multilinear map](multilinear-algebra.multilinear-maps-left-modules-rings.md)
-`f : Mⁿ⁺¹ → N` is called
+`f : Mⁿ → N` is called
 {{#concept "symmetric" Disambiguation="multilinear map between left modules" Agda=is-symmetric-multilinear-map-left-module-Ring}}
 if `f` is invariant under all
 [permutations](finite-group-theory.permutations-standard-finite-types.md) of
-[ℕₙ](univalent-combinatorics.standard-finite-types.md):
+[`Fin n`](univalent-combinatorics.standard-finite-types.md):
 
 ```text
-  ∀ (σ : Aut ℕₙ) (u : Mⁿ⁺¹) → f (u ∘ σ) ＝ f u
+  ∀ (σ : Fin n ≃ Fin n) (u : Mⁿ) → f (u ∘ σ) ＝ f u
 ```
 
 ## Definitions
@@ -69,15 +70,14 @@ module _
   is-symmetric-prop-multilinear-map-left-module-Ring : Prop (l2 ⊔ l3)
   is-symmetric-prop-multilinear-map-left-module-Ring =
     Π-Prop
-      ( Permutation (succ-ℕ n))
+      ( Permutation n)
       ( λ σ →
         Π-Prop
-          ( fin-sequence (type-left-module-Ring R M) (succ-ℕ n))
+          ( type-fin-sequence-left-module-Ring R M n)
           ( λ u →
-            Id-Prop
-              ( set-left-module-Ring R N)
+            eq-prop-left-module-Ring R N
               ( map-multilinear-map-left-module-Ring R M N n f
-                (u ∘ map-equiv σ))
+                ( u ∘ map-equiv σ))
               ( map-multilinear-map-left-module-Ring R M N n f u)))
 
   is-symmetric-multilinear-map-left-module-Ring : UU (l2 ⊔ l3)
@@ -114,7 +114,7 @@ module _
   where
 
   map-symmetric-multilinear-map-left-module-Ring :
-    fin-sequence (type-left-module-Ring R M) (succ-ℕ n) →
+    type-fin-sequence-left-module-Ring R M n →
     type-left-module-Ring R N
   map-symmetric-multilinear-map-left-module-Ring =
     map-multilinear-map-left-module-Ring R M N n (pr1 f)
@@ -126,8 +126,8 @@ module _
     is-multilinear-map-multilinear-map-left-module-Ring R M N n (pr1 f)
 
   is-symmetric-map-symmetric-multilinear-map-left-module-Ring :
-    (σ : Permutation (succ-ℕ n)) →
-    (u : fin-sequence (type-left-module-Ring R M) (succ-ℕ n)) →
+    (σ : Permutation n) →
+    (u : type-fin-sequence-left-module-Ring R M n) →
     map-symmetric-multilinear-map-left-module-Ring (u ∘ map-equiv σ) ＝
     map-symmetric-multilinear-map-left-module-Ring u
   is-symmetric-map-symmetric-multilinear-map-left-module-Ring = pr2 f

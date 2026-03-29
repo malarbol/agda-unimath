@@ -26,6 +26,7 @@ open import foundation.universe-levels
 open import group-theory.abelian-groups
 open import group-theory.homomorphisms-abelian-groups
 
+open import linear-algebra.finite-sequences-in-left-modules-rings
 open import linear-algebra.finite-sequences-in-rings
 open import linear-algebra.left-modules-rings
 open import linear-algebra.linear-maps-left-modules-rings
@@ -51,10 +52,10 @@ Let `U`, `V` and `W` be three
 [natural number](elementary-number-theory.natural-numbers.md); for any
 [linear map](linear-algebra.linear-maps-left-modules-rings.md) `h : U → V` and
 [multilinear map](multilinear-algebra.multilinear-maps-left-modules-rings.md)
-`f : Vⁿ⁺¹ → W`, the map `Uⁿ⁺¹ → W` defined by
+`f : Vⁿ → W`, the map `Uⁿ → W` defined by
 
 ```text
-  (x₀,...,xₙ) ↦ f (h x₀,...,h xₙ)
+  (x₁,...,xₙ) ↦ f (h x₁,...,h xₙ)
 ```
 
 is multilinear.
@@ -75,27 +76,48 @@ module _
   (V : left-module-Ring l3 R)
   (W : left-module-Ring l4 R)
   (h : linear-map-left-module-Ring R U V)
-  (n : ℕ)
-  (f : multilinear-map-left-module-Ring R V W n)
   where
 
   map-precomp-linear-map-multilinear-map-left-module-Ring :
-    fin-sequence (type-left-module-Ring R U) (succ-ℕ n) →
+    (n : ℕ) →
+    (f : multilinear-map-left-module-Ring R V W n) →
+    type-fin-sequence-left-module-Ring R U n →
     type-left-module-Ring R W
-  map-precomp-linear-map-multilinear-map-left-module-Ring =
+  map-precomp-linear-map-multilinear-map-left-module-Ring n f =
     map-multilinear-map-left-module-Ring R V W n f ∘
-    map-fin-sequence (succ-ℕ n) (map-linear-map-left-module-Ring R U V h)
+    map-fin-sequence n (map-linear-map-left-module-Ring R U V h)
 
   is-multilinear-map-precomp-linear-map-multilinear-map-left-module-Ring :
+    (n : ℕ) →
+    (f : multilinear-map-left-module-Ring R V W n) →
     is-multilinear-map-left-module-Ring R U W n
-      ( map-precomp-linear-map-multilinear-map-left-module-Ring)
-  is-multilinear-map-precomp-linear-map-multilinear-map-left-module-Ring i u =
+      ( map-precomp-linear-map-multilinear-map-left-module-Ring n f)
+  is-multilinear-map-precomp-linear-map-multilinear-map-left-module-Ring
+    zero-ℕ f =
+    is-linear-map-htpy-left-module-Ring
+      ( R)
+      ( fin-sequence-left-module-Ring R U zero-ℕ)
+      ( W)
+      ( λ u →
+        inv
+          ( is-zero-empty-multilinear-map-left-module-Ring R V W f
+            ( map-fin-sequence
+              ( zero-ℕ)
+              ( map-linear-map-left-module-Ring R U V h)
+              ( u))))
+      ( is-linear-const-zero-map-left-module-Ring
+        ( R)
+        ( fin-sequence-left-module-Ring R U zero-ℕ)
+        ( W))
+
+  is-multilinear-map-precomp-linear-map-multilinear-map-left-module-Ring
+    (succ-ℕ n) f i u =
     is-linear-map-htpy-left-module-Ring R U W
       ( λ x →
         ap
-          ( map-multilinear-map-left-module-Ring R V W n f)
+          ( map-multilinear-map-left-module-Ring R V W (succ-ℕ n) f)
           ( eq-htpy
-            ( htpy-map-insert-at-finite-sequence
+            ( htpy-map-insert-at-fin-sequence
               ( map-linear-map-left-module-Ring R U V h)
               ( n)
               ( x)
@@ -103,21 +125,28 @@ module _
               ( u))))
       ( is-linear-map-comp-left-module-Ring R U V W
         ( λ x →
-          map-multilinear-map-left-module-Ring R V W n f
+          map-multilinear-map-left-module-Ring R V W (succ-ℕ n) f
             ( insert-at-fin-sequence n x i
               ( map-fin-sequence n
                 ( map-linear-map-left-module-Ring R U V h)
                 ( u))))
         ( map-linear-map-left-module-Ring R U V h)
-        ( is-multilinear-map-multilinear-map-left-module-Ring R V W n f i
+        ( is-multilinear-map-multilinear-map-left-module-Ring R V W
+          (succ-ℕ n)
+          ( f)
+          ( i)
           ( map-fin-sequence n (map-linear-map-left-module-Ring R U V h) u))
         ( is-linear-map-linear-map-left-module-Ring R U V h))
 
   precomp-linear-map-multilinear-map-left-module-Ring :
+    (n : ℕ) →
+    (f : multilinear-map-left-module-Ring R V W n) →
     multilinear-map-left-module-Ring R U W n
-  precomp-linear-map-multilinear-map-left-module-Ring =
-    ( map-precomp-linear-map-multilinear-map-left-module-Ring ,
-      is-multilinear-map-precomp-linear-map-multilinear-map-left-module-Ring)
+  precomp-linear-map-multilinear-map-left-module-Ring n f =
+    ( map-precomp-linear-map-multilinear-map-left-module-Ring n f ,
+      is-multilinear-map-precomp-linear-map-multilinear-map-left-module-Ring
+        ( n)
+        ( f))
 ```
 
 ## Properties

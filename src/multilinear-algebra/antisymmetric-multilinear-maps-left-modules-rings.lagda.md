@@ -20,6 +20,7 @@ open import foundation.sets
 open import foundation.subtypes
 open import foundation.universe-levels
 
+open import linear-algebra.finite-sequences-in-left-modules-rings
 open import linear-algebra.finite-sequences-in-rings
 open import linear-algebra.left-modules-rings
 open import linear-algebra.linear-maps-left-modules-rings
@@ -41,17 +42,17 @@ Let `M` and `N` be two [left modules](linear-algebra.left-modules-rings.md) over
 a [ring](ring-theory.rings.md) `R` and `n : ℕ` a
 [natural number](elementary-number-theory.natural-numbers.md); a
 [multilinear map](multilinear-algebra.multilinear-maps-left-modules-rings.md)
-`f : Mⁿ⁺¹ → N` is called
+`f : Mⁿ → N` is called
 {{#concept "antisymmetric" Disambiguation="multilinear map between left modules" Agda=is-antisymmetric-multilinear-map-left-module-Ring}}
 if for any [indices](univalent-combinatorics.standard-finite-types.md)
-`(i ≠ j : ℕₙ)`, `f ∘ τᵢⱼ ~ - f`, where `τᵢⱼ` is the action of the
+`(i ≠ j : Fin n)`, `f ∘ τᵢⱼ ~ - f`, where `τᵢⱼ` is the action of the
 [transposition](finite-group-theory.transpositions-standard-finite-types.md)
 swapping the coordinates at `i` and `j`:
 
 ```text
-  ∀ ((xₒ,...xᵢ₋₁,xᵢ,xᵢ₊₁,...,xⱼ₋₁,xⱼ,xⱼ₊₁,...,xₙ) : Mⁿ⁺¹) →
-  f (xₒ,...xᵢ₋₁,xⱼ,xᵢ₊₁,...,xⱼ₋₁,xᵢ,xⱼ₊₁,...,xₙ) ＝
-  - f (xₒ,...xᵢ₋₁,xᵢ,xᵢ₊₁,...,xⱼ₋₁,xⱼ,xⱼ₊₁,...,xₙ)
+  ∀ ((x₁,...xᵢ₋₁,xᵢ,xᵢ₊₁,...,xⱼ₋₁,xⱼ,xⱼ₊₁,...,xₙ) : Mⁿ) →
+  f (x₁,...xᵢ₋₁,xⱼ,xᵢ₊₁,...,xⱼ₋₁,xᵢ,xⱼ₊₁,...,xₙ) ＝
+  - f (x₁,...xᵢ₋₁,xᵢ,xᵢ₊₁,...,xⱼ₋₁,xⱼ,xⱼ₊₁,...,xₙ)
 ```
 
 ## Definitions
@@ -71,21 +72,21 @@ module _
   is-antisymmetric-prop-multilinear-map-left-module-Ring : Prop (l2 ⊔ l3)
   is-antisymmetric-prop-multilinear-map-left-module-Ring =
     Π-Prop
-      ( Fin (succ-ℕ n))
+      ( Fin n)
       ( λ i →
         Π-Prop
-          ( Fin (succ-ℕ n))
+          ( Fin n)
           ( λ j →
             Π-Prop
               ( i ≠ j)
               ( λ i≠j →
                 Π-Prop
-                  ( fin-sequence (type-left-module-Ring R M) (succ-ℕ n))
+                  ( type-fin-sequence-left-module-Ring R M n)
                   ( λ u →
                     Id-Prop
                       ( set-left-module-Ring R N)
                       ( map-multilinear-map-left-module-Ring R M N n f
-                        ( u ∘ map-transposition-Fin (succ-ℕ n) i j i≠j))
+                        ( u ∘ map-transposition-Fin n i j i≠j))
                       ( neg-left-module-Ring R N
                         ( map-multilinear-map-left-module-Ring R M N n f u))))))
 
@@ -123,7 +124,7 @@ module _
   where
 
   map-antisymmetric-multilinear-map-left-module-Ring :
-    fin-sequence (type-left-module-Ring R M) (succ-ℕ n) →
+    type-fin-sequence-left-module-Ring R M n →
     type-left-module-Ring R N
   map-antisymmetric-multilinear-map-left-module-Ring =
     map-multilinear-map-left-module-Ring R M N n (pr1 f)
@@ -135,11 +136,11 @@ module _
     is-multilinear-map-multilinear-map-left-module-Ring R M N n (pr1 f)
 
   is-antisymmetric-map-antisymmetric-multilinear-map-left-module-Ring :
-    (i j : Fin (succ-ℕ n)) →
+    (i j : Fin n) →
     (i≠j : i ≠ j) →
-    (u : fin-sequence (type-left-module-Ring R M) (succ-ℕ n)) →
+    (u : type-fin-sequence-left-module-Ring R M n) →
     map-antisymmetric-multilinear-map-left-module-Ring
-      ( u ∘ map-transposition-Fin (succ-ℕ n) i j i≠j) ＝
+      ( u ∘ map-transposition-Fin n i j i≠j) ＝
     neg-left-module-Ring R N
       ( map-antisymmetric-multilinear-map-left-module-Ring u)
   is-antisymmetric-map-antisymmetric-multilinear-map-left-module-Ring = pr2 f

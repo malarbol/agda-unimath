@@ -9,6 +9,7 @@ module multilinear-algebra.multilinear-maps-left-modules-rings where
 ```agda
 open import elementary-number-theory.natural-numbers
 
+open import foundation.action-on-identifications-binary-functions
 open import foundation.action-on-identifications-functions
 open import foundation.binary-relations
 open import foundation.conjunction
@@ -28,6 +29,8 @@ open import foundation.universe-levels
 open import group-theory.abelian-groups
 open import group-theory.homomorphisms-abelian-groups
 
+open import linear-algebra.addition-linear-maps-left-modules-rings
+open import linear-algebra.dependent-products-left-modules-rings
 open import linear-algebra.finite-sequences-in-left-modules-rings
 open import linear-algebra.finite-sequences-in-rings
 open import linear-algebra.left-modules-rings
@@ -59,6 +62,9 @@ if, for any [index](univalent-combinatorics.standard-finite-types.md)
 ```
 
 is [linear](linear-algebra.linear-maps-left-modules-rings.md).
+
+The constant zero map is multilinear and the pointwise sum of multilinear maps
+is multilinear.
 
 Note:
 
@@ -253,6 +259,112 @@ module _
         ( fin-sequence-left-module-Ring R M zero-ℕ)
         ( N)
         ( f))
+
+  is-zero-add-empty-multilinear-map-left-module-Ring :
+    (f g : multilinear-map-left-module-Ring R M N zero-ℕ) →
+    (u : type-fin-sequence-left-module-Ring R M zero-ℕ) →
+    is-zero-left-module-Ring R N
+      ( add-left-module-Ring R N
+        ( map-multilinear-map-left-module-Ring R M N zero-ℕ f u)
+        ( map-multilinear-map-left-module-Ring R M N zero-ℕ g u))
+  is-zero-add-empty-multilinear-map-left-module-Ring f g u =
+    ( ap-binary
+      ( add-left-module-Ring R N)
+      ( is-zero-empty-multilinear-map-left-module-Ring f u)
+      ( is-zero-empty-multilinear-map-left-module-Ring g u)) ∙
+    ( left-unit-law-add-left-module-Ring R N (zero-left-module-Ring R N))
+```
+
+### Multilinear maps of ranks `n + 1` induce `n+1` linear maps
+
+```agda
+module _
+  {l1 l2 l3 : Level}
+  (R : Ring l1)
+  (M : left-module-Ring l2 R)
+  (N : left-module-Ring l3 R)
+  (n : ℕ)
+  (f : multilinear-map-left-module-Ring R M N (succ-ℕ n))
+  where
+
+  eval-at-multilinear-map-left-module-Ring :
+    (i : Fin (succ-ℕ n)) →
+    (u : type-fin-sequence-left-module-Ring R M n) →
+    type-left-module-Ring R M →
+    type-left-module-Ring R N
+  eval-at-multilinear-map-left-module-Ring i u x =
+    map-multilinear-map-left-module-Ring R M N (succ-ℕ n) f
+      ( insert-at-fin-sequence n x i u)
+
+  linear-map-at-multilinear-map-left-module-Ring :
+    (i : Fin (succ-ℕ n)) →
+    (u : type-fin-sequence-left-module-Ring R M n) →
+    linear-map-left-module-Ring R M N
+  linear-map-at-multilinear-map-left-module-Ring i u =
+    ( eval-at-multilinear-map-left-module-Ring i u ,
+      is-multilinear-map-multilinear-map-left-module-Ring
+        ( R)
+        ( M)
+        ( N)
+        ( succ-ℕ n)
+        ( f)
+        ( i)
+        ( u))
+```
+
+### The sum of multilinear maps is multilinear
+
+```agda
+module _
+  {l1 l2 l3 : Level}
+  (R : Ring l1)
+  (M : left-module-Ring l2 R)
+  (N : left-module-Ring l3 R)
+  where
+
+  map-add-multilinear-map-left-module-Ring :
+    (n : ℕ) →
+    (f g : multilinear-map-left-module-Ring R M N n) →
+    type-fin-sequence-left-module-Ring R M n →
+    type-left-module-Ring R N
+  map-add-multilinear-map-left-module-Ring n f g =
+    add-left-module-Ring
+      ( R)
+      ( Π-left-module-Ring
+        ( R)
+        ( type-fin-sequence-left-module-Ring R M n)
+        ( λ _ → N))
+      ( map-multilinear-map-left-module-Ring R M N n f)
+      ( map-multilinear-map-left-module-Ring R M N n g)
+
+  is-multilinear-map-add-multilinear-map-left-module-Ring :
+    (n : ℕ) →
+    (f g : multilinear-map-left-module-Ring R M N n) →
+    is-multilinear-map-left-module-Ring R M N n
+      ( map-add-multilinear-map-left-module-Ring n f g)
+  is-multilinear-map-add-multilinear-map-left-module-Ring zero-ℕ f g =
+    is-linear-map-htpy-left-module-Ring
+      ( R)
+      ( fin-sequence-left-module-Ring R M zero-ℕ)
+      ( N)
+      ( inv ∘ is-zero-add-empty-multilinear-map-left-module-Ring R M N f g)
+      ( is-linear-const-zero-map-left-module-Ring
+        ( R)
+        ( fin-sequence-left-module-Ring R M zero-ℕ)
+        ( N))
+  is-multilinear-map-add-multilinear-map-left-module-Ring (succ-ℕ n) f g i u =
+    is-linear-map-add-linear-map-left-module-Ring R M N
+      ( linear-map-at-multilinear-map-left-module-Ring R M N n f i u)
+      ( linear-map-at-multilinear-map-left-module-Ring R M N n g i u)
+
+  add-multilinear-map-left-module-Ring :
+    (n : ℕ) →
+    multilinear-map-left-module-Ring R M N n →
+    multilinear-map-left-module-Ring R M N n →
+    multilinear-map-left-module-Ring R M N n
+  add-multilinear-map-left-module-Ring n f g =
+    ( map-add-multilinear-map-left-module-Ring n f g ,
+      is-multilinear-map-add-multilinear-map-left-module-Ring n f g)
 ```
 
 ## External links

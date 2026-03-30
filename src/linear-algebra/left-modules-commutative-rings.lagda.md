@@ -26,7 +26,7 @@ open import linear-algebra.left-modules-rings
 ## Idea
 
 A
-{{#concept "left module" WD="left module" WDID="Q120721996" disambiguation="over a commutative ring" Agda=left-module-Commutative-Ring}}
+{{#concept "left module" WD="left module" WDID=Q120721996 disambiguation="over a commutative ring" Agda=left-module-Commutative-Ring}}
 over a [commutative ring](commutative-algebra.commutative-rings.md) `R` is a
 [left module](linear-algebra.left-modules-rings.md) over `R` viewed as a
 [ring](ring-theory.rings.md).

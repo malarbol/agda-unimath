@@ -14,7 +14,10 @@ open import foundation.action-on-identifications-functions
 open import foundation.binary-relations
 open import foundation.conjunction
 open import foundation.constant-maps
+open import foundation.contractible-types
+open import foundation.coproduct-types
 open import foundation.dependent-pair-types
+open import foundation.equivalences
 open import foundation.function-extensionality
 open import foundation.function-types
 open import foundation.homotopies
@@ -275,7 +278,7 @@ module _
     ( left-unit-law-add-left-module-Ring R N (zero-left-module-Ring R N))
 ```
 
-### Multilinear maps of ranks `n + 1` induce `n+1` linear maps
+### Multilinear maps of ranks `n + 1` induce `n + 1` linear maps
 
 ```agda
 module _
@@ -310,6 +313,83 @@ module _
         ( f)
         ( i)
         ( u))
+```
+
+### Linear maps are multilinear with rank `1`
+
+```agda
+module _
+  {l1 l2 l3 : Level}
+  (R : Ring l1)
+  (M : left-module-Ring l2 R)
+  (N : left-module-Ring l3 R)
+  (f : linear-map-left-module-Ring R M N)
+  where
+
+  map-multilinear-map-linear-map-left-module-Ring :
+    type-fin-sequence-left-module-Ring R M 1 →
+    type-left-module-Ring R N
+  map-multilinear-map-linear-map-left-module-Ring u =
+    map-linear-map-left-module-Ring R M N f
+      (u (zero-Fin 0))
+
+  is-multilinear-map-multilinear-map-linear-map-left-module-Ring :
+    is-multilinear-map-left-module-Ring R M N 1
+      map-multilinear-map-linear-map-left-module-Ring
+  is-multilinear-map-multilinear-map-linear-map-left-module-Ring (inr x) u =
+    is-linear-map-linear-map-left-module-Ring R M N f
+
+  multilinear-map-linear-map-left-module-Ring :
+    multilinear-map-left-module-Ring R M N 1
+  multilinear-map-linear-map-left-module-Ring =
+    ( map-multilinear-map-linear-map-left-module-Ring ,
+      is-multilinear-map-multilinear-map-linear-map-left-module-Ring)
+```
+
+### The equivalence between linear maps and multilinear maps of rank `1`
+
+```agda
+module _
+  {l1 l2 l3 : Level}
+  (R : Ring l1)
+  (M : left-module-Ring l2 R)
+  (N : left-module-Ring l3 R)
+  where
+
+  linear-map-multilinear-map-left-module-Ring :
+    multilinear-map-left-module-Ring R M N 1 →
+    linear-map-left-module-Ring R M N
+  linear-map-multilinear-map-left-module-Ring f =
+    linear-map-at-multilinear-map-left-module-Ring R M N 0 f
+      ( zero-Fin 0)
+      ( empty-fin-sequence)
+
+  is-section-multilinear-map-linear-map-left-module-Ring :
+    multilinear-map-linear-map-left-module-Ring R M N ∘
+    linear-map-multilinear-map-left-module-Ring ~
+    id
+  is-section-multilinear-map-linear-map-left-module-Ring f =
+    eq-htpy-multilinear-map-left-module-Ring R M N 1
+      ( λ u →
+        ap
+          ( map-multilinear-map-left-module-Ring R M N 1 f)
+          ( eq-htpy (λ x → ap u (eq-is-contr (is-contr-Fin-1)))))
+
+  is-retraction-multilinear-map-linear-map-left-module-Ring :
+    linear-map-multilinear-map-left-module-Ring ∘
+    multilinear-map-linear-map-left-module-Ring R M N ~
+    id
+  is-retraction-multilinear-map-linear-map-left-module-Ring f =
+    refl
+
+  is-equiv-multilinear-map-linear-map-left-module-Ring :
+    is-equiv
+      ( multilinear-map-linear-map-left-module-Ring R M N)
+  is-equiv-multilinear-map-linear-map-left-module-Ring =
+    is-equiv-is-invertible
+      ( linear-map-multilinear-map-left-module-Ring)
+      ( is-section-multilinear-map-linear-map-left-module-Ring)
+      ( is-retraction-multilinear-map-linear-map-left-module-Ring)
 ```
 
 ### The sum of multilinear maps is multilinear

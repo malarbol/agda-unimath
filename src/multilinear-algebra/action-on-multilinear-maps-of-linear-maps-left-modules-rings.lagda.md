@@ -49,9 +49,18 @@ open import univalent-combinatorics.standard-finite-types
 Let `U`, `V` and `W` be three
 [left modules](linear-algebra.left-modules-rings.md) over a
 [ring](ring-theory.rings.md) `R` and `n : ℕ` a
-[natural number](elementary-number-theory.natural-numbers.md); for any
-[linear map](linear-algebra.linear-maps-left-modules-rings.md) `h : U → V` and
-[multilinear map](multilinear-algebra.multilinear-maps-left-modules-rings.md)
+[natural number](elementary-number-theory.natural-numbers.md); let `f : Uⁿ → V`
+be a
+[multilinear map](multilinear-algebra.multilinear-maps-left-modules-rings.md).
+Postcomposition with a
+[linear map](linear-algebra.linear-maps-left-modules-rings.md) `g : V → W`
+induces a multilinear map:
+
+```text
+  (x₁,...,xₙ) ↦ g (f (x₁,...,xₙ))
+```
+
+On the other hand, for any linear map `h : U → V` and multilinear map
 `f : Vⁿ → W`, the map `Uⁿ → W` defined by
 
 ```text
@@ -65,6 +74,28 @@ This defines the
 between left modules over a ring.
 
 ## Definitions
+
+### Postcomposition of a multilinear map by a linear map
+
+```agda
+module _
+  {l1 l2 l3 l4 : Level}
+  (R : Ring l1)
+  (U : left-module-Ring l2 R)
+  (V : left-module-Ring l3 R)
+  (W : left-module-Ring l4 R)
+  (h : linear-map-left-module-Ring R V W)
+  where
+
+  map-comp-linear-map-multilinear-map-left-module-Ring :
+    (n : ℕ) →
+    (f : multilinear-map-left-module-Ring R U V n) →
+    type-fin-sequence-left-module-Ring R U n →
+    type-left-module-Ring R W
+  map-comp-linear-map-multilinear-map-left-module-Ring n f =
+    map-linear-map-left-module-Ring R V W h ∘
+    map-multilinear-map-left-module-Ring R U V n f
+```
 
 ### Precomposition of a multilinear map by a linear map
 
@@ -80,18 +111,89 @@ module _
 
   map-precomp-linear-map-multilinear-map-left-module-Ring :
     (n : ℕ) →
-    (f : multilinear-map-left-module-Ring R V W n) →
+    multilinear-map-left-module-Ring R V W n →
     type-fin-sequence-left-module-Ring R U n →
     type-left-module-Ring R W
   map-precomp-linear-map-multilinear-map-left-module-Ring n f =
     map-multilinear-map-left-module-Ring R V W n f ∘
     map-fin-sequence n (map-linear-map-left-module-Ring R U V h)
+```
+
+## Properties
+
+### Postcomposition with a linear map produces a multilinear map
+
+```agda
+module _
+  {l1 l2 l3 l4 : Level}
+  (R : Ring l1)
+  (U : left-module-Ring l2 R)
+  (V : left-module-Ring l3 R)
+  (W : left-module-Ring l4 R)
+  (h : linear-map-left-module-Ring R V W)
+  where
+
+  is-multilinear-map-comp-linear-map-multilinear-map-left-module-Ring :
+    (n : ℕ) →
+    (f : multilinear-map-left-module-Ring R U V n) →
+    is-multilinear-map-left-module-Ring R U W n
+      ( map-comp-linear-map-multilinear-map-left-module-Ring R U V W h n f)
+  is-multilinear-map-comp-linear-map-multilinear-map-left-module-Ring zero-ℕ f =
+    is-linear-map-comp-left-module-Ring
+      ( R)
+      ( fin-sequence-left-module-Ring R U zero-ℕ)
+      ( V)
+      ( W)
+      ( map-linear-map-left-module-Ring R V W h)
+      ( map-multilinear-map-left-module-Ring R U V zero-ℕ f)
+      ( is-linear-map-linear-map-left-module-Ring R V W h)
+      ( is-multilinear-map-multilinear-map-left-module-Ring R U V zero-ℕ f)
+  is-multilinear-map-comp-linear-map-multilinear-map-left-module-Ring
+    (succ-ℕ n) f i u =
+    is-linear-map-comp-left-module-Ring
+      ( R)
+      ( U)
+      ( V)
+      ( W)
+      ( map-linear-map-left-module-Ring R V W h)
+      ( λ v →
+        map-multilinear-map-left-module-Ring R U V
+          ( succ-ℕ n)
+          ( f)
+          ( insert-at-fin-sequence n v i u))
+      ( is-linear-map-linear-map-left-module-Ring R V W h)
+      ( is-multilinear-map-multilinear-map-left-module-Ring R U V
+        ( succ-ℕ n)
+        ( f)
+        ( i)
+        ( u))
+
+  comp-linear-map-multilinear-map-left-module-Ring :
+    (n : ℕ) →
+    multilinear-map-left-module-Ring R U V n →
+    multilinear-map-left-module-Ring R U W n
+  comp-linear-map-multilinear-map-left-module-Ring n f =
+    ( map-comp-linear-map-multilinear-map-left-module-Ring R U V W h n f ,
+      is-multilinear-map-comp-linear-map-multilinear-map-left-module-Ring n f)
+```
+
+### Precomposition with a linear map produces a multilinear map
+
+```agda
+module _
+  {l1 l2 l3 l4 : Level}
+  (R : Ring l1)
+  (U : left-module-Ring l2 R)
+  (V : left-module-Ring l3 R)
+  (W : left-module-Ring l4 R)
+  (h : linear-map-left-module-Ring R U V)
+  where
 
   is-multilinear-map-precomp-linear-map-multilinear-map-left-module-Ring :
     (n : ℕ) →
     (f : multilinear-map-left-module-Ring R V W n) →
     is-multilinear-map-left-module-Ring R U W n
-      ( map-precomp-linear-map-multilinear-map-left-module-Ring n f)
+      ( map-precomp-linear-map-multilinear-map-left-module-Ring R U V W h n f)
   is-multilinear-map-precomp-linear-map-multilinear-map-left-module-Ring
     zero-ℕ f =
     is-linear-map-htpy-left-module-Ring
@@ -140,16 +242,14 @@ module _
 
   precomp-linear-map-multilinear-map-left-module-Ring :
     (n : ℕ) →
-    (f : multilinear-map-left-module-Ring R V W n) →
+    multilinear-map-left-module-Ring R V W n →
     multilinear-map-left-module-Ring R U W n
   precomp-linear-map-multilinear-map-left-module-Ring n f =
-    ( map-precomp-linear-map-multilinear-map-left-module-Ring n f ,
+    ( map-precomp-linear-map-multilinear-map-left-module-Ring R U V W h n f ,
       is-multilinear-map-precomp-linear-map-multilinear-map-left-module-Ring
         ( n)
         ( f))
 ```
-
-## Properties
 
 ### The action on multilinear maps of linear maps is functorial
 

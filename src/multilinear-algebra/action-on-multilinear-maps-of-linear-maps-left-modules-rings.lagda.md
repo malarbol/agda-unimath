@@ -156,11 +156,7 @@ module _
       ( V)
       ( W)
       ( map-linear-map-left-module-Ring R V W h)
-      ( λ v →
-        map-multilinear-map-left-module-Ring R U V
-          ( succ-ℕ n)
-          ( f)
-          ( insert-at-fin-sequence n v i u))
+      ( eval-at-multilinear-map-left-module-Ring R U V n f i u)
       ( is-linear-map-linear-map-left-module-Ring R V W h)
       ( is-multilinear-map-multilinear-map-left-module-Ring R U V
         ( succ-ℕ n)

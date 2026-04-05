@@ -38,6 +38,7 @@ open import linear-algebra.finite-sequences-in-left-modules-rings
 open import linear-algebra.finite-sequences-in-rings
 open import linear-algebra.left-modules-rings
 open import linear-algebra.linear-maps-left-modules-rings
+open import linear-algebra.subsets-left-modules-rings
 
 open import lists.finite-sequences
 open import lists.insert-at-index-finite-sequences
@@ -446,6 +447,31 @@ module _
   add-multilinear-map-left-module-Ring n f g =
     ( map-add-multilinear-map-left-module-Ring n f g ,
       is-multilinear-map-add-multilinear-map-left-module-Ring n f g)
+```
+
+### The subset of multilinear maps is closed under addition
+
+```agda
+module _
+  {l1 l2 l3 : Level}
+  (R : Ring l1)
+  (M : left-module-Ring l2 R)
+  (N : left-module-Ring l3 R)
+  where
+
+  is-closed-under-addition-subset-multinear-map-left-module-Ring :
+    (n : ℕ) →
+    is-closed-under-addition-subset-left-module-Ring
+      ( R)
+      ( Π-left-module-Ring
+        ( R)
+        ( type-fin-sequence-left-module-Ring R M n)
+        ( λ _ → N))
+      ( is-multilinear-map-prop-left-module-Ring R M N n)
+  is-closed-under-addition-subset-multinear-map-left-module-Ring n f g H K =
+    is-multilinear-map-add-multilinear-map-left-module-Ring R M N n
+      ( f , H)
+      ( g , K)
 ```
 
 ## External links

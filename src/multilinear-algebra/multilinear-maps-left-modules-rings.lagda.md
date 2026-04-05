@@ -57,14 +57,15 @@ a [ring](ring-theory.rings.md) `R` and `n : ℕ` a
 type of [finite sequences](lists.finite-sequences.md) of `M` into `N`,
 `f : Mⁿ → N` is called
 {{#concept "multilinear" Disambiguation="map between left modules over a ring" Agda=is-multilinear-map-left-module-Ring WD="multilinear map" WDID=Q1952404}}
-if, for any [index](univalent-combinatorics.standard-finite-types.md)
+if it is [linear](linear-algebra.linear-maps-left-modules-rings.md) w.r.t each
+coordinate: for any [index](univalent-combinatorics.standard-finite-types.md)
 `i : Fin n` and any element `(u₁,...,uᵢ₋₁,uᵢ₊₁,...,uₙ)`, the map
 
 ```text
   x ↦ f (u₁,...,uᵢ₋₁,x,uᵢ₊₁,...,uₙ)
 ```
 
-is [linear](linear-algebra.linear-maps-left-modules-rings.md).
+is linear.
 
 The constant zero map is multilinear and the pointwise sum of multilinear maps
 is multilinear.

@@ -161,11 +161,12 @@ module _
       ( pseudometric-Metric-Space M)
       ( isometry-precomplete-isometry-Pseudometric-Space f)
 
-  is-precomplete-isometry-precomplete-isometry-Pseudometric-Space :
-    (f : precomplete-isometry-Pseudometric-Space) →
-    is-precomplete-isometry-Pseudometric-Space P M
-      ( isometry-precomplete-isometry-Pseudometric-Space f)
-  is-precomplete-isometry-precomplete-isometry-Pseudometric-Space = pr2
+  abstract
+    is-precomplete-isometry-precomplete-isometry-Pseudometric-Space :
+      (f : precomplete-isometry-Pseudometric-Space) →
+      is-precomplete-isometry-Pseudometric-Space P M
+        ( isometry-precomplete-isometry-Pseudometric-Space f)
+    is-precomplete-isometry-precomplete-isometry-Pseudometric-Space = pr2
 ```
 
 ### Homotopies between precomplete isometries
@@ -249,132 +250,108 @@ module _
     map-Pseudometric-Space
       ( cauchy-pseudocompletion-Pseudometric-Space P)
       ( pseudometric-Metric-Space M)
-  map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space u =
-    limit-is-convergent-cauchy-approximation-Metric-Space
+  map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space =
+    map-exten-precomplete-short-map-cauchy-pseudocompletion-Pseudometric-Space
+      ( P)
       ( M)
-      ( map-isometry-cauchy-pseudocompletion-Pseudometric-Space
-        ( P)
-        ( pseudometric-Metric-Space M)
-        ( isometry-precomplete-isometry-Pseudometric-Space P M f)
-        ( u))
-      ( is-precomplete-isometry-precomplete-isometry-Pseudometric-Space
-        ( P)
-        ( M)
-        ( f)
-        ( u))
+      ( precomplete-short-map-precomplete-isometry-Pseudometric-Space P M f)
 
-  sim-const-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space :
-    (u : cauchy-approximation-Pseudometric-Space P) →
-    sim-Pseudometric-Space
-      ( cauchy-pseudocompletion-Metric-Space M)
-      ( map-isometry-cauchy-pseudocompletion-Pseudometric-Space
-        ( P)
-        ( pseudometric-Metric-Space M)
-        ( isometry-precomplete-isometry-Pseudometric-Space P M f)
-        ( u))
-      ( map-unit-cauchy-pseudocompletion-Metric-Space M
-        ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
-          ( u)))
-  sim-const-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
-    u =
-    sim-const-is-limit-cauchy-approximation-Metric-Space
-      ( M)
-      ( map-isometry-cauchy-pseudocompletion-Pseudometric-Space
-        ( P)
-        ( pseudometric-Metric-Space M)
-        ( isometry-precomplete-isometry-Pseudometric-Space P M f)
-        ( u))
-      ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
-        ( u))
-      ( is-limit-limit-is-convergent-cauchy-approximation-Metric-Space
-        ( M)
+  abstract
+    sim-const-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space :
+      (u : cauchy-approximation-Pseudometric-Space P) →
+      sim-Pseudometric-Space
+        ( cauchy-pseudocompletion-Metric-Space M)
         ( map-isometry-cauchy-pseudocompletion-Pseudometric-Space
           ( P)
           ( pseudometric-Metric-Space M)
           ( isometry-precomplete-isometry-Pseudometric-Space P M f)
           ( u))
-        ( is-precomplete-isometry-precomplete-isometry-Pseudometric-Space
-          ( P)
-          ( M)
-          ( f)
-          ( u)))
-
-  is-short-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space :
-    is-short-map-Pseudometric-Space
-      ( cauchy-pseudocompletion-Pseudometric-Space P)
-      ( pseudometric-Metric-Space M)
-      ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space)
-  is-short-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
-    =
-    is-short-map-exten-precomplete-short-map-cauchy-pseudocompletion-Pseudometric-Space
-      ( P)
-      ( M)
-      ( precomplete-short-map-precomplete-isometry-Pseudometric-Space P M f)
-
-  is-expansive-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space :
-    is-expansive-map-Pseudometric-Space
-      ( cauchy-pseudocompletion-Pseudometric-Space P)
-      ( pseudometric-Metric-Space M)
-      ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space)
-  is-expansive-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
-    d u v Nuv =
-    is-expansive-map-isometry-Pseudometric-Space
-      ( cauchy-pseudocompletion-Pseudometric-Space P)
-      ( cauchy-pseudocompletion-Metric-Space M)
-      ( isometry-cauchy-pseudocompletion-Pseudometric-Space
+        ( map-unit-cauchy-pseudocompletion-Metric-Space M
+          ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
+            ( u)))
+    sim-const-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
+      =
+      sim-const-map-exten-precomplete-short-map-cauchy-pseudocompletion-Pseudometric-Space
         ( P)
-        ( pseudometric-Metric-Space M)
-        ( isometry-precomplete-isometry-Pseudometric-Space P M f))
-      ( d)
-      ( u)
-      ( v)
-      ( reflects-neighborhoods-sim-Pseudometric-Space
-        ( cauchy-pseudocompletion-Metric-Space M)
-        { map-isometry-cauchy-pseudocompletion-Pseudometric-Space
-          ( P)
-          ( pseudometric-Metric-Space M)
-          ( isometry-precomplete-isometry-Pseudometric-Space P M f)
-          ( u)}
-        { map-unit-cauchy-pseudocompletion-Metric-Space M
-          ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
-            ( u))}
-        { map-isometry-cauchy-pseudocompletion-Pseudometric-Space
-          ( P)
-          ( pseudometric-Metric-Space M)
-          ( isometry-precomplete-isometry-Pseudometric-Space P M f)
-          ( v)}
-        { map-unit-cauchy-pseudocompletion-Metric-Space M
-          ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
-            ( v))}
-        ( sim-const-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
-          ( u))
-        ( sim-const-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
-          ( v))
-        ( d)
-        ( preserves-neighborhoods-map-isometry-Pseudometric-Space
-          ( pseudometric-Metric-Space M)
-          ( cauchy-pseudocompletion-Metric-Space M)
-          ( isometry-unit-cauchy-pseudocompletion-Metric-Space M)
-          ( d)
-          ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
-            ( u))
-          ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
-            ( v))
-          ( Nuv)))
+        ( M)
+        ( precomplete-short-map-precomplete-isometry-Pseudometric-Space P M f)
 
-  is-isometry-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space :
-    is-isometry-Pseudometric-Space
-      ( cauchy-pseudocompletion-Pseudometric-Space P)
-      ( pseudometric-Metric-Space M)
-      ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space)
-  is-isometry-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
-    =
-    is-isometry-is-expansive-map-is-short-map-Pseudometric-Space
-      ( cauchy-pseudocompletion-Pseudometric-Space P)
-      ( pseudometric-Metric-Space M)
-      ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space)
-      ( is-short-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space)
-      ( is-expansive-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space)
+    is-short-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space :
+      is-short-map-Pseudometric-Space
+        ( cauchy-pseudocompletion-Pseudometric-Space P)
+        ( pseudometric-Metric-Space M)
+        ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space)
+    is-short-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
+      =
+      is-short-map-exten-precomplete-short-map-cauchy-pseudocompletion-Pseudometric-Space
+        ( P)
+        ( M)
+        ( precomplete-short-map-precomplete-isometry-Pseudometric-Space P M f)
+
+    is-expansive-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space :
+      is-expansive-map-Pseudometric-Space
+        ( cauchy-pseudocompletion-Pseudometric-Space P)
+        ( pseudometric-Metric-Space M)
+        ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space)
+    is-expansive-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
+      d u v Nuv =
+      is-expansive-map-isometry-Pseudometric-Space
+        ( cauchy-pseudocompletion-Pseudometric-Space P)
+        ( cauchy-pseudocompletion-Metric-Space M)
+        ( isometry-cauchy-pseudocompletion-Pseudometric-Space
+          ( P)
+          ( pseudometric-Metric-Space M)
+          ( isometry-precomplete-isometry-Pseudometric-Space P M f))
+        ( d)
+        ( u)
+        ( v)
+        ( reflects-neighborhoods-sim-Pseudometric-Space
+          ( cauchy-pseudocompletion-Metric-Space M)
+          { map-isometry-cauchy-pseudocompletion-Pseudometric-Space
+            ( P)
+            ( pseudometric-Metric-Space M)
+            ( isometry-precomplete-isometry-Pseudometric-Space P M f)
+            ( u)}
+          { map-unit-cauchy-pseudocompletion-Metric-Space M
+            ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
+              ( u))}
+          { map-isometry-cauchy-pseudocompletion-Pseudometric-Space
+            ( P)
+            ( pseudometric-Metric-Space M)
+            ( isometry-precomplete-isometry-Pseudometric-Space P M f)
+            ( v)}
+          { map-unit-cauchy-pseudocompletion-Metric-Space M
+            ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
+              ( v))}
+          ( sim-const-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
+            ( u))
+          ( sim-const-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
+            ( v))
+          ( d)
+          ( preserves-neighborhoods-map-isometry-Pseudometric-Space
+            ( pseudometric-Metric-Space M)
+            ( cauchy-pseudocompletion-Metric-Space M)
+            ( isometry-unit-cauchy-pseudocompletion-Metric-Space M)
+            ( d)
+            ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
+              ( u))
+            ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
+              ( v))
+            ( Nuv)))
+
+    is-isometry-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space :
+      is-isometry-Pseudometric-Space
+        ( cauchy-pseudocompletion-Pseudometric-Space P)
+        ( pseudometric-Metric-Space M)
+        ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space)
+    is-isometry-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
+      =
+      is-isometry-is-expansive-map-is-short-map-Pseudometric-Space
+        ( cauchy-pseudocompletion-Pseudometric-Space P)
+        ( pseudometric-Metric-Space M)
+        ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space)
+        ( is-short-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space)
+        ( is-expansive-map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space)
 
   isometry-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space :
     isometry-Pseudometric-Space
@@ -385,17 +362,18 @@ module _
     ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space ,
       is-isometry-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space)
 
-  is-extension-isometry-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space :
-    is-extension-of-map
-      ( map-unit-cauchy-pseudocompletion-Pseudometric-Space P)
-      ( map-precomplete-isometry-Pseudometric-Space P M f)
-      ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space)
-  is-extension-isometry-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
-    =
-    is-extension-short-map-exten-precomplete-short-map-cauchy-pseudocompletion-Pseudometric-Space
-      ( P)
-      ( M)
-      ( precomplete-short-map-precomplete-isometry-Pseudometric-Space P M f)
+  abstract
+    is-extension-isometry-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space :
+      is-extension-of-map
+        ( map-unit-cauchy-pseudocompletion-Pseudometric-Space P)
+        ( map-precomplete-isometry-Pseudometric-Space P M f)
+        ( map-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space)
+    is-extension-isometry-exten-precomplete-isometry-cauchy-pseudocompletion-Pseudometric-Space
+      =
+      is-extension-short-map-exten-precomplete-short-map-cauchy-pseudocompletion-Pseudometric-Space
+        ( P)
+        ( M)
+        ( precomplete-short-map-precomplete-isometry-Pseudometric-Space P M f)
 ```
 
 ### Composition preserves precomplete isometries

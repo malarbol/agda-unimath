@@ -235,7 +235,7 @@ module _
     is-precomplete-isometry-precomplete-isometry-Pseudometric-Space P M f
 ```
 
-### A precomplete short map extends to the Cauchy pseudocompletion
+### A precomplete isometry extends to the Cauchy pseudocompletion
 
 ```agda
 module _

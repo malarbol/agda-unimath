@@ -264,6 +264,12 @@ clamp-proper-closed-interval-ℝ :
   type-proper-closed-interval-ℝ (l1 ⊔ l2 ⊔ l3) [a,b]
 clamp-proper-closed-interval-ℝ [a,b] =
   clamp-closed-interval-ℝ (closed-interval-proper-closed-interval-ℝ [a,b])
+
+map-clamp-proper-closed-interval-ℝ :
+  {l1 l2 l3 : Level} ([a,b] : proper-closed-interval-ℝ l1 l2) → ℝ l3 →
+  ℝ (l1 ⊔ l2 ⊔ l3)
+map-clamp-proper-closed-interval-ℝ [a,b] =
+  map-clamp-closed-interval-ℝ (closed-interval-proper-closed-interval-ℝ [a,b])
 ```
 
 ### The clamp function is a short map

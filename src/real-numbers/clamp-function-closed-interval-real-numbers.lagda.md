@@ -8,6 +8,7 @@ module real-numbers.clamp-function-closed-interval-real-numbers where
 
 ```agda
 open import foundation.dependent-pair-types
+open import foundation.function-types
 open import foundation.identity-types
 open import foundation.propositions
 open import foundation.universe-levels
@@ -190,4 +191,25 @@ abstract
         ( [a,b])
         ( map-clamp-closed-interval-ℝ [a,b] x)
         ( is-in-closed-interval-map-clamp-closed-interval-ℝ [a,b] x))
+```
+
+### The clamping function is increasing
+
+```agda
+is-increasing-map-clamp-closed-interval-ℝ :
+    {l1 l2 l3 : Level} (I : closed-interval-ℝ l1 l2)
+    (x y : ℝ l3) →
+    leq-ℝ x y →
+    leq-ℝ
+      ( map-clamp-closed-interval-ℝ I x)
+      ( map-clamp-closed-interval-ℝ I y)
+is-increasing-map-clamp-closed-interval-ℝ I x y =
+  is-increasing-max-ℝ
+    ( lower-bound-closed-interval-ℝ I)
+    ( min-ℝ (upper-bound-closed-interval-ℝ I) x)
+    ( min-ℝ (upper-bound-closed-interval-ℝ I) y) ∘
+  is-increasing-min-ℝ
+    ( upper-bound-closed-interval-ℝ I)
+    ( x)
+    ( y)
 ```

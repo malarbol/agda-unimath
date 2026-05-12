@@ -69,7 +69,7 @@ and any `y : [f(a) , f(b)]`, the
 [lower](real-numbers.lower-inverses-strictly-increasing-real-maps-proper-closed-intervals-real-numbers.md)
 and
 [upper](real-numbers.upper-inverses-strictly-increasing-real-maps-proper-closed-intervals-real-numbers.md)
-of `f` at `y` are [disjoint](foundation.disjoint-subtypes.md)
+inverses of `f` at `y` are [disjoint](foundation.disjoint-subtypes.md)
 [Dedekind cuts](real-numbers.dedekind-real-numbers.md).
 
 TODO:

@@ -178,7 +178,7 @@ abstract
         by left-leq-right-max-ℝ a≤x
 ```
 
-### If `x < y ∈ I` then `clamp-I x < clamp-I y `
+### For any `x y ∈ I`, if `x < y` then `clamp-I x < clamp-I y `
 
 ```agda
 abstract

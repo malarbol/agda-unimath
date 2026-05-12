@@ -1,0 +1,363 @@
+# Upper inverses of strictly increasing real functions on proper closed intervals of real numbers
+
+```agda
+{-# OPTIONS --lossy-unification #-}
+
+module real-numbers.upper-inverses-strictly-increasing-real-maps-proper-closed-intervals-real-numbers where
+```
+
+<details><summary>Imports</summary>
+
+```agda
+open import elementary-number-theory.rational-numbers
+open import elementary-number-theory.strict-inequality-rational-numbers
+
+open import foundation.action-on-identifications-functions
+open import foundation.conjunction
+open import foundation.coproduct-types
+open import foundation.dependent-pair-types
+open import foundation.dependent-products-propositions
+open import foundation.disjoint-subtypes
+open import foundation.double-negation
+open import foundation.embeddings
+open import foundation.empty-types
+open import foundation.existential-quantification
+open import foundation.function-types
+open import foundation.identity-types
+open import foundation.inhabited-subtypes
+open import foundation.injective-maps
+open import foundation.logical-equivalences
+open import foundation.propositional-truncations
+open import foundation.propositions
+open import foundation.subtypes
+open import foundation.transport-along-identifications
+open import foundation.universe-levels
+
+open import order-theory.order-preserving-maps-preorders
+open import order-theory.strict-order-preserving-maps
+open import order-theory.strict-subpreorders
+open import order-theory.subpreorders
+
+open import real-numbers.binary-maximum-real-numbers
+open import real-numbers.binary-minimum-real-numbers
+open import real-numbers.clamp-function-closed-interval-real-numbers
+open import real-numbers.dedekind-real-numbers
+open import real-numbers.inequality-real-numbers
+open import real-numbers.lower-dedekind-real-numbers
+open import real-numbers.maps-between-proper-closed-intervals-real-numbers
+open import real-numbers.proper-closed-intervals-real-numbers
+open import real-numbers.raising-universe-levels-real-numbers
+open import real-numbers.rational-real-numbers
+open import real-numbers.real-maps-proper-closed-intervals-real-numbers
+open import real-numbers.similarity-real-numbers
+open import real-numbers.strict-inequality-real-numbers
+open import real-numbers.strictly-increasing-real-maps-proper-closed-intervals-real-numbers
+open import real-numbers.upper-dedekind-real-numbers
+```
+
+</details>
+
+## Idea
+
+Upper inverses
+
+## Definitions
+
+### The upper inverse of a strictly increasing map on a proper closed interval
+
+```agda
+module _
+  { l1 l2 l3 l4 : Level}
+  ( I : proper-closed-interval-ℝ l3 l4)
+  ( f : real-map-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) l2 I)
+  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
+  ( y@(v , lo-bound , hi-bound) :
+    type-proper-closed-interval-ℝ
+      ( l2)
+      ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)))
+  where
+
+  upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    subtype (l2 ⊔ l3) ℚ
+  upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    r =
+    ∃ ℚ
+      ( λ q →
+        ( le-ℚ-Prop q r) ∧
+        ( le-prop-ℝ
+          ( lower-bound-proper-closed-interval-ℝ I)
+          ( real-ℚ q)) ∧
+        ( leq-prop-ℝ
+          ( v)
+          ( clamp-real-map-proper-closed-interval-ℝ I f
+            ( raise-real-ℚ l1 q))))
+
+  is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    ℚ → UU (l2 ⊔ l3)
+  is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    =
+    type-Prop ∘
+    upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+
+  abstract opaque
+    unfolding le-ℝ
+
+    is-in-upper-cut-map-inv-le-upper-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ :
+      (r : ℚ) →
+      le-ℝ (upper-bound-proper-closed-interval-ℝ I) (real-ℚ r) →
+      is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( r)
+    is-in-upper-cut-map-inv-le-upper-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ
+      r b<r =
+      let
+        open
+          do-syntax-trunc-Prop
+            ( upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+              ( r))
+      in do
+        ( q , b<q , q<r) ← b<r
+
+        let
+          lemma-q<r : le-ℚ q r
+          lemma-q<r =
+            reflects-le-real-ℚ
+                ( le-real-is-in-lower-cut-ℝ (real-ℚ r) q<r)
+
+          lemma-b≤q :
+            leq-ℝ
+              ( upper-bound-proper-closed-interval-ℝ I)
+              ( raise-real-ℚ l1 q)
+          lemma-b≤q =
+            leq-le-ℝ
+              ( le-raise-real-is-in-upper-cut-ℝ
+                ( l1)
+                ( upper-bound-proper-closed-interval-ℝ I)
+                ( b<q))
+
+          lemma-leq-clamp-fq :
+            leq-ℝ
+              ( upper-bound-proper-closed-interval-ℝ
+                ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+                  ( I)
+                  ( f)
+                  ( H)))
+              ( clamp-real-map-proper-closed-interval-ℝ I f
+                ( raise-real-ℚ l1 q))
+          lemma-leq-clamp-fq =
+            is-increasing-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+              ( I)
+              ( f)
+              ( H)
+              ( _)
+              ( _)
+              ( preserves-leq-left-sim-ℝ
+                ( sim-raise-in-proper-closed-interval-upper-bound-proper-closed-interval-ℝ
+                  ( I)
+                  ( l1))
+                ( leq-sim-ℝ
+                  ( symmetric-sim-ℝ
+                    ( clamp-leq-upper-bound-closed-interval-ℝ
+                      ( closed-interval-proper-closed-interval-ℝ I)
+                      ( raise-real-ℚ l1 q)
+                      ( lemma-b≤q)))))
+          lemma-leq :
+            leq-ℝ
+              ( v)
+              ( clamp-real-map-proper-closed-interval-ℝ I f
+                ( raise-real-ℚ l1 q))
+          lemma-leq =
+            transitive-leq-ℝ
+              ( v)
+              ( upper-bound-proper-closed-interval-ℝ
+                ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+                  ( I)
+                  ( f)
+                  ( H)))
+              ( clamp-real-map-proper-closed-interval-ℝ I f
+                ( raise-real-ℚ l1 q))
+              ( lemma-leq-clamp-fq)
+              ( hi-bound)
+
+          lemma-le :
+            le-ℝ (lower-bound-proper-closed-interval-ℝ I) (real-ℚ q)
+          lemma-le =
+            transitive-le-ℝ
+              ( lower-bound-proper-closed-interval-ℝ I)
+              ( upper-bound-proper-closed-interval-ℝ I)
+              ( real-ℚ q)
+              ( le-real-is-in-upper-cut-ℝ
+                ( upper-bound-proper-closed-interval-ℝ I)
+                ( b<q))
+              ( le-bounds-proper-closed-interval-ℝ I)
+
+        intro-exists q (lemma-q<r , lemma-le , lemma-leq)
+
+  abstract
+    is-inhabited-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      is-inhabited-subtype
+        upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    is-inhabited-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      =
+      let
+        open
+          do-syntax-trunc-Prop
+            ( is-inhabited-subtype-Prop
+              ( upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ))
+      in do
+        ( r , b<r) ←
+          exists-greater-rational-ℝ (upper-bound-proper-closed-interval-ℝ I)
+
+        intro-exists r
+          ( is-in-upper-cut-map-inv-le-upper-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ
+            ( r)
+            ( b<r))
+
+    is-upper-set-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      (q r : ℚ) →
+      le-ℚ q r →
+      is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( q) →
+      is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( r)
+    is-upper-set-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      q r q<r up =
+      let
+        open
+          do-syntax-trunc-Prop
+            ( upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+              ( r))
+      in do
+        ( s , s<q , K) ← up
+
+        intro-exists s (transitive-le-ℚ s q r q<r s<q , K)
+
+    is-lower-rounded-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      (q : ℚ) →
+      is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( q) →
+      exists
+        ( ℚ)
+        ( λ r →
+          product-Prop
+            ( le-ℚ-Prop r q)
+            ( upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+              ( r)))
+    is-lower-rounded-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      q hi =
+      let
+        open
+          do-syntax-trunc-Prop
+            ( ∃ ℚ
+                ( λ r →
+                  product-Prop
+                    ( le-ℚ-Prop r q)
+                    ( upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+                      ( r))))
+      in do
+        ( r , r<q , K) ← hi
+        ( s , r<s , s<q) ← dense-le-ℚ r<q
+
+        intro-exists s (s<q , intro-exists r (r<s , K))
+
+    is-rounded-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      (q : ℚ) →
+      is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( q) ↔
+      exists
+        ( ℚ)
+        ( λ r →
+          product-Prop
+            ( le-ℚ-Prop r q)
+            ( upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+              ( r)))
+    is-rounded-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      q =
+      ( is-lower-rounded-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( q) ,
+        elim-exists
+          ( upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+            ( q))
+          ( λ r K →
+            is-upper-set-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+              ( r)
+              ( q)
+              ( pr1 K)
+              ( pr2 K)))
+
+    is-upper-dedekind-cut-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      is-upper-dedekind-cut
+        upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    is-upper-dedekind-cut-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      =
+      ( is-inhabited-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ ,
+        is-rounded-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ)
+
+  upper-real-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    upper-ℝ (l2 ⊔ l3)
+  upper-real-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ =
+    ( upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ ,
+      is-upper-dedekind-cut-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ)
+```
+
+## Properties
+
+### The image of a rational in the upper cut of the inverse at a point is greater than or equal to it
+
+```agda
+module _
+  { l1 l2 l3 l4 : Level}
+  ( I : proper-closed-interval-ℝ l3 l4)
+  ( f : real-map-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) l2 I)
+  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
+  ( y@(v , lo-bound , hi-bound) :
+    type-proper-closed-interval-ℝ
+      ( l2)
+      ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)))
+  where abstract
+
+  leq-map-is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    ( r : ℚ) →
+    ( is-in-cut-upper-ℝ
+      ( upper-real-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)
+        ( y))
+      ( r)) →
+    leq-ℝ
+      ( v)
+      ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 r))
+  leq-map-is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    r hi =
+    let
+      open
+        do-syntax-trunc-Prop
+          ( leq-prop-ℝ
+            ( v)
+            ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 r)))
+    in do
+      ( q , q<r , a<q , Hq) ← hi
+
+      transitive-leq-ℝ
+        ( v)
+        ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 q))
+        ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 r))
+        (( is-increasing-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)
+          ( _)
+          ( _)
+          ( is-increasing-map-clamp-closed-interval-ℝ
+            ( closed-interval-proper-closed-interval-ℝ I)
+            ( _)
+            ( _)
+            ( leq-raise-leq-ℝ l1 (leq-le-ℝ (preserves-le-real-ℚ q<r))))))
+        ( Hq)
+```

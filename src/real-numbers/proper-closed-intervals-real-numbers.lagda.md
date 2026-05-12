@@ -1034,7 +1034,8 @@ then one of the following propositions holds:
 
 - `p < a`;
 - `b < q`;
-- `∃ (r s : ℚ) | a < r < s < b`.
+- `∃ (r s : ℚ) | (a < r < s < b) ∧ (p < r) ∧ (s < q)`, i.e. `[r, s]` is a proper
+  sub-interval of both `[a, b] ∩ [p, q]`.
 
 ```agda
 module _
@@ -1056,7 +1057,9 @@ module _
               ( lower-cut-ℝ
                 ( upper-bound-proper-closed-interval-ℝ I)
                 ( s)) ∧
-              ( le-ℚ-Prop r s))))
+              ( le-ℚ-Prop r s) ∧
+              ( le-ℚ-Prop p r) ∧
+              ( le-ℚ-Prop s q))))
 
   trichotomy-le-rational-proper-closed-interval-ℝ : UU (l1 ⊔ l2)
   trichotomy-le-rational-proper-closed-interval-ℝ =
@@ -1095,7 +1098,10 @@ module _
               unit-trunc-Prop
                 ( inr
                   ( unit-trunc-Prop
-                    ( inr ( intro-exists r (intro-exists s (lo , hi , r<s)))))))
+                    ( inr
+                      ( intro-exists r
+                        ( intro-exists s
+                          ( lo , hi , r<s , p<r , s<q)))))))
             ( unit-trunc-Prop ∘ inr ∘ unit-trunc-Prop ∘ inl)
             ( locate-b))
         ( locate-a)

@@ -87,9 +87,9 @@ module _
     ∃ ℚ
       ( λ q →
         ( le-ℚ-Prop r q) ∧
-        ( le-prop-ℝ
-          ( real-ℚ q)
-          ( upper-bound-proper-closed-interval-ℝ I)) ∧
+        ( lower-cut-ℝ
+          ( upper-bound-proper-closed-interval-ℝ I)
+          ( q)) ∧
         ( leq-prop-ℝ
           ( clamp-real-map-proper-closed-interval-ℝ I f
             ( raise-real-ℚ l1 q))
@@ -181,18 +181,20 @@ module _
               ( lemma-leq-clamp-fq)
 
           lemma-le :
-            le-ℝ
-              ( real-ℚ q)
+            is-in-lower-cut-ℝ
               ( upper-bound-proper-closed-interval-ℝ I)
+              ( q)
           lemma-le =
-            transitive-le-ℝ
-              ( real-ℚ q)
-              ( lower-bound-proper-closed-interval-ℝ I)
+            is-in-lower-cut-le-real-ℚ
               ( upper-bound-proper-closed-interval-ℝ I)
-              ( le-bounds-proper-closed-interval-ℝ I)
-              ( le-real-is-in-lower-cut-ℝ
+              ( transitive-le-ℝ
+                ( real-ℚ q)
                 ( lower-bound-proper-closed-interval-ℝ I)
-                ( q<a))
+                ( upper-bound-proper-closed-interval-ℝ I)
+                ( le-bounds-proper-closed-interval-ℝ I)
+                ( le-real-is-in-lower-cut-ℝ
+                  ( lower-bound-proper-closed-interval-ℝ I)
+                  ( q<a)))
 
         intro-exists q (lemma-r<q , lemma-le , lemma-leq)
 

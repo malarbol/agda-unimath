@@ -127,26 +127,36 @@ module _
         is-in-interval-s :
           is-in-proper-closed-interval-ℝ I (real-ℚ s)
         is-in-interval-s =
-          ( leq-le-ℝ a<s ,
-            leq-le-ℝ
+          ( ( leq-le-ℝ
+              ( le-real-is-in-upper-cut-ℝ
+                ( lower-bound-proper-closed-interval-ℝ I)
+                ( a<s))) ,
+            ( leq-le-ℝ
               ( transitive-le-ℝ
                 ( real-ℚ s)
                 ( real-ℚ q)
                 ( upper-bound-proper-closed-interval-ℝ I)
-                ( q<b)
-                ( preserves-le-real-ℚ lemma-s<q)))
+                ( le-real-is-in-lower-cut-ℝ
+                  ( upper-bound-proper-closed-interval-ℝ I)
+                  ( q<b))
+                ( preserves-le-real-ℚ lemma-s<q))))
 
         is-in-interval-q :
           is-in-proper-closed-interval-ℝ I (real-ℚ q)
         is-in-interval-q =
-          ( leq-le-ℝ
-            ( transitive-le-ℝ
-              ( lower-bound-proper-closed-interval-ℝ I)
-              ( real-ℚ s)
-              ( real-ℚ q)
-              ( preserves-le-real-ℚ lemma-s<q)
-              ( a<s)) ,
-            leq-le-ℝ q<b)
+          ( ( leq-le-ℝ
+              ( transitive-le-ℝ
+                ( lower-bound-proper-closed-interval-ℝ I)
+                ( real-ℚ s)
+                ( real-ℚ q)
+                ( preserves-le-real-ℚ lemma-s<q)
+                  ( le-real-is-in-upper-cut-ℝ
+                  ( lower-bound-proper-closed-interval-ℝ I)
+                  ( a<s)))) ,
+            ( leq-le-ℝ
+              ( le-real-is-in-lower-cut-ℝ
+                ( upper-bound-proper-closed-interval-ℝ I)
+                ( q<b))))
 
         compute-map-clamp-s :
           sim-ℝ

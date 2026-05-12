@@ -59,7 +59,24 @@ open import real-numbers.upper-dedekind-real-numbers
 
 ## Idea
 
-Lower inverses
+A
+[strictly increasing map](real-numbers.strictly-increasing-real-maps-proper-closed-intervals-real-numbers.md)
+`f : [a, b] → ℝ` on a
+[proper closed interval](real-numbers.proper-closed-intervals-real-numbers.md)
+has a
+{{#concept "lower inverse" Disambiguation"of a strictlyt increasing real map on a proper closed interval Agda= lower-real-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ}}
+defined in the
+[lower dedekind real numbers](real-numbers.lower-dedekind-real-numbers.md)
+defined as follows:
+
+For any `y ∈ [f(a), f(b)]` and `r : ℚ`,
+
+```text
+  r < lower-f⁻¹ y ⇔ ∃ (q : ℚ) | (r < q) ∧ (q < b) ∧ (f q ≤ y),
+```
+
+i.e., `r` is lesser than the lower inverse iff there exists a rational interior
+point `q ∈ [r, b]` with image lesser than or equal to `y`.
 
 ## Definitions
 

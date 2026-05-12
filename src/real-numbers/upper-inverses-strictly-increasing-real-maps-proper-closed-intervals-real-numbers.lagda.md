@@ -59,7 +59,24 @@ open import real-numbers.upper-dedekind-real-numbers
 
 ## Idea
 
-Upper inverses
+A
+[strictly increasing map](real-numbers.strictly-increasing-real-maps-proper-closed-intervals-real-numbers.md)
+`f : [a, b] → ℝ` on a
+[proper closed interval](real-numbers.proper-closed-intervals-real-numbers.md)
+has an
+{{#concept "upper inverse" Disambiguation"of a strictlyt increasing real map on a proper closed interval Agda= upper-real-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ}}
+defined in the
+[upper dedekind real numbers](real-numbers.upper-dedekind-real-numbers.md)
+defined as follows:
+
+For any `y ∈ [f(a), f(b)]` and `r : ℚ`,
+
+```text
+  upper-f⁻¹ y < r ⇔ ∃ (q : ℚ) | (q < r) ∧ (a < q) ∧ (y ≤ f q)
+```
+
+i.e., `r` is greater than the upper inverse iff there exists a rational interior
+point `q ∈ [a, r]` with image lesser than or equal to `y`.
 
 ## Definitions
 

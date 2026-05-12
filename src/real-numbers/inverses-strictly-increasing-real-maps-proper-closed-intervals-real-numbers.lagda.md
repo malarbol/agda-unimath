@@ -61,7 +61,24 @@ open import real-numbers.upper-inverses-strictly-increasing-real-maps-proper-clo
 
 ## Idea
 
-When do lower/upper inverses form a dedekind cut?
+For any
+[strictly increasing map](real-numbers.strictly-increasing-real-maps-proper-closed-intervals-real-numbers.md)
+`f : [a, b] → ℝ` on a
+[proper closed interval](real-numbers.proper-closed-intervals-real-numbers.md)
+and any `y : [f(a) , f(b)]`, the
+[lower](real-numbers.lower-inverses-strictly-increasing-real-maps-proper-closed-intervals-real-numbers.md)
+and
+[upper](real-numbers.upper-inverses-strictly-increasing-real-maps-proper-closed-intervals-real-numbers.md)
+of `f` at `y` are [disjoint](foundation.disjoint-subtypes.md)
+[Dedekind cuts](real-numbers.dedekind-real-numbers.md).
+
+TODO:
+
+- if the lower/upper inverses form a located cut, this defines an inverse for
+  `f`;
+- if `f` is
+  [ε-δ-countinuous](real-numbers.pointwise-epsilon-delta-continuous-endomaps-real-numbers.md)
+  then the lower/upper inverses form a located cut.
 
 ## Propositions
 

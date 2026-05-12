@@ -27,6 +27,7 @@ open import real-numbers.metric-space-of-real-numbers
 open import real-numbers.short-map-binary-maximum-real-numbers
 open import real-numbers.short-map-binary-minimum-real-numbers
 open import real-numbers.similarity-real-numbers
+open import real-numbers.strict-inequality-real-numbers
 ```
 
 </details>
@@ -175,6 +176,26 @@ abstract
         by preserves-sim-right-max-ℝ _ _ _ (right-leq-left-min-ℝ x≤b)
       ~ℝ x
         by left-leq-right-max-ℝ a≤x
+```
+
+### If `x < y ∈ I` then `clamp-I x < clamp-I y `
+
+```agda
+abstract
+  le-map-clamp-le-is-in-closed-interval-ℝ :
+    {l1 l2 l3 l4 : Level} (I : closed-interval-ℝ l1 l2) →
+    (x : ℝ l3) (Hx : is-in-closed-interval-ℝ I x) →
+    (y : ℝ l4) (Hy : is-in-closed-interval-ℝ I y) →
+    le-ℝ x y →
+    le-ℝ
+      ( map-clamp-closed-interval-ℝ I x)
+      ( map-clamp-closed-interval-ℝ I y)
+  le-map-clamp-le-is-in-closed-interval-ℝ I x Hx y Hy =
+    preserves-le-sim-ℝ
+      ( symmetric-sim-ℝ
+        ( clamp-is-in-closed-interval-ℝ I x Hx))
+      ( symmetric-sim-ℝ
+        ( clamp-is-in-closed-interval-ℝ I y Hy))
 ```
 
 ### The clamping function is idempotent

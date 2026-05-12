@@ -559,6 +559,64 @@ module _
       is-lower-dedekind-cut-lower-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ)
 ```
 
+### The image of a rational in the lower cut of the lower inverse at a point is lesser than or equal to it
+
+```agda
+module _
+  { l1 l2 l3 l4 : Level}
+  ( I : proper-closed-interval-ℝ l3 l4)
+  ( f : real-map-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) l2 I)
+  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
+  ( y@(v , lo-bound , hi-bound) :
+    type-proper-closed-interval-ℝ
+      ( l2)
+      ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)))
+  where abstract
+
+  leq-map-is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ :
+    (r : ℚ) →
+    is-in-cut-lower-ℝ
+      ( lower-real-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)
+        ( y))
+      ( r) →
+    leq-ℝ
+      ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 r))
+      ( v)
+  leq-map-is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ
+    r lo =
+    let
+      open
+        do-syntax-trunc-Prop
+          ( leq-prop-ℝ
+            ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 r))
+            ( v))
+    in do
+      (q , r<q , q<b , Hq) ← lo
+
+      transitive-leq-ℝ
+        ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 r))
+        ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 q))
+        ( v)
+        ( Hq)
+        ( is-increasing-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)
+          ( _)
+          ( _)
+          ( is-increasing-map-clamp-closed-interval-ℝ
+            ( closed-interval-proper-closed-interval-ℝ I)
+            ( _)
+            ( _)
+            ( leq-raise-leq-ℝ l1 (leq-le-ℝ (preserves-le-real-ℚ r<q)))))
+```
+
 ### The upper inverse of a strictly increasing map on a proper closed interval
 
 ```agda
@@ -798,6 +856,64 @@ module _
       is-upper-dedekind-cut-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ)
 ```
 
+### The image of a rational in the upper cut of the inverse at a point is greater than or equal to it
+
+```agda
+module _
+  { l1 l2 l3 l4 : Level}
+  ( I : proper-closed-interval-ℝ l3 l4)
+  ( f : real-map-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) l2 I)
+  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
+  ( y@(v , lo-bound , hi-bound) :
+    type-proper-closed-interval-ℝ
+      ( l2)
+      ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)))
+  where abstract
+
+  leq-map-is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    ( r : ℚ) →
+    ( is-in-cut-upper-ℝ
+      ( upper-real-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)
+        ( y))
+      ( r)) →
+    leq-ℝ
+      ( v)
+      ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 r))
+  leq-map-is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    r hi =
+    let
+      open
+        do-syntax-trunc-Prop
+          ( leq-prop-ℝ
+            ( v)
+            ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 r)))
+    in do
+      ( q , q<r , a<q , Hq) ← hi
+
+      transitive-leq-ℝ
+        ( v)
+        ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 q))
+        ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 r))
+        (( is-increasing-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)
+          ( _)
+          ( _)
+          ( is-increasing-map-clamp-closed-interval-ℝ
+            ( closed-interval-proper-closed-interval-ℝ I)
+            ( _)
+            ( _)
+            ( leq-raise-leq-ℝ l1 (leq-le-ℝ (preserves-le-real-ℚ q<r))))))
+        ( Hq)
+```
+
 ### The lower and upper inverses of a strictly increasing map are disjoint cuts
 
 ```agda
@@ -936,4 +1052,33 @@ module _
       not-sim-le-ℝ
         ( le-raise-le-ℝ l1 (preserves-le-real-ℚ lemma-s<q))
         ( lemma-s~q)
+```
+
+```agda
+module _
+  { l1 l2 l3 l4 : Level}
+  ( I : proper-closed-interval-ℝ l3 l4)
+  ( f : real-map-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) l2 I)
+  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
+  where abstract
+
+  lemma-located-cut-map-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    (x y : ℝ l1) →
+    (x∈I : is-in-proper-closed-interval-ℝ I x) →
+    (y∈I : is-in-proper-closed-interval-ℝ I y) →
+    le-ℝ x y →
+    le-ℝ
+      ( clamp-real-map-proper-closed-interval-ℝ I f x)
+      ( clamp-real-map-proper-closed-interval-ℝ I f y)
+  lemma-located-cut-map-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    x y x∈I y∈I =
+    H
+      ( clamp-proper-closed-interval-ℝ I x)
+      ( clamp-proper-closed-interval-ℝ I y) ∘
+    le-map-clamp-le-is-in-closed-interval-ℝ
+      ( closed-interval-proper-closed-interval-ℝ I)
+      ( x)
+      ( x∈I)
+      ( y)
+      ( y∈I)
 ```

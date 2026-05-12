@@ -178,26 +178,6 @@ abstract
         by left-leq-right-max-ℝ a≤x
 ```
 
-### For any `x y ∈ I`, if `x < y` then `clamp-I x < clamp-I y `
-
-```agda
-abstract
-  le-map-clamp-le-is-in-closed-interval-ℝ :
-    {l1 l2 l3 l4 : Level} (I : closed-interval-ℝ l1 l2) →
-    (x : ℝ l3) (Hx : is-in-closed-interval-ℝ I x) →
-    (y : ℝ l4) (Hy : is-in-closed-interval-ℝ I y) →
-    le-ℝ x y →
-    le-ℝ
-      ( map-clamp-closed-interval-ℝ I x)
-      ( map-clamp-closed-interval-ℝ I y)
-  le-map-clamp-le-is-in-closed-interval-ℝ I x Hx y Hy =
-    preserves-le-sim-ℝ
-      ( symmetric-sim-ℝ
-        ( clamp-is-in-closed-interval-ℝ I x Hx))
-      ( symmetric-sim-ℝ
-        ( clamp-is-in-closed-interval-ℝ I y Hy))
-```
-
 ### The clamping function is idempotent
 
 ```agda
@@ -217,20 +197,41 @@ abstract
 ### The clamping function is increasing
 
 ```agda
-is-increasing-map-clamp-closed-interval-ℝ :
-    {l1 l2 l3 : Level} (I : closed-interval-ℝ l1 l2)
-    (x y : ℝ l3) →
-    leq-ℝ x y →
-    leq-ℝ
+abstract
+  is-increasing-map-clamp-closed-interval-ℝ :
+      {l1 l2 l3 : Level} (I : closed-interval-ℝ l1 l2)
+      (x y : ℝ l3) →
+      leq-ℝ x y →
+      leq-ℝ
+        ( map-clamp-closed-interval-ℝ I x)
+        ( map-clamp-closed-interval-ℝ I y)
+  is-increasing-map-clamp-closed-interval-ℝ I x y =
+    is-increasing-max-ℝ
+      ( lower-bound-closed-interval-ℝ I)
+      ( min-ℝ (upper-bound-closed-interval-ℝ I) x)
+      ( min-ℝ (upper-bound-closed-interval-ℝ I) y) ∘
+    is-increasing-min-ℝ
+      ( upper-bound-closed-interval-ℝ I)
+      ( x)
+      ( y)
+```
+
+### For any `x y ∈ I`, if `x < y` then `clamp-I x < clamp-I y `
+
+```agda
+abstract
+  le-map-clamp-le-is-in-closed-interval-ℝ :
+    {l1 l2 l3 l4 : Level} (I : closed-interval-ℝ l1 l2) →
+    (x : ℝ l3) (Hx : is-in-closed-interval-ℝ I x) →
+    (y : ℝ l4) (Hy : is-in-closed-interval-ℝ I y) →
+    le-ℝ x y →
+    le-ℝ
       ( map-clamp-closed-interval-ℝ I x)
       ( map-clamp-closed-interval-ℝ I y)
-is-increasing-map-clamp-closed-interval-ℝ I x y =
-  is-increasing-max-ℝ
-    ( lower-bound-closed-interval-ℝ I)
-    ( min-ℝ (upper-bound-closed-interval-ℝ I) x)
-    ( min-ℝ (upper-bound-closed-interval-ℝ I) y) ∘
-  is-increasing-min-ℝ
-    ( upper-bound-closed-interval-ℝ I)
-    ( x)
-    ( y)
+  le-map-clamp-le-is-in-closed-interval-ℝ I x Hx y Hy =
+    preserves-le-sim-ℝ
+      ( symmetric-sim-ℝ
+        ( clamp-is-in-closed-interval-ℝ I x Hx))
+      ( symmetric-sim-ℝ
+        ( clamp-is-in-closed-interval-ℝ I y Hy))
 ```

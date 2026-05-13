@@ -48,6 +48,10 @@ module _
   type-lower-type-Preorder : UU (l1 ⊔ l3)
   type-lower-type-Preorder = type-subtype subtype-lower-type-Preorder
 
+  is-downwards-closed-lower-type-Preorder :
+    is-downwards-closed-subtype-Preorder P subtype-lower-type-Preorder
+  is-downwards-closed-lower-type-Preorder = pr2 L
+
   inclusion-lower-type-Preorder :
     type-lower-type-Preorder → type-Preorder P
   inclusion-lower-type-Preorder = pr1

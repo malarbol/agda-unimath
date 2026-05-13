@@ -439,3 +439,101 @@ module _
         ( H)
         ( y)))
 ```
+
+## Properties
+
+### The inverse function takes value in the original interval
+
+```agda
+module _
+  { l l1 l2 : Level}
+  ( I : proper-closed-interval-ℝ l1 l2)
+  ( f : real-map-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) (l ⊔ l1 ⊔ l2) I)
+  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
+  ( y@(v , lo-bound , hi-bound) :
+    type-proper-closed-interval-ℝ
+      ( l ⊔ l1 ⊔ l2)
+      ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)))
+  where
+
+  abstract opaque
+    unfolding leq-ℝ leq-ℝ'
+
+    leq-lower-bound-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      leq-ℝ
+        ( lower-bound-proper-closed-interval-ℝ I)
+        ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)
+          ( y))
+    leq-lower-bound-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      q q<a =
+      is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)
+        ( y)
+        ( q)
+        ( le-real-is-in-lower-cut-ℝ
+          ( lower-bound-proper-closed-interval-ℝ I)
+          ( q<a))
+
+  abstract opaque
+    unfolding leq-ℝ'
+
+    leq-upper-bound-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      leq-ℝ
+        ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)
+          ( y))
+        ( upper-bound-proper-closed-interval-ℝ I)
+    leq-upper-bound-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      =
+      leq-leq'-ℝ
+        ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)
+          ( y))
+        ( upper-bound-proper-closed-interval-ℝ I)
+        ( λ r b<r →
+          is-in-upper-cut-map-inv-le-upper-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ
+            ( I)
+            ( f)
+            ( H)
+            ( y)
+            ( r)
+            ( le-real-is-in-upper-cut-ℝ
+              ( upper-bound-proper-closed-interval-ℝ I)
+              ( b<r)))
+
+  abstract
+    is-in-interval-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      is-in-proper-closed-interval-ℝ I
+        ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)
+          ( y))
+    is-in-interval-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      =
+      ( leq-lower-bound-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ ,
+        leq-upper-bound-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ)
+
+  in-interval-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    type-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I
+  pr1
+    in-interval-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    =
+    map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ I f H y
+  pr2
+    in-interval-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    =
+    is-in-interval-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+```

@@ -1,0 +1,123 @@
+# Rounded lower subsets of raional numbers
+
+```agda
+module elementary-number-theory.rounded-lower-subsets-rational-numbers where
+```
+
+<details><summary>Imports</summary>
+
+```agda
+open import elementary-number-theory.inequality-rational-numbers
+open import elementary-number-theory.rational-numbers
+open import elementary-number-theory.strict-inequality-rational-numbers
+
+open import foundation.conjunction
+open import foundation.dependent-pair-types
+open import foundation.dependent-products-propositions
+open import foundation.existential-quantification
+open import foundation.propositional-truncations
+open import foundation.propositions
+open import foundation.subtypes
+open import foundation.universe-levels
+
+open import order-theory.lower-types-preorders
+open import order-theory.preorders
+```
+
+</details>
+
+## Idea
+
+A [lower subset](order-theory.lower-types-preorders.md) `L` of
+[rational numbers](elementary-number-theory.rational-numbers.md) is
+{{#concept "rounded" Disambiguation"lower subset of rational numbers"}} if for
+any `q ∈ L`, there [exists](foundation.existential-quantification.md) `(r : ℚ)`
+such that `q < r` and `r ∈ L`.
+
+## Definitions
+
+### The property of being a rounded lower subset of rational numbers
+
+```agda
+module _
+  {l : Level}
+  (L : lower-type-Preorder l ℚ-Preorder)
+  where
+
+  is-rounded-prop-lower-type-ℚ : Prop l
+  is-rounded-prop-lower-type-ℚ =
+    Π-Prop
+      ( ℚ)
+      ( λ q →
+        subtype-lower-type-Preorder ℚ-Preorder L q ⇒
+        ∃ ( ℚ)
+          ( λ r →
+            ( le-ℚ-Prop q r) ∧
+            ( subtype-lower-type-Preorder ℚ-Preorder L r)))
+
+  is-rounded-lower-type-ℚ : UU l
+  is-rounded-lower-type-ℚ = type-Prop is-rounded-prop-lower-type-ℚ
+
+  is-prop-is-rounded-lower-type-ℚ : is-prop is-rounded-lower-type-ℚ
+  is-prop-is-rounded-lower-type-ℚ =
+    is-prop-type-Prop is-rounded-prop-lower-type-ℚ
+```
+
+## Properties
+
+### Any lower subset can be rounded
+
+```agda
+module _
+  {l : Level}
+  (L : lower-type-Preorder l ℚ-Preorder)
+  where
+
+  subtype-round-lower-type-ℚ : subtype l ℚ
+  subtype-round-lower-type-ℚ r =
+    ∃ ( ℚ)
+      ( λ q →
+        ( le-ℚ-Prop r q) ∧
+        ( subtype-lower-type-Preorder ℚ-Preorder L q))
+
+  abstract
+    is-lower-subtype-round-lower-type-ℚ :
+      is-downwards-closed-subtype-Preorder ℚ-Preorder subtype-round-lower-type-ℚ
+    is-lower-subtype-round-lower-type-ℚ q r H =
+      elim-exists
+        ( subtype-round-lower-type-ℚ r)
+        ( λ s (q<s , Ls) →
+          intro-exists s (concatenate-leq-le-ℚ _ _ _ H q<s , Ls))
+
+  lower-subtype-round-lower-type-ℚ : lower-type-Preorder l ℚ-Preorder
+  lower-subtype-round-lower-type-ℚ =
+    ( subtype-round-lower-type-ℚ , is-lower-subtype-round-lower-type-ℚ)
+
+  abstract
+    is-rounded-lower-subtype-round-lower-type-ℚ :
+      is-rounded-lower-type-ℚ lower-subtype-round-lower-type-ℚ
+    is-rounded-lower-subtype-round-lower-type-ℚ r Lr =
+      let
+        open
+          do-syntax-trunc-Prop
+            ( ∃ ℚ (λ q → le-ℚ-Prop r q ∧ subtype-round-lower-type-ℚ q))
+      in do
+        ( q , r<q , Lq) ← Lr
+        ( s , r<s , s<q) ← dense-le-ℚ r<q
+
+        intro-exists s (r<s , intro-exists q (s<q , Lq))
+
+    leq-subtype-round-lower-type :
+      subtype-round-lower-type-ℚ ⊆ subtype-lower-type-Preorder ℚ-Preorder L
+    leq-subtype-round-lower-type q =
+      elim-exists
+        ( subtype-lower-type-Preorder ℚ-Preorder L q)
+        ( λ r (q<r , Lr) →
+          is-downwards-closed-lower-type-Preorder
+            ( ℚ-Preorder)
+            ( L)
+            ( r)
+            ( q)
+            ( leq-le-ℚ q<r)
+            ( Lr))
+```

@@ -63,6 +63,34 @@ module _
     is-prop-type-Prop is-rounded-prop-upper-type-ℚ
 ```
 
+### The type of rounded upper subsets of `ℚ`
+
+```agda
+rounded-upper-type-ℚ : (l : Level) → UU (lsuc l)
+rounded-upper-type-ℚ l =
+  type-subtype (is-rounded-prop-upper-type-ℚ {l})
+
+module _
+  {l : Level} (L : rounded-upper-type-ℚ l)
+  where
+
+  upper-type-rounded-upper-type-ℚ : upper-type-Preorder l ℚ-Preorder
+  upper-type-rounded-upper-type-ℚ = pr1 L
+
+  subtype-rounded-upper-type-ℚ : subtype l ℚ
+  subtype-rounded-upper-type-ℚ = pr1 upper-type-rounded-upper-type-ℚ
+
+  is-upwards-rounded-upper-type-ℚ :
+    is-upwards-closed-subtype-Preorder
+      ( ℚ-Preorder)
+      ( subtype-rounded-upper-type-ℚ)
+  is-upwards-rounded-upper-type-ℚ = pr2 upper-type-rounded-upper-type-ℚ
+
+  is-rounded-upper-type-rounded-upper-type-ℚ :
+    is-rounded-upper-type-ℚ upper-type-rounded-upper-type-ℚ
+  is-rounded-upper-type-rounded-upper-type-ℚ = pr2 L
+```
+
 ## Properties
 
 ### Any upper subset can be rounded
@@ -107,9 +135,15 @@ module _
 
         intro-exists s (s<r , intro-exists q (q<s , Uq))
 
-    leq-subtype-round-upper-type :
+  round-upper-type-ℚ : rounded-upper-type-ℚ l
+  round-upper-type-ℚ =
+    ( upper-subtype-round-upper-type-ℚ ,
+      is-rounded-upper-subtype-round-upper-type-ℚ)
+
+  abstract
+    leq-subtype-round-upper-type-ℚ :
       subtype-round-upper-type-ℚ ⊆ subtype-upper-type-Preorder ℚ-Preorder U
-    leq-subtype-round-upper-type q =
+    leq-subtype-round-upper-type-ℚ q =
       elim-exists
         ( subtype-upper-type-Preorder ℚ-Preorder U q)
         ( λ r (r<q , Ur) →

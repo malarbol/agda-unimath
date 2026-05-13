@@ -460,7 +460,7 @@ module _
   where
 
   abstract opaque
-    unfolding leq-ℝ leq-ℝ'
+    unfolding leq-ℝ
 
     leq-lower-bound-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
       leq-ℝ

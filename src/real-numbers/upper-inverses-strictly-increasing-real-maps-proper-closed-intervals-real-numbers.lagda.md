@@ -10,6 +10,7 @@ module real-numbers.upper-inverses-strictly-increasing-real-maps-proper-closed-i
 
 ```agda
 open import elementary-number-theory.rational-numbers
+open import elementary-number-theory.rounded-upper-subsets-rational-numbers
 open import elementary-number-theory.strict-inequality-rational-numbers
 
 open import foundation.action-on-identifications-functions
@@ -99,18 +100,13 @@ module _
 
   upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
     subtype (l2 ⊔ l3) ℚ
-  upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-    r =
-    ∃ ℚ
-      ( λ q →
-        ( le-ℚ-Prop q r) ∧
-        ( upper-cut-ℝ
-          ( lower-bound-proper-closed-interval-ℝ I)
-          ( q)) ∧
-        ( leq-prop-ℝ
-          ( v)
-          ( clamp-real-map-proper-closed-interval-ℝ I f
-            ( raise-real-ℚ l1 q))))
+  upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ =
+    subtype-round-upper-type-ℚ
+      ( upper-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)
+        ( y))
 
   is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
     ℚ → UU (l2 ⊔ l3)
@@ -236,91 +232,17 @@ module _
             ( r)
             ( b<r))
 
-    is-upper-set-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
-      (q r : ℚ) →
-      le-ℚ q r →
-      is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-        ( q) →
-      is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-        ( r)
-    is-upper-set-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-      q r q<r up =
-      let
-        open
-          do-syntax-trunc-Prop
-            ( upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-              ( r))
-      in do
-        ( s , s<q , K) ← up
-
-        intro-exists s (transitive-le-ℚ s q r q<r s<q , K)
-
-    is-lower-rounded-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
-      (q : ℚ) →
-      is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-        ( q) →
-      exists
-        ( ℚ)
-        ( λ r →
-          product-Prop
-            ( le-ℚ-Prop r q)
-            ( upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-              ( r)))
-    is-lower-rounded-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-      q hi =
-      let
-        open
-          do-syntax-trunc-Prop
-            ( ∃ ℚ
-                ( λ r →
-                  product-Prop
-                    ( le-ℚ-Prop r q)
-                    ( upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-                      ( r))))
-      in do
-        ( r , r<q , K) ← hi
-        ( s , r<s , s<q) ← dense-le-ℚ r<q
-
-        intro-exists s (s<q , intro-exists r (r<s , K))
-
-    is-rounded-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
-      (q : ℚ) →
-      is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-        ( q) ↔
-      exists
-        ( ℚ)
-        ( λ r →
-          product-Prop
-            ( le-ℚ-Prop r q)
-            ( upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-              ( r)))
-    is-rounded-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-      q =
-      ( is-lower-rounded-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-          ( q) ,
-        elim-exists
-          ( upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-            ( q))
-          ( λ r K →
-            is-upper-set-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-              ( r)
-              ( q)
-              ( pr1 K)
-              ( pr2 K)))
-
-    is-upper-dedekind-cut-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
-      is-upper-dedekind-cut
-        upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-    is-upper-dedekind-cut-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-      =
-      ( is-inhabited-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ ,
-        is-rounded-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ)
-
   upper-real-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
     upper-ℝ (l2 ⊔ l3)
   upper-real-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ =
-    ( upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ ,
-      is-upper-dedekind-cut-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ)
+    upper-real-is-inhabited-rounded-upper-type-ℚ
+      ( round-upper-type-ℚ
+        ( upper-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)
+          ( y)))
+      ( is-inhabited-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ)
 ```
 
 ## Properties

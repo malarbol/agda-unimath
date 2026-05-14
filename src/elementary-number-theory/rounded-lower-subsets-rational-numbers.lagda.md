@@ -189,3 +189,21 @@ is-idempotent-round-lower-type-ℚ L =
       ( lower-subtype-round-lower-type-ℚ L)
       ( is-rounded-lower-subtype-round-lower-type-ℚ L))
 ```
+
+### The rounding of a lower subset is its maximal rounded lower subset
+
+```agda
+is-maximal-round-lower-type-ℚ :
+  {l : Level} (L : lower-type-Preorder l ℚ-Preorder) →
+  {l1 : Level} (S : lower-type-Preorder l1 ℚ-Preorder) →
+  is-rounded-lower-type-ℚ S →
+  ( subtype-lower-type-Preorder ℚ-Preorder S ⊆
+    subtype-lower-type-Preorder ℚ-Preorder L) →
+  ( subtype-lower-type-Preorder ℚ-Preorder S ⊆
+    subtype-round-lower-type-ℚ L)
+is-maximal-round-lower-type-ℚ L S H S⊆L x x∈S =
+  elim-exists
+    ( subtype-round-lower-type-ℚ L x)
+    ( λ y (x<y , y∈S) → intro-exists y (x<y , S⊆L y y∈S))
+    ( H x x∈S)
+```

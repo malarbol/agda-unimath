@@ -15,6 +15,8 @@ open import foundation.conjunction
 open import foundation.dependent-pair-types
 open import foundation.dependent-products-propositions
 open import foundation.existential-quantification
+open import foundation.idempotent-maps
+open import foundation.identity-types
 open import foundation.propositional-truncations
 open import foundation.propositions
 open import foundation.subtypes
@@ -154,4 +156,36 @@ module _
             ( q)
             ( leq-le-ℚ q<r)
             ( Lr))
+```
+
+### Rounding a rounded lower subtype is the identity
+
+```agda
+module _
+  {l : Level}
+  (L : lower-type-Preorder l ℚ-Preorder)
+  (rounded-L : is-rounded-lower-type-ℚ L)
+  where
+
+  compute-round-is-rounded-lower-type-ℚ :
+    subtype-round-lower-type-ℚ L ＝ subtype-lower-type-Preorder ℚ-Preorder L
+  compute-round-is-rounded-lower-type-ℚ =
+    eq-has-same-elements-subtype
+      ( subtype-round-lower-type-ℚ L)
+      ( subtype-lower-type-Preorder ℚ-Preorder L)
+      ( λ q → leq-subtype-round-lower-type-ℚ L q , rounded-L q)
+```
+
+### Rounding a lower subset of rational numbers is idempotent
+
+```agda
+is-idempotent-round-lower-type-ℚ :
+  {l : Level} →
+  is-idempotent (lower-subtype-round-lower-type-ℚ {l})
+is-idempotent-round-lower-type-ℚ L =
+  eq-type-subtype
+    ( is-downwards-closed-prop-subtype-Preorder ℚ-Preorder)
+    ( compute-round-is-rounded-lower-type-ℚ
+      ( lower-subtype-round-lower-type-ℚ L)
+      ( is-rounded-lower-subtype-round-lower-type-ℚ L))
 ```

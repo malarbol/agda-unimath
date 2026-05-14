@@ -8,6 +8,8 @@ module order-theory.upper-types-preorders where
 
 ```agda
 open import foundation.dependent-pair-types
+open import foundation.dependent-products-propositions
+open import foundation.propositions
 open import foundation.subtypes
 open import foundation.universe-levels
 
@@ -25,6 +27,14 @@ An **upper type** in a preorder `P` is a upwards closed subtype of `P`.
 ## Definition
 
 ```agda
+is-upwards-closed-prop-subtype-Preorder :
+  {l1 l2 : Level} (P : Preorder l1 l2) {l3 : Level}
+  (S : subtype l3 (type-Preorder P)) →
+  Prop (l1 ⊔ l2 ⊔ l3)
+is-upwards-closed-prop-subtype-Preorder P =
+  is-downwards-closed-prop-subtype-Preorder
+    ( opposite-Preorder P)
+
 is-upwards-closed-subtype-Preorder :
   {l1 l2 : Level} (P : Preorder l1 l2) {l3 : Level}
   (S : subtype l3 (type-Preorder P)) →

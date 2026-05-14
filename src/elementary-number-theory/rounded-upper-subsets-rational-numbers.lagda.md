@@ -189,3 +189,21 @@ is-idempotent-round-upper-type-ℚ L =
       ( upper-subtype-round-upper-type-ℚ L)
       ( is-rounded-upper-subtype-round-upper-type-ℚ L))
 ```
+
+### The rounding of an upper subset is its maximal rounded upper subset
+
+```agda
+is-minimal-round-upper-type-ℚ :
+  {l : Level} (L : upper-type-Preorder l ℚ-Preorder) →
+  {l1 : Level} (S : upper-type-Preorder l1 ℚ-Preorder) →
+  is-rounded-upper-type-ℚ S →
+  ( subtype-upper-type-Preorder ℚ-Preorder S ⊆
+    subtype-upper-type-Preorder ℚ-Preorder L) →
+  ( subtype-upper-type-Preorder ℚ-Preorder S ⊆
+    subtype-round-upper-type-ℚ L)
+is-minimal-round-upper-type-ℚ L S H S⊆L x x∈S =
+  elim-exists
+    ( subtype-round-upper-type-ℚ L x)
+    ( λ y (y<x , y∈S) → intro-exists y (y<x , S⊆L y y∈S))
+    ( H x x∈S)
+```

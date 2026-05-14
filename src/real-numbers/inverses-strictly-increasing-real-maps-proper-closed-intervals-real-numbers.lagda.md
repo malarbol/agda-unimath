@@ -280,7 +280,7 @@ module _
           ( r)))
       ( λ q<a →
         inl-disjunction
-          ( is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ
+          ( is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-proper-closed-interval-ℝ
             ( I)
             ( f)
             ( H)
@@ -292,7 +292,7 @@ module _
       ( elim-disjunction _
         ( λ b<r →
           inr-disjunction
-            ( is-in-upper-cut-map-inv-le-upper-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ
+            ( is-in-upper-cut-map-inv-le-upper-bound-is-strictly-increasing-real-map-proper-closed-interval-ℝ
               ( I)
               ( f)
               ( H)
@@ -472,7 +472,7 @@ module _
           ( y))
     leq-lower-bound-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
       q q<a =
-      is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ
+      is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-proper-closed-interval-ℝ
         ( I)
         ( f)
         ( H)
@@ -503,7 +503,7 @@ module _
           ( y))
         ( upper-bound-proper-closed-interval-ℝ I)
         ( λ r b<r →
-          is-in-upper-cut-map-inv-le-upper-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ
+          is-in-upper-cut-map-inv-le-upper-bound-is-strictly-increasing-real-map-proper-closed-interval-ℝ
             ( I)
             ( f)
             ( H)

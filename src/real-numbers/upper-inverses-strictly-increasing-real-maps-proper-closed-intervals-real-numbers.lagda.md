@@ -118,12 +118,12 @@ module _
   abstract opaque
     unfolding le-ℝ
 
-    is-in-upper-cut-map-inv-le-upper-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ :
+    is-in-upper-cut-map-inv-le-upper-bound-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
       (r : ℚ) →
       le-ℝ (upper-bound-proper-closed-interval-ℝ I) (real-ℚ r) →
       is-in-upper-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
         ( r)
-    is-in-upper-cut-map-inv-le-upper-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ
+    is-in-upper-cut-map-inv-le-upper-bound-is-strictly-increasing-real-map-proper-closed-interval-ℝ
       r b<r =
       let
         open
@@ -228,7 +228,7 @@ module _
           exists-greater-rational-ℝ (upper-bound-proper-closed-interval-ℝ I)
 
         intro-exists r
-          ( is-in-upper-cut-map-inv-le-upper-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ
+          ( is-in-upper-cut-map-inv-le-upper-bound-is-strictly-increasing-real-map-proper-closed-interval-ℝ
             ( r)
             ( b<r))
 

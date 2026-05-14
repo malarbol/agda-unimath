@@ -118,12 +118,12 @@ module _
   abstract opaque
     unfolding le-ℝ
 
-    is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ :
+    is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
       (r : ℚ) →
       le-ℝ (real-ℚ r) (lower-bound-proper-closed-interval-ℝ I) →
       is-in-lower-cut-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
         ( r)
-    is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ
+    is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-proper-closed-interval-ℝ
       r r<a =
       let
         open
@@ -227,7 +227,7 @@ module _
           exists-lesser-rational-ℝ (lower-bound-proper-closed-interval-ℝ I)
 
         intro-exists r
-          ( is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ
+          ( is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-proper-closed-interval-ℝ
             ( r)
             ( r<a))
 
@@ -263,7 +263,7 @@ module _
         ( H)))
   where abstract
 
-  leq-map-is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ :
+  leq-map-is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
     (r : ℚ) →
     is-in-cut-lower-ℝ
       ( lower-real-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
@@ -275,7 +275,7 @@ module _
     leq-ℝ
       ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 r))
       ( v)
-  leq-map-is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-properd-closed-interval-ℝ
+  leq-map-is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-proper-closed-interval-ℝ
     r lo =
     let
       open

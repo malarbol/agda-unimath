@@ -22,6 +22,7 @@ open import foundation.disjunction
 open import foundation.double-negation
 open import foundation.embeddings
 open import foundation.empty-types
+open import foundation.equivalences
 open import foundation.existential-quantification
 open import foundation.function-types
 open import foundation.identity-types
@@ -33,6 +34,7 @@ open import foundation.propositional-truncations
 open import foundation.propositions
 open import foundation.retractions
 open import foundation.subtypes
+open import foundation.surjective-maps
 open import foundation.transport-along-identifications
 open import foundation.universe-levels
 
@@ -855,4 +857,92 @@ module _
           ( x))
         ( leq-left-is-retraction-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
           ( x)))
+```
+
+### The left inverse is surjective
+
+```agda
+module _
+  { l l1 l2 : Level}
+  ( I : proper-closed-interval-ℝ l1 l2)
+  ( f : real-map-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) (l ⊔ l1 ⊔ l2) I)
+  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
+  where abstract
+
+  is-surjective-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    is-surjective
+      ( in-interval-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H))
+  is-surjective-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    =
+    is-surjective-has-section
+      ( ( map-proper-closed-interval-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)) ,
+        ( is-retraction-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)))
+```
+
+### If the inverse is strictly increasing then it's an equivalence
+
+```agda
+module _
+  { l l1 l2 : Level}
+  ( I : proper-closed-interval-ℝ l1 l2)
+  ( f : real-map-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) (l ⊔ l1 ⊔ l2) I)
+  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
+  where abstract
+
+  is-equiv-map-inv-is-strictly-increasing-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H))
+      ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)) →
+    is-equiv
+      ( in-interval-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H))
+  is-equiv-map-inv-is-strictly-increasing-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    K =
+    is-equiv-is-emb-is-surjective
+      ( is-surjective-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H))
+      ( is-emb-is-injective
+        ( is-set-type-subtype
+          ( subtype-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I)
+          ( is-set-ℝ _))
+        ( λ {y} {y'} Hy →
+          eq-type-subtype
+            ( subtype-proper-closed-interval-ℝ
+              ( l ⊔ l1 ⊔ l2)
+              ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+                ( I)
+                ( f)
+                ( H)))
+            ( ap
+              ( pr1)
+              ( is-injective-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+                ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+                  ( I)
+                  ( f)
+                  ( H))
+                ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+                  ( I)
+                  ( f)
+                  ( H))
+                ( K)
+                ( ap pr1 Hy)))))
 ```

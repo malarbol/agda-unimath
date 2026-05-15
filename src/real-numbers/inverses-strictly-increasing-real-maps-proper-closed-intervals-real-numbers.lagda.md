@@ -28,6 +28,7 @@ open import foundation.identity-types
 open import foundation.inhabited-subtypes
 open import foundation.injective-maps
 open import foundation.logical-equivalences
+open import foundation.negation
 open import foundation.propositional-truncations
 open import foundation.propositions
 open import foundation.retractions
@@ -650,6 +651,59 @@ module _
             ( y)
             ( q)
             ( lo-qy))
+```
+
+### Interchange law for inequality
+
+For any `x ∈ [a. b]` and `y ∈ [f(a), f(b)]`,
+
+```text
+  y ≤ f x ⇒ f⁻¹ y ≤ x
+```
+
+```agda
+module _
+  { l l1 l2 : Level}
+  ( I : proper-closed-interval-ℝ l1 l2)
+  ( f : real-map-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) (l ⊔ l1 ⊔ l2) I)
+  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
+  ( x@(u , lo-bound-x , hi-bound-x) :
+    type-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I)
+  ( y@(v , lo-bound-y , hi-bound-y) :
+    type-proper-closed-interval-ℝ
+      ( l ⊔ l1 ⊔ l2)
+      ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)))
+  where abstract
+
+  interchange-leq-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    leq-ℝ v (f x) →
+    leq-ℝ
+      ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)
+        ( y))
+      ( u)
+  interchange-leq-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    Kvx =
+    leq-not-le-ℝ
+      ( u)
+      ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)
+        ( y))
+      ( map-neg
+        ( interchange-le-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)
+          ( x)
+          ( y))
+        ( not-le-leq-ℝ _ _ Kvx))
 ```
 
 ### The inverse function is increasing

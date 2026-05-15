@@ -236,6 +236,21 @@ module _
 
 ### The lower and upper inverses of a strictly increasing map is a located pair of cuts
 
+Given a strictly increasing map `f : [a, b] → ℝ` and `y ∈ [f(a), f(b)]`, for any
+`q r : ℚ` with `q < r`, then either:
+
+1. `p < a`;
+2. `b < q`;
+3. `∃ (r s : ℚ) | (a < r < s < b) ∧ (p < r) ∧ (s < q)`.
+
+If `p < a` (resp `b < q`) then `p` is in the lower cut of `f⁻¹(y)` (resp. `q` is
+in the upper cut of `f⁻¹(y)`).
+
+Otherwise, (3.) implies that `f r < f s`. By cotransitivity, then either:
+
+- `f r < v` so `p` is in the lower cut of `f⁻¹(y)`;
+- `v < f s` so `q` is in the upper cut of `f⁻¹(y)`.
+
 ```agda
 module _
   { l1 l2 l3 l4 : Level}

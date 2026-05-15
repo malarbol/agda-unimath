@@ -556,6 +556,102 @@ module _
     is-in-interval-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
 ```
 
+### Interchange law for strict inequality
+
+For any `x ∈ [a. b]` and `y ∈ [f(a), f(b)]`,
+
+```text
+  x < f⁻¹(y) ⇒ f x < y
+```
+
+```agda
+module _
+  { l l1 l2 : Level}
+  ( I : proper-closed-interval-ℝ l1 l2)
+  ( f : real-map-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) (l ⊔ l1 ⊔ l2) I)
+  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
+  ( x@(u , lo-bound-x , hi-bound-x) :
+    type-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I)
+  ( y@(v , lo-bound-y , hi-bound-y) :
+    type-proper-closed-interval-ℝ
+      ( l ⊔ l1 ⊔ l2)
+      ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)))
+  where abstract opaque
+    unfolding le-ℝ
+
+    interchange-le-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      le-ℝ
+        ( u)
+        ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)
+          ( y)) →
+      le-ℝ (f x) v
+    interchange-le-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      Kuy =
+      let open do-syntax-trunc-Prop (le-prop-ℝ (f x) v)
+      in do
+        (q , hi-qu , lo-qy) ← Kuy
+        (r , q<r , r<b , _) ← lo-qy
+
+        concatenate-le-leq-ℝ
+          ( f x)
+          ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l q))
+          ( v)
+          ( H
+            ( x)
+            ( clamp-proper-closed-interval-ℝ I (raise-real-ℚ l q))
+            ( preserves-le-left-sim-ℝ
+              ( map-clamp-proper-closed-interval-ℝ I (raise-real-ℚ l q))
+              ( map-clamp-proper-closed-interval-ℝ I u)
+              ( u)
+              ( clamp-is-in-closed-interval-ℝ
+                ( closed-interval-proper-closed-interval-ℝ I)
+                ( u)
+                ( lo-bound-x , hi-bound-x))
+              ( le-map-clamp-le-is-in-closed-interval-ℝ
+                ( closed-interval-proper-closed-interval-ℝ I)
+                ( u)
+                ( lo-bound-x , hi-bound-x)
+                ( raise-real-ℚ l q)
+                ( ( transitive-leq-ℝ
+                    ( lower-bound-proper-closed-interval-ℝ I)
+                    ( u)
+                    ( raise-real-ℚ l q)
+                    ( preserves-leq-right-raise-ℝ l
+                      { x = u}
+                      { y = real-ℚ q}
+                      ( leq-le-ℝ (le-real-is-in-upper-cut-ℝ u hi-qu)))
+                    ( lo-bound-x)) ,
+                  ( preserves-leq-left-raise-ℝ l
+                    { x = real-ℚ q}
+                    { y = upper-bound-proper-closed-interval-ℝ I}
+                    ( leq-le-ℝ
+                      ( transitive-le-ℝ
+                        ( real-ℚ q)
+                        ( real-ℚ r)
+                        ( upper-bound-proper-closed-interval-ℝ I)
+                        ( le-real-is-in-lower-cut-ℝ
+                          ( upper-bound-proper-closed-interval-ℝ I)
+                          ( r<b))
+                        ( preserves-le-real-ℚ q<r)))))
+                ( preserves-le-right-raise-ℝ l
+                  { u}
+                  { real-ℚ q}
+                  ( le-real-is-in-upper-cut-ℝ u hi-qu)))))
+          ( leq-map-is-in-lower-cut-map-inv-le-lower-bound-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+            ( I)
+            ( f)
+            ( H)
+            ( y)
+            ( q)
+            ( lo-qy))
+```
+
 ### The inverse function is increasing
 
 ```agda
@@ -616,7 +712,7 @@ module _
   opaque
     unfolding leq-ℝ
 
-    leq-left-id-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    leq-left-is-retraction-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
       ( x@(u , _ , _) :
         type-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I) →
       leq-ℝ
@@ -627,7 +723,7 @@ module _
             ( f)
             ( H)
             ( x)))
-    leq-left-id-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    leq-left-is-retraction-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
       x@(u , lo-bound , hi-bound) q lo =
       map-tot-exists
         ( λ r (q<r , Hr) →
@@ -664,7 +760,7 @@ module _
   opaque
     unfolding leq-ℝ leq-ℝ'
 
-    leq-right-id-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    leq-right-is-retraction-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
       ( x@(u , _ , _) :
         type-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I) →
       leq-ℝ
@@ -675,7 +771,7 @@ module _
             ( H)
             ( x)))
         ( u)
-    leq-right-id-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    leq-right-is-retraction-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
       x@(u , lo-bound , hi-bound) =
       leq-leq'-ℝ
         ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ I f H
@@ -736,8 +832,8 @@ module _
       eq-type-subtype
         ( subtype-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I)
         ( antisymmetric-leq-ℝ _ _
-          ( leq-right-id-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( leq-right-is-retraction-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
             ( x))
-          ( leq-left-id-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( leq-left-is-retraction-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
             ( x)))
 ```

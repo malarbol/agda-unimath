@@ -34,6 +34,8 @@ open import foundation.subtypes
 open import foundation.transport-along-identifications
 open import foundation.universe-levels
 
+open import logic.functoriality-existential-quantification
+
 open import order-theory.order-preserving-maps-preorders
 open import order-theory.strict-order-preserving-maps
 open import order-theory.strict-subpreorders
@@ -551,4 +553,51 @@ module _
     in-interval-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
     =
     is-in-interval-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+```
+
+### The inverse function is increasing
+
+```agda
+module _
+  { l l1 l2 : Level}
+  ( I : proper-closed-interval-ℝ l1 l2)
+  ( f : real-map-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) (l ⊔ l1 ⊔ l2) I)
+  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
+  ( y@(v , _ , _) y'@(v' , _ , _) :
+    type-proper-closed-interval-ℝ
+      ( l ⊔ l1 ⊔ l2)
+      ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)))
+  ( y≤y' : leq-ℝ v v')
+  where
+
+  abstract opaque
+    unfolding leq-ℝ
+
+    preserves-leq-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      leq-ℝ
+        ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)
+          ( y))
+        ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)
+          ( y'))
+    preserves-leq-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      q =
+      map-tot-exists
+        ( λ r (q<r , r<b , Hr) →
+          ( ( q<r) ,
+            ( r<b) ,
+            ( transitive-leq-ℝ
+              ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l r))
+              ( v)
+              ( v')
+              ( y≤y')
+              ( Hr))))
 ```

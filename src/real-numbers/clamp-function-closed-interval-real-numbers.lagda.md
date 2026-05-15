@@ -199,8 +199,9 @@ abstract
 ```agda
 abstract
   is-increasing-map-clamp-closed-interval-ℝ :
-      {l1 l2 l3 : Level} (I : closed-interval-ℝ l1 l2)
-      (x y : ℝ l3) →
+      {l1 l2 l3 l4 : Level} (I : closed-interval-ℝ l1 l2)
+      (x : ℝ l3)
+      (y : ℝ l4) →
       leq-ℝ x y →
       leq-ℝ
         ( map-clamp-closed-interval-ℝ I x)

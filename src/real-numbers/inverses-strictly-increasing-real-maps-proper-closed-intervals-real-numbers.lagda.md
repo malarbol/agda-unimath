@@ -30,6 +30,7 @@ open import foundation.injective-maps
 open import foundation.logical-equivalences
 open import foundation.propositional-truncations
 open import foundation.propositions
+open import foundation.retractions
 open import foundation.subtypes
 open import foundation.transport-along-identifications
 open import foundation.universe-levels
@@ -600,4 +601,143 @@ module _
               ( v')
               ( y≤y')
               ( Hr))))
+```
+
+### The inverse is a retraction
+
+```agda
+module _
+  { l l1 l2 : Level}
+  ( I : proper-closed-interval-ℝ l1 l2)
+  ( f : real-map-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) (l ⊔ l1 ⊔ l2) I)
+  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
+  where
+
+  opaque
+    unfolding leq-ℝ
+
+    leq-left-id-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      ( x@(u , _ , _) :
+        type-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I) →
+      leq-ℝ
+        ( u)
+        ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ I f H
+          ( map-proper-closed-interval-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+            ( I)
+            ( f)
+            ( H)
+            ( x)))
+    leq-left-id-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      x@(u , lo-bound , hi-bound) q lo =
+      map-tot-exists
+        ( λ r (q<r , Hr) →
+          ( ( q<r) ,
+            ( hi-bound r Hr) ,
+            ( is-increasing-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+              ( I)
+              ( f)
+              ( H)
+                ( clamp-proper-closed-interval-ℝ I (raise-real-ℚ l r))
+              ( x)
+              ( preserves-leq-right-sim-ℝ
+                { z = map-clamp-proper-closed-interval-ℝ I (raise-real-ℚ l r)}
+                { x = map-clamp-proper-closed-interval-ℝ I u}
+                { y = u}
+                ( clamp-is-in-closed-interval-ℝ
+                  ( closed-interval-proper-closed-interval-ℝ I)
+                  ( u)
+                  ( lo-bound , hi-bound))
+                ( is-increasing-map-clamp-closed-interval-ℝ
+                  ( closed-interval-proper-closed-interval-ℝ I)
+                  ( raise-real-ℚ l r)
+                  ( u)
+                  ( preserves-leq-left-raise-ℝ l
+                    { x = real-ℚ r}
+                    { y = u}
+                    ( leq-le-ℝ (le-real-is-in-lower-cut-ℝ u Hr))))))))
+        ( pr1
+          ( is-rounded-lower-cut-ℝ
+            ( u)
+            ( q))
+          ( lo))
+
+  opaque
+    unfolding leq-ℝ leq-ℝ'
+
+    leq-right-id-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      ( x@(u , _ , _) :
+        type-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I) →
+      leq-ℝ
+        ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ I f H
+          ( map-proper-closed-interval-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+            ( I)
+            ( f)
+            ( H)
+            ( x)))
+        ( u)
+    leq-right-id-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      x@(u , lo-bound , hi-bound) =
+      leq-leq'-ℝ
+        ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ I f H
+          ( map-proper-closed-interval-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+            ( I)
+            ( f)
+            ( H)
+            ( x)))
+        ( u)
+        ( λ r hi →
+          map-tot-exists
+            ( λ q (q<r , Hq) →
+              ( ( q<r) ,
+                ( leq'-leq-ℝ
+                  ( lower-bound-proper-closed-interval-ℝ I)
+                  ( u)
+                  ( lo-bound)
+                  ( q)
+                  ( Hq)) ,
+                ( is-increasing-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+                  ( I)
+                  ( f)
+                  ( H)
+                  ( x)
+                  ( clamp-proper-closed-interval-ℝ I (raise-real-ℚ l q))
+                  ( preserves-leq-left-sim-ℝ
+                    { z =
+                      map-clamp-proper-closed-interval-ℝ I (raise-real-ℚ l q)}
+                    {x = map-clamp-proper-closed-interval-ℝ I u}
+                    {y = u}
+                    ( clamp-is-in-closed-interval-ℝ
+                      ( closed-interval-proper-closed-interval-ℝ I)
+                      ( u)
+                      ( lo-bound , hi-bound))
+                    ( is-increasing-map-clamp-closed-interval-ℝ
+                      ( closed-interval-proper-closed-interval-ℝ I)
+                      ( u)
+                      ( raise-real-ℚ l q)
+                      ( preserves-leq-right-raise-ℝ l
+                        { x = u}
+                        { y = real-ℚ q}
+                        ( leq-le-ℝ (le-real-is-in-upper-cut-ℝ u Hq))))))))
+            ( pr1 (is-rounded-upper-cut-ℝ u r) hi))
+
+  abstract opaque
+    is-retraction-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      is-retraction
+        ( map-proper-closed-interval-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H))
+        ( in-interval-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H))
+    is-retraction-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      x =
+      eq-type-subtype
+        ( subtype-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I)
+        ( antisymmetric-leq-ℝ _ _
+          ( leq-right-id-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+            ( x))
+          ( leq-left-id-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+            ( x)))
 ```

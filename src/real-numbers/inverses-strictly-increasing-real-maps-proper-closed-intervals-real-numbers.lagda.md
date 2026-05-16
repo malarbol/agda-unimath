@@ -946,3 +946,53 @@ module _
                 ( K)
                 ( ap pr1 Hy)))))
 ```
+
+### If the inverse is strictly increasing then the map is an equivalence
+
+```agda
+module _
+  { l l1 l2 : Level}
+  ( I : proper-closed-interval-ℝ l1 l2)
+  ( f : real-map-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) (l ⊔ l1 ⊔ l2) I)
+  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
+  where abstract
+
+  is-equiv-map-is-strictly-increasing-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H))
+      ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)) →
+    is-equiv
+      ( map-proper-closed-interval-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H))
+  is-equiv-map-is-strictly-increasing-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    K =
+    is-equiv-right-factor
+      ( in-interval-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H))
+      ( map-proper-closed-interval-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H))
+      ( is-equiv-map-inv-is-strictly-increasing-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)
+        ( K))
+      ( is-equiv-htpy
+        ( id)
+        ( is-retraction-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H))
+        ( is-equiv-id))
+```

@@ -379,7 +379,7 @@ module _
       ( y∈I)
 ```
 
-### Lower preimage of a strictly increasing map on a proper closed interval
+### The lower preimage of a strictly increasing map on a proper closed interval
 
 ```agda
 module _
@@ -437,7 +437,7 @@ module _
       is-lower-subtype-lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ)
 ```
 
-### Upper preimage of a strictly increasing map on a proper closed interval
+### The upper preimage of a strictly increasing map on a proper closed interval
 
 ```agda
 module _

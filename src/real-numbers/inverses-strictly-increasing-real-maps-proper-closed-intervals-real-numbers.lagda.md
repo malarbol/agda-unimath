@@ -465,11 +465,10 @@ module _
 
 ### Interchange law for strict inequality
 
-For any `x, x' ∈ [a, b]` and `y ∈ [f(a), f(b)]`,
+For any `x ∈ [a, b]` and `y ∈ [f(a), f(b)]`,
 
-```text
-  x < f⁻¹ y < x' ⇒ f x < y < f x'
-```
+- `x < f⁻¹ y ⇒ f x < y`;
+- `f⁻¹ y < x ⇒ y < f x`.
 
 ```agda
 module _
@@ -630,11 +629,10 @@ module _
 
 ### Interchange law for inequality
 
-For any `x ∈ [a. b]` and `y, y' ∈ [f(a), f(b)]`,
+For any `x ∈ [a. b]` and `y ∈ [f(a), f(b)]`,
 
-```text
-  y ≤ f x ≤ y' ⇒ f⁻¹ y ≤ x ≤ f⁻¹ y'
-```
+- `y ≤ f x ⇒ f⁻¹ y ≤ x`;
+- `f x ≤ y ⇒ x ≤ f⁻¹ y`.
 
 ```agda
 module _

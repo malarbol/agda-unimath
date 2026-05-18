@@ -13,6 +13,7 @@ open import elementary-number-theory.rational-numbers
 open import elementary-number-theory.strict-inequality-rational-numbers
 
 open import foundation.action-on-identifications-functions
+open import foundation.binary-transport
 open import foundation.conjunction
 open import foundation.coproduct-types
 open import foundation.dependent-pair-types
@@ -40,24 +41,36 @@ open import foundation.universe-levels
 
 open import logic.functoriality-existential-quantification
 
+open import metric-spaces.metric-spaces
+open import metric-spaces.pointwise-epsilon-delta-continuous-maps-metric-spaces
+
 open import order-theory.order-preserving-maps-preorders
 open import order-theory.strict-order-preserving-maps
 open import order-theory.strict-subpreorders
 open import order-theory.subpreorders
 
+open import real-numbers.addition-positive-real-numbers
+open import real-numbers.addition-real-numbers
 open import real-numbers.binary-maximum-real-numbers
 open import real-numbers.binary-minimum-real-numbers
 open import real-numbers.clamp-function-closed-interval-real-numbers
 open import real-numbers.dedekind-real-numbers
+open import real-numbers.difference-real-numbers
+open import real-numbers.distance-real-numbers
+open import real-numbers.inequalities-addition-and-subtraction-real-numbers
 open import real-numbers.inequality-real-numbers
 open import real-numbers.lower-dedekind-real-numbers
 open import real-numbers.lower-inverses-strictly-increasing-real-maps-proper-closed-intervals-real-numbers
 open import real-numbers.maps-between-proper-closed-intervals-real-numbers
+open import real-numbers.metric-space-of-real-numbers
+open import real-numbers.positive-real-numbers
 open import real-numbers.proper-closed-intervals-real-numbers
 open import real-numbers.raising-universe-levels-real-numbers
+open import real-numbers.rational-approximates-of-real-numbers
 open import real-numbers.rational-real-numbers
 open import real-numbers.real-maps-proper-closed-intervals-real-numbers
 open import real-numbers.similarity-real-numbers
+open import real-numbers.strict-inequalities-addition-and-subtraction-real-numbers
 open import real-numbers.strict-inequality-real-numbers
 open import real-numbers.strictly-increasing-real-maps-proper-closed-intervals-real-numbers
 open import real-numbers.upper-dedekind-real-numbers
@@ -627,6 +640,219 @@ module _
                   { real-ℚ q}
                   { u}
                   ( le-real-is-in-lower-cut-ℝ u lo-qu)))))
+
+    interchange-le-right-is-ε-δ-continuous-map-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      is-ε-δ-continuous-at-point-map-Metric-Space
+        ( metric-space-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I)
+        ( metric-space-ℝ (l ⊔ l1 ⊔ l2))
+        ( f)
+        ( x) →
+      le-ℝ (f x) v →
+      le-ℝ
+        ( u)
+        ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)
+          ( y))
+    interchange-le-right-is-ε-δ-continuous-map-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      cont-f Hxv =
+      let
+        open
+          do-syntax-trunc-Prop
+            ( le-prop-ℝ
+              ( u)
+              ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+                ( I)
+                ( f)
+                ( H)
+                ( y)))
+      in do
+        ( ε , Hε) ←
+          exists-ℚ⁺-in-lower-cut-is-positive-ℝ
+            ( diff-ℝ v (f x))
+            ( is-positive-diff-le-ℝ
+              { x = f x}
+              { y = v}
+              ( Hxv))
+        ( δ , Kδ) ← cont-f ε
+        ( q , x<q , Nδxq) ← exists-rational-approximate-above-ℝ u δ
+        ( p , p<q , x<p) ←
+          forward-implication
+            ( is-rounded-upper-cut-ℝ u q)
+            ( x<q)
+        ( p' , p'<p , x<p') ←
+          forward-implication
+            ( is-rounded-upper-cut-ℝ u p)
+            ( x<p)
+        let
+          lemma-eq-clamp-x :
+            clamp-proper-closed-interval-ℝ I u ＝ x
+          lemma-eq-clamp-x =
+            eq-type-subtype
+              ( subtype-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I)
+              ( eq-sim-ℝ
+                ( clamp-is-in-closed-interval-ℝ
+                  ( closed-interval-proper-closed-interval-ℝ I)
+                  ( u)
+                  ( (lo-bound-x , hi-bound-x))))
+
+          lemma-Nfq :
+            neighborhood-ℝ (l ⊔ l1 ⊔ l2) ε
+              ( f x)
+              ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l q))
+          lemma-Nfq =
+            Kδ
+              ( clamp-proper-closed-interval-ℝ I (raise-real-ℚ l q))
+              ( binary-tr
+                ( neighborhood-Metric-Space
+                  ( metric-space-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I)
+                  ( δ))
+                ( lemma-eq-clamp-x)
+                ( eq-type-subtype
+                  ( subtype-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I)
+                  { clamp-proper-closed-interval-ℝ I
+                    (raise-real-ℚ (l ⊔ l1 ⊔ l2) q)}
+                  { clamp-proper-closed-interval-ℝ I
+                    (raise-real-ℚ l q)}
+                  ( eq-sim-ℝ
+                    ( sim-clamp-closed-interval-ℝ
+                      ( closed-interval-proper-closed-interval-ℝ I)
+                      ( raise-real-ℚ (l ⊔ l1 ⊔ l2) q)
+                      ( raise-real-ℚ l q)
+                      ( sim-raise-raise-ℝ (l ⊔ l1 ⊔ l2) l (real-ℚ q)))))
+                ( is-short-map-clamp-closed-interval-ℝ
+                  ( closed-interval-proper-closed-interval-ℝ I)
+                  ( δ)
+                  ( u)
+                  ( raise-real-ℚ (l ⊔ l1 ⊔ l2) q)
+                  ( Nδxq)))
+
+          lemma-leq-fq :
+            leq-ℝ
+              ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l q))
+              ( (f x) +ℝ (real-ℚ⁺ ε))
+          lemma-leq-fq =
+            leq-transpose-left-diff-ℝ
+              ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l q))
+              ( real-ℚ⁺ ε)
+              ( f x)
+              ( swap-right-diff-leq-ℝ
+                ( clamp-real-map-proper-closed-interval-ℝ I f
+                  ( raise-real-ℚ l q))
+                ( f x)
+                ( real-ℚ⁺ ε)
+                ( reversed-diff-bound-neighborhood-ℝ ε
+                  ( f x)
+                  ( clamp-real-map-proper-closed-interval-ℝ I f
+                    ( raise-real-ℚ l q))
+                  ( lemma-Nfq)))
+
+          lemma-le-fq-y :
+            le-ℝ
+              ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l q))
+              ( v)
+          lemma-le-fq-y =
+            concatenate-leq-le-ℝ
+              ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l q))
+              ( (f x) +ℝ (real-ℚ⁺ ε))
+              ( v)
+              ( lemma-leq-fq)
+              ( le-transpose-right-diff-ℝ'
+                ( real-ℚ⁺ ε)
+                ( v)
+                ( f x)
+                ( le-real-is-in-lower-cut-ℝ (v -ℝ f x) Hε))
+
+          lemma-lo-hi-p :
+            is-in-lower-cut-ℝ
+              ( upper-bound-proper-closed-interval-ℝ I)
+              ( p)
+          lemma-lo-hi-p =
+            elim-disjunction
+              ( lower-cut-ℝ (upper-bound-proper-closed-interval-ℝ I) p)
+              ( id)
+              ( λ hi-q →
+                ex-falso
+                  ( not-leq-le-ℝ
+                    ( clamp-real-map-proper-closed-interval-ℝ I f
+                      ( raise-real-ℚ l q))
+                    ( v)
+                  ( lemma-le-fq-y)
+                  ( transitive-leq-ℝ
+                    ( v)
+                    ( f
+                      ( raise-in-proper-closed-interval-upper-bound-proper-closed-interval-ℝ
+                        ( I)
+                        ( l)))
+                    ( clamp-real-map-proper-closed-interval-ℝ I f
+                      ( raise-real-ℚ l q))
+                    ( is-increasing-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+                      ( I)
+                      ( f)
+                      ( H)
+                      ( _)
+                      ( _)
+                      ( preserves-leq-sim-ℝ
+                        ( sim-raise-in-proper-closed-interval-upper-bound-proper-closed-interval-ℝ
+                          ( I)
+                          ( l))
+                        ( symmetric-sim-ℝ
+                          ( clamp-leq-upper-bound-closed-interval-ℝ
+                            ( closed-interval-proper-closed-interval-ℝ I)
+                            ( raise-real-ℚ l q)
+                            ( preserves-leq-right-raise-ℝ
+                              ( l)
+                              ( leq-le-ℝ
+                                ( le-real-is-in-upper-cut-ℝ
+                                  ( upper-bound-proper-closed-interval-ℝ I)
+                                  ( hi-q))))))
+                        ( refl-leq-ℝ _)))
+                    ( hi-bound-y))))
+              ( is-located-lower-upper-cut-ℝ
+                ( upper-bound-proper-closed-interval-ℝ I)
+                ( p<q))
+
+          lemma-leq-fpv :
+            leq-ℝ
+              ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l p))
+              ( v)
+          lemma-leq-fpv =
+            transitive-leq-ℝ
+              ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l p))
+              ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l q))
+              ( v)
+              ( leq-le-ℝ lemma-le-fq-y)
+              ( is-increasing-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+                ( I)
+                ( f)
+                ( H)
+                ( _)
+                ( _)
+                ( leq-raise-leq-ℝ
+                  ( l)
+                  ( preserves-leq-real-ℚ (leq-le-ℚ p<q))))
+
+        intro-exists p'
+          ( x<p' , intro-exists p (p'<p , lemma-lo-hi-p , lemma-leq-fpv))
+
+    -- interchange-le-left-is-ε-δ-continuous-map-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    --   is-ε-δ-continuous-at-point-map-Metric-Space
+    --     ( metric-space-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I)
+    --     ( metric-space-ℝ (l ⊔ l1 ⊔ l2))
+    --     ( f)
+    --     ( x) →
+    --   le-ℝ v (f x) →
+    --   le-ℝ
+    --     ( map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    --       ( I)
+    --       ( f)
+    --       ( H)
+    --       ( y))
+    --     ( u)
+    -- interchange-le-left-is-ε-δ-continuous-map-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    --   cont-f Hvx =
+    --   {!!}
 ```
 
 ### Interchange law for inequality

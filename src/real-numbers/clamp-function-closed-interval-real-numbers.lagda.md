@@ -236,3 +236,24 @@ abstract
       ( symmetric-sim-ℝ
         ( clamp-is-in-closed-interval-ℝ I y Hy))
 ```
+
+### The clamp function preserves similarity
+
+```agda
+sim-clamp-closed-interval-ℝ :
+    {l1 l2 l3 l4 : Level} (I : closed-interval-ℝ l1 l2) →
+    (x : ℝ l3) →
+    (y : ℝ l4) →
+    sim-ℝ x y →
+    sim-ℝ
+      ( map-clamp-closed-interval-ℝ I x)
+      ( map-clamp-closed-interval-ℝ I y)
+sim-clamp-closed-interval-ℝ I x y x~y =
+  sim-antisymmetric-leq-ℝ
+    ( map-clamp-closed-interval-ℝ I x)
+    ( map-clamp-closed-interval-ℝ I y)
+    ( is-increasing-map-clamp-closed-interval-ℝ I x y
+      ( leq-sim-ℝ x~y))
+    ( is-increasing-map-clamp-closed-interval-ℝ I y x
+      ( leq-sim-ℝ' x~y))
+```

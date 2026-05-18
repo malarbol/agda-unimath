@@ -470,6 +470,8 @@ For any `x ∈ [a, b]` and `y ∈ [f(a), f(b)]`,
 - `x < f⁻¹ y ⇒ f x < y`;
 - `f⁻¹ y < x ⇒ y < f x`.
 
+TODO: if `f` is ε-δ continuous at `x`, the converses hold.
+
 ```agda
 module _
   { l l1 l2 : Level}
@@ -633,6 +635,8 @@ For any `x ∈ [a. b]` and `y ∈ [f(a), f(b)]`,
 
 - `y ≤ f x ⇒ f⁻¹ y ≤ x`;
 - `f x ≤ y ⇒ x ≤ f⁻¹ y`.
+
+TODO: if `f` is ε-δ continuous at `x`, the converses hold.
 
 ```agda
 module _

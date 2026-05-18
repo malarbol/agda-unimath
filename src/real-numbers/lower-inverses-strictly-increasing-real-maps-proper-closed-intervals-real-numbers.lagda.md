@@ -170,7 +170,7 @@ module _
                   ( I)
                   ( l1))
                 ( leq-sim-ℝ
-                  (clamp-leq-lower-bound-closed-interval-ℝ
+                  ( sim-clamp-leq-lower-bound-closed-interval-ℝ
                     ( closed-interval-proper-closed-interval-ℝ I)
                     ( raise-real-ℚ l1 q)
                     ( lemma-q≤a))))

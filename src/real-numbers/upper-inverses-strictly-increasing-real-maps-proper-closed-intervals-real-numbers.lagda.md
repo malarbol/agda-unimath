@@ -67,7 +67,7 @@ A
 `f : [a, b] → ℝ` on a
 [proper closed interval](real-numbers.proper-closed-intervals-real-numbers.md)
 has an
-{{#concept "upper inverse" Disambiguation"of a strictlyt increasing real map on a proper closed interval Agda=upper-real-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ}}
+{{#concept "upper inverse" Disambiguation"of a strictly increasing real map on a proper closed interval Agda=upper-real-map-inv-is-strictly-increasing-real-map-proper-closed-interval-ℝ}}
 defined in the
 [upper dedekind real numbers](real-numbers.upper-dedekind-real-numbers.md)
 defined as follows:

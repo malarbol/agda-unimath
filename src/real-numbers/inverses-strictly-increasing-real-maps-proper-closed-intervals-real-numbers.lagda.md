@@ -98,9 +98,28 @@ real map:
    f⁻¹ : [f(a), f(b)] → ℝ
 ```
 
-TODO:
+For any `x ∈ [a, b]` and `y ∈ [f(a), f(b)]`, the following propositions hold:
 
-- prove that `f⁻¹` **is** an inverse of `f`.
+- `x < f⁻¹ y ⇒ f x < y`;
+- `f⁻¹ y < x ⇒ y < f x`;
+- `y ≤ f x ⇒ f⁻¹ y ≤ x`;
+- `f x ≤ y ⇒ x ≤ f⁻¹ y`.
+
+In particular, for any `x ∈ [a, b]`, `x ≤ f⁻¹ (f x) ≤ x` so `f⁻¹` is a
+[retraction](foundation.retractions.md) of `f`.
+
+Moreover, if `f` is
+[ε-δ continuous](metric-spaces.pointwise-epsilon-delta-continuous-maps-metric-spaces.md)
+at `x`, the converses hold:
+
+- `f x < y ⇒ x < f⁻¹ y`;
+- `y < f x ⇒ f⁻¹ y < x` ;
+- `f⁻¹ y ≤ x ⇒ y ≤ f x` ;
+- `x ≤ f⁻¹ y ⇒ f x ≤ y`;
+
+so, if `f` is ε-δ continuous at `f⁻¹ y`, `y ≤ f (f⁻¹ y) ≤ y`. Therefore, any ε-δ
+continuous strictly increasing map `f : [a, b] → ℝ` induces an
+[equivalence](foundation.equivalences.md) `[a, b] ≃ [f(a), f(b)]`.
 
 ## Propositions
 

@@ -102,6 +102,39 @@ module _
     is-strictly-increasing-prop-real-map-proper-closed-interval-ℝ
 ```
 
+### The type of strictly increasing real maps on a proper closed interval
+
+```agda
+module _
+  {l1 l2 : Level} (l3 l4 : Level)
+  (I : proper-closed-interval-ℝ l1 l2)
+  where
+
+  strictly-increasing-real-map-proper-closed-interval-ℝ :
+    UU (l1 ⊔ l2 ⊔ lsuc l3 ⊔ lsuc l4)
+  strictly-increasing-real-map-proper-closed-interval-ℝ =
+    Σ ( real-map-proper-closed-interval-ℝ l3 l4 I)
+      ( is-strictly-increasing-real-map-proper-closed-interval-ℝ I)
+
+module _
+  {l1 l2 l3 l4 : Level} {I : proper-closed-interval-ℝ l1 l2}
+  (f : strictly-increasing-real-map-proper-closed-interval-ℝ l3 l4 I)
+  where
+
+  map-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    type-proper-closed-interval-ℝ l3 I → ℝ l4
+  map-strictly-increasing-real-map-proper-closed-interval-ℝ = pr1 f
+
+  preserves-le-map-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    preserves-strict-order-map-Strict-Preorder
+      ( strict-preorder-Strict-Subpreorder
+        ( strict-preorder-ℝ l3)
+        ( subtype-proper-closed-interval-ℝ l3 I))
+      ( strict-preorder-ℝ l4)
+      ( map-strictly-increasing-real-map-proper-closed-interval-ℝ)
+  preserves-le-map-strictly-increasing-real-map-proper-closed-interval-ℝ = pr2 f
+```
+
 ## Properties
 
 ### A strictly increasing map on a proper closed interval is increasing
@@ -377,119 +410,4 @@ module _
       ( x∈I)
       ( y)
       ( y∈I)
-```
-
-### The lower preimage of a strictly increasing map on a proper closed interval
-
-```agda
-module _
-  { l1 l2 l3 l4 : Level}
-  ( I : proper-closed-interval-ℝ l3 l4)
-  ( f : real-map-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) l2 I)
-  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
-  ( y@(v , lo-bound , hi-bound) :
-    type-proper-closed-interval-ℝ
-      ( l2)
-      ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-        ( I)
-        ( f)
-        ( H)))
-  where
-
-  subtype-lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
-    subtype (l2 ⊔ l4) ℚ
-  subtype-lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-    q =
-    ( lower-cut-ℝ (upper-bound-proper-closed-interval-ℝ I) q) ∧
-    ( leq-prop-ℝ
-      ( clamp-real-map-proper-closed-interval-ℝ I f
-        ( raise-real-ℚ l1 q))
-      ( v))
-
-  abstract
-    is-lower-subtype-lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
-      is-downwards-closed-subtype-Preorder
-        ( ℚ-Preorder)
-        ( subtype-lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ)
-    is-lower-subtype-lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-      q r r≤q (Lq , Hq) =
-      ( ( leq-lower-cut-ℝ
-          ( upper-bound-proper-closed-interval-ℝ I)
-          ( r≤q)
-          ( Lq)) ,
-        transitive-leq-ℝ
-          ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 r))
-          ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 q))
-          ( v)
-          ( Hq)
-          ( is-increasing-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-            ( I)
-            ( f)
-            ( H)
-            ( _)
-            ( _)
-            ( leq-raise-leq-ℝ l1 (preserves-leq-real-ℚ r≤q))))
-
-  lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
-    lower-type-Preorder (l2 ⊔ l4) ℚ-Preorder
-  lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ =
-    ( subtype-lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ ,
-      is-lower-subtype-lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ)
-```
-
-### The upper preimage of a strictly increasing map on a proper closed interval
-
-```agda
-module _
-  { l1 l2 l3 l4 : Level}
-  ( I : proper-closed-interval-ℝ l3 l4)
-  ( f : real-map-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) l2 I)
-  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
-  ( y@(v , lo-bound , hi-bound) :
-    type-proper-closed-interval-ℝ
-      ( l2)
-      ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-        ( I)
-        ( f)
-        ( H)))
-  where
-
-  subtype-upper-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
-    subtype (l2 ⊔ l3) ℚ
-  subtype-upper-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-    q =
-    ( upper-cut-ℝ (lower-bound-proper-closed-interval-ℝ I) q) ∧
-    ( leq-prop-ℝ
-      ( v)
-      ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 q)))
-
-  abstract
-    is-upper-subtype-upper-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
-      is-upwards-closed-subtype-Preorder
-        ( ℚ-Preorder)
-        ( subtype-upper-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ)
-    is-upper-subtype-upper-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-      r q r≤q (Lr , Hr) =
-      ( ( leq-upper-cut-ℝ
-          ( lower-bound-proper-closed-interval-ℝ I)
-          ( r≤q)
-          ( Lr)) ,
-        ( transitive-leq-ℝ
-          ( v)
-          ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 r))
-          ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 q))
-          ( is-increasing-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-            ( I)
-            ( f)
-            ( H)
-            ( _)
-            ( _)
-            ( leq-raise-leq-ℝ l1 (preserves-leq-real-ℚ r≤q)))
-          ( Hr)))
-
-  upper-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
-    upper-type-Preorder (l2 ⊔ l3) ℚ-Preorder
-  upper-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ =
-    ( subtype-upper-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ ,
-      is-upper-subtype-upper-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ)
 ```

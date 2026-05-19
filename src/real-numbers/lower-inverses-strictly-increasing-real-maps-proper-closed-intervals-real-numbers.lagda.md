@@ -9,6 +9,7 @@ module real-numbers.lower-inverses-strictly-increasing-real-maps-proper-closed-i
 <details><summary>Imports</summary>
 
 ```agda
+open import elementary-number-theory.inequality-rational-numbers
 open import elementary-number-theory.rational-numbers
 open import elementary-number-theory.rounded-lower-subsets-rational-numbers
 open import elementary-number-theory.strict-inequality-rational-numbers
@@ -34,6 +35,7 @@ open import foundation.subtypes
 open import foundation.transport-along-identifications
 open import foundation.universe-levels
 
+open import order-theory.lower-types-preorders
 open import order-theory.order-preserving-maps-preorders
 open import order-theory.strict-order-preserving-maps
 open import order-theory.strict-subpreorders
@@ -80,6 +82,64 @@ i.e., `r` is lesser than the lower inverse iff there exists a rational interior
 point `q ∈ [r, b]` with image lesser than or equal to `y`.
 
 ## Definitions
+
+### The lower preimage of a strictly increasing map on a proper closed interval
+
+```agda
+module _
+  { l1 l2 l3 l4 : Level}
+  ( I : proper-closed-interval-ℝ l3 l4)
+  ( f : real-map-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) l2 I)
+  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
+  ( y@(v , lo-bound , hi-bound) :
+    type-proper-closed-interval-ℝ
+      ( l2)
+      ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( I)
+        ( f)
+        ( H)))
+  where
+
+  subtype-lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    subtype (l2 ⊔ l4) ℚ
+  subtype-lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+    q =
+    ( lower-cut-ℝ (upper-bound-proper-closed-interval-ℝ I) q) ∧
+    ( leq-prop-ℝ
+      ( clamp-real-map-proper-closed-interval-ℝ I f
+        ( raise-real-ℚ l1 q))
+      ( v))
+
+  abstract
+    is-lower-subtype-lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      is-downwards-closed-subtype-Preorder
+        ( ℚ-Preorder)
+        ( subtype-lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ)
+    is-lower-subtype-lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      q r r≤q (Lq , Hq) =
+      ( ( leq-lower-cut-ℝ
+          ( upper-bound-proper-closed-interval-ℝ I)
+          ( r≤q)
+          ( Lq)) ,
+        transitive-leq-ℝ
+          ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 r))
+          ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 q))
+          ( v)
+          ( Hq)
+          ( is-increasing-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+            ( I)
+            ( f)
+            ( H)
+            ( _)
+            ( _)
+            ( leq-raise-leq-ℝ l1 (preserves-leq-real-ℚ r≤q))))
+
+  lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    lower-type-Preorder (l2 ⊔ l4) ℚ-Preorder
+  lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ =
+    ( subtype-lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ ,
+      is-lower-subtype-lower-preimage-is-strictly-increasing-real-map-proper-closed-interval-ℝ)
+```
 
 ### The lower inverse of a strictly increasing map on a proper closed interval
 

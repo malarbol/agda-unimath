@@ -125,14 +125,14 @@ module _
     type-proper-closed-interval-ℝ l3 I → ℝ l4
   map-strictly-increasing-real-map-proper-closed-interval-ℝ = pr1 f
 
-  preserves-le-map-strictly-increasing-real-map-proper-closed-interval-ℝ :
+  le-map-strictly-increasing-real-map-proper-closed-interval-ℝ :
     preserves-strict-order-map-Strict-Preorder
       ( strict-preorder-Strict-Subpreorder
         ( strict-preorder-ℝ l3)
         ( subtype-proper-closed-interval-ℝ l3 I))
       ( strict-preorder-ℝ l4)
       ( map-strictly-increasing-real-map-proper-closed-interval-ℝ)
-  preserves-le-map-strictly-increasing-real-map-proper-closed-interval-ℝ = pr2 f
+  le-map-strictly-increasing-real-map-proper-closed-interval-ℝ = pr2 f
 ```
 
 ## Properties
@@ -290,53 +290,45 @@ module _
   (I : proper-closed-interval-ℝ l3 l4)
   (f : real-map-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) l2 I)
   (H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
-  where abstract
-
-  is-in-proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
-    (x : type-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) I) →
-    is-in-proper-closed-interval-ℝ
-      ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-        ( I)
-        ( f)
-        ( H))
-      ( f x)
-  is-in-proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-    x@(u , lo-bound , hi-bound) =
-    ( ( is-increasing-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-        ( I)
-        ( f)
-        ( H)
-        ( raise-in-proper-closed-interval-lower-bound-proper-closed-interval-ℝ
-          ( I)
-          ( l1))
-        ( x)
-        ( preserves-leq-left-sim-ℝ
-          ( sim-raise-in-proper-closed-interval-lower-bound-proper-closed-interval-ℝ
-            ( I)
-            ( l1))
-          ( lo-bound))) ,
-      ( is-increasing-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-        ( I)
-        ( f)
-        ( H)
-        ( x)
-        ( raise-in-proper-closed-interval-upper-bound-proper-closed-interval-ℝ
-          ( I)
-          ( l1))
-        ( preserves-leq-right-sim-ℝ
-          ( sim-raise-in-proper-closed-interval-upper-bound-proper-closed-interval-ℝ
-            ( I)
-            ( l1))
-          ( hi-bound))))
-```
-
-```agda
-module _
-  {l1 l2 l3 l4 : Level}
-  (I : proper-closed-interval-ℝ l3 l4)
-  (f : real-map-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) l2 I)
-  (H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
   where
+
+  abstract
+    is-in-proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+      (x : type-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) I) →
+      is-in-proper-closed-interval-ℝ
+        ( proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H))
+        ( f x)
+    is-in-proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      x@(u , lo-bound , hi-bound) =
+      ( ( is-increasing-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)
+          ( raise-in-proper-closed-interval-lower-bound-proper-closed-interval-ℝ
+            ( I)
+            ( l1))
+          ( x)
+          ( preserves-leq-left-sim-ℝ
+            ( sim-raise-in-proper-closed-interval-lower-bound-proper-closed-interval-ℝ
+              ( I)
+              ( l1))
+            ( lo-bound))) ,
+        ( is-increasing-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( I)
+          ( f)
+          ( H)
+          ( x)
+          ( raise-in-proper-closed-interval-upper-bound-proper-closed-interval-ℝ
+            ( I)
+            ( l1))
+          ( preserves-leq-right-sim-ℝ
+            ( sim-raise-in-proper-closed-interval-upper-bound-proper-closed-interval-ℝ
+              ( I)
+              ( l1))
+            ( hi-bound))))
 
   map-proper-closed-interval-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
     map-proper-closed-interval-ℝ _ _
@@ -349,10 +341,48 @@ module _
     x =
     ( f x ,
       is-in-proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-        ( I)
-        ( f)
-        ( H)
         ( x))
+```
+
+### The image of a strictly increasing map in a proper closed interval
+
+```agda
+module _
+  { l1 l2 l3 l4 : Level}
+  { I : proper-closed-interval-ℝ l3 l4}
+  ( f :
+    strictly-increasing-real-map-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) l2 I)
+  where
+
+  im-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    proper-closed-interval-ℝ l2 l2
+  im-strictly-increasing-real-map-proper-closed-interval-ℝ =
+    proper-closed-interval-im-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      ( I)
+      ( map-strictly-increasing-real-map-proper-closed-interval-ℝ f)
+      ( le-map-strictly-increasing-real-map-proper-closed-interval-ℝ f)
+```
+
+### A strictly increasing map `f : [a, b] → ℝ` induces a map `f : [a, b] → [f(a), f(b)]`
+
+```agda
+module _
+  { l1 l2 l3 l4 : Level}
+  { I : proper-closed-interval-ℝ l3 l4}
+  ( f :
+    strictly-increasing-real-map-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) l2 I)
+  where
+
+  clamp-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    map-proper-closed-interval-ℝ _ _
+      ( I)
+      ( im-strictly-increasing-real-map-proper-closed-interval-ℝ f)
+  clamp-strictly-increasing-real-map-proper-closed-interval-ℝ
+    =
+    map-proper-closed-interval-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      ( I)
+      ( map-strictly-increasing-real-map-proper-closed-interval-ℝ f)
+      ( le-map-strictly-increasing-real-map-proper-closed-interval-ℝ f)
 ```
 
 ### Clamping a strictly increasing map produces an increasing map, strictly increasing on the interval
@@ -363,16 +393,15 @@ module _
   ( I : proper-closed-interval-ℝ l3 l4)
   ( f : real-map-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) l2 I)
   ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
+  ( x y : ℝ l1)
   where abstract
 
   leq-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
-    (x y : ℝ l1) →
     leq-ℝ x y →
     leq-ℝ
       ( clamp-real-map-proper-closed-interval-ℝ I f x)
       ( clamp-real-map-proper-closed-interval-ℝ I f y)
-  leq-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ
-    x y Hxy =
+  leq-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ Hxy =
     is-increasing-is-strictly-increasing-real-map-proper-closed-interval-ℝ I f H
       ( _)
       ( _)
@@ -381,18 +410,8 @@ module _
         ( x)
         ( y)
         ( Hxy))
-```
-
-```agda
-module _
-  { l1 l2 l3 l4 : Level}
-  ( I : proper-closed-interval-ℝ l3 l4)
-  ( f : real-map-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) l2 I)
-  ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
-  where abstract
 
   le-map-clamp-is-strictly-increasing-real-map-is-in-proper-closed-interval-ℝ :
-    (x y : ℝ l1) →
     (x∈I : is-in-proper-closed-interval-ℝ I x) →
     (y∈I : is-in-proper-closed-interval-ℝ I y) →
     le-ℝ x y →
@@ -400,7 +419,7 @@ module _
       ( clamp-real-map-proper-closed-interval-ℝ I f x)
       ( clamp-real-map-proper-closed-interval-ℝ I f y)
   le-map-clamp-is-strictly-increasing-real-map-is-in-proper-closed-interval-ℝ
-    x y x∈I y∈I =
+    x∈I y∈I =
     H
       ( clamp-proper-closed-interval-ℝ I x)
       ( clamp-proper-closed-interval-ℝ I y) ∘

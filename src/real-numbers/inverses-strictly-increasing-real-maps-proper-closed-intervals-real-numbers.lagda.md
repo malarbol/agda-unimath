@@ -408,7 +408,7 @@ module _
                     ( v)
                     ( clamp-real-map-proper-closed-interval-ℝ I f
                       ( raise-real-ℚ l1 s))
-                    ( lemma-located-cut-map-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+                    ( le-map-clamp-is-strictly-increasing-real-map-is-in-proper-closed-interval-ℝ
                       ( I)
                       ( f)
                       ( H)
@@ -637,7 +637,7 @@ module _
             ( Hr))))
 ```
 
-### Interchange law for strict inequality
+### Interchange laws for strict inequality
 
 For any `x ∈ [a, b]` and `y ∈ [f(a), f(b)]`,
 
@@ -975,7 +975,7 @@ module _
               ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l q))
               ( v)
               ( leq-le-ℝ lemma-le-fq-y)
-              ( is-increasing-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+              ( leq-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ
                 ( I)
                 ( f)
                 ( H)
@@ -1162,7 +1162,7 @@ module _
               ( v)
               ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l p))
               ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l q))
-              ( is-increasing-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+              ( leq-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ
                 ( I)
                 ( f)
                 ( H)
@@ -1177,7 +1177,7 @@ module _
           ( intro-exists q (q<q' , lemma-hi-lo-q , lemma-leq-fvq) , q'<x)
 ```
 
-### Interchange law for inequality
+### Interchange laws for inequality
 
 For any `x ∈ [a. b]` and `y ∈ [f(a), f(b)]`,
 

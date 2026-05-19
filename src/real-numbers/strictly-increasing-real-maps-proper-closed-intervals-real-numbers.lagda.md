@@ -365,13 +365,13 @@ module _
   ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
   where abstract
 
-  is-increasing-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+  leq-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
     (x y : ℝ l1) →
     leq-ℝ x y →
     leq-ℝ
       ( clamp-real-map-proper-closed-interval-ℝ I f x)
       ( clamp-real-map-proper-closed-interval-ℝ I f y)
-  is-increasing-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+  leq-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ
     x y Hxy =
     is-increasing-is-strictly-increasing-real-map-proper-closed-interval-ℝ I f H
       ( _)
@@ -391,7 +391,7 @@ module _
   ( H : is-strictly-increasing-real-map-proper-closed-interval-ℝ I f)
   where abstract
 
-  lemma-located-cut-map-is-strictly-increasing-real-map-proper-closed-interval-ℝ :
+  le-map-clamp-is-strictly-increasing-real-map-is-in-proper-closed-interval-ℝ :
     (x y : ℝ l1) →
     (x∈I : is-in-proper-closed-interval-ℝ I x) →
     (y∈I : is-in-proper-closed-interval-ℝ I y) →
@@ -399,7 +399,7 @@ module _
     le-ℝ
       ( clamp-real-map-proper-closed-interval-ℝ I f x)
       ( clamp-real-map-proper-closed-interval-ℝ I f y)
-  lemma-located-cut-map-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+  le-map-clamp-is-strictly-increasing-real-map-is-in-proper-closed-interval-ℝ
     x y x∈I y∈I =
     H
       ( clamp-proper-closed-interval-ℝ I x)

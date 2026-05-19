@@ -124,7 +124,7 @@ module _
           ( v)
           ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 r))
           ( clamp-real-map-proper-closed-interval-ℝ I f (raise-real-ℚ l1 q))
-          ( is-increasing-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( leq-map-clamp-is-strictly-increasing-real-map-proper-closed-interval-ℝ
             ( I)
             ( f)
             ( H)

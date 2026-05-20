@@ -12,14 +12,18 @@ module real-numbers.retracts-strictly-increasing-real-maps-proper-closed-interva
 open import elementary-number-theory.rational-numbers
 open import elementary-number-theory.strict-inequality-rational-numbers
 
+open import foundation.action-on-identifications-functions
 open import foundation.dependent-pair-types
 open import foundation.disjoint-subtypes
 open import foundation.disjunction
 open import foundation.double-negation
+open import foundation.embeddings
 open import foundation.empty-types
+open import foundation.equivalences
 open import foundation.existential-quantification
 open import foundation.function-types
 open import foundation.identity-types
+open import foundation.injective-maps
 open import foundation.negation
 open import foundation.propositional-truncations
 open import foundation.propositions
@@ -797,4 +801,108 @@ module _
           ( x)
           ( clamp-strictly-increasing-real-map-proper-closed-interval-ℝ f x)
           ( refl-leq-ℝ _)))
+```
+
+### The retraction map is surjective
+
+```agda
+module _
+  { l l1 l2 : Level}
+  { I : proper-closed-interval-ℝ l1 l2}
+  ( f :
+    strictly-increasing-real-map-proper-closed-interval-ℝ
+      ( l ⊔ l1 ⊔ l2)
+      ( l ⊔ l1 ⊔ l2)
+      ( I))
+  where abstract
+
+  is-surjective-map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    is-surjective
+      ( in-interval-map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( f))
+  is-surjective-map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
+    =
+    is-surjective-has-section
+      ( clamp-strictly-increasing-real-map-proper-closed-interval-ℝ f ,
+        is-retraction-map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( f))
+```
+
+### If the retraction is strictly increasing then it's an equivalence
+
+```agda
+module _
+  { l l1 l2 : Level}
+  { I : proper-closed-interval-ℝ l1 l2}
+  ( f :
+    strictly-increasing-real-map-proper-closed-interval-ℝ
+      ( l ⊔ l1 ⊔ l2)
+      ( l ⊔ l1 ⊔ l2)
+      ( I))
+  where abstract
+
+  is-equiv-map-inv-is-strictly-increasing-map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      ( im-strictly-increasing-real-map-proper-closed-interval-ℝ f)
+      ( map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ f) →
+    is-equiv
+      ( in-interval-map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( f))
+  is-equiv-map-inv-is-strictly-increasing-map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
+    K =
+    is-equiv-is-emb-is-surjective
+      ( is-surjective-map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( f))
+      ( is-emb-is-injective
+        ( is-set-type-subtype
+          ( subtype-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I)
+          ( is-set-ℝ _))
+        ( λ {y} {y'} Hy →
+          eq-type-subtype
+            ( subtype-proper-closed-interval-ℝ
+              ( l ⊔ l1 ⊔ l2)
+              ( im-strictly-increasing-real-map-proper-closed-interval-ℝ f))
+            ( ap
+              ( pr1)
+              ( is-injective-is-strictly-increasing-real-map-proper-closed-interval-ℝ
+                ( im-strictly-increasing-real-map-proper-closed-interval-ℝ f)
+                ( map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
+                  ( f))
+                ( K)
+                ( ap pr1 Hy)))))
+```
+
+### If the retraction is strictly increasing then the map is an equivalence
+
+```agda
+module _
+  { l l1 l2 : Level}
+  { I : proper-closed-interval-ℝ l1 l2}
+  ( f :
+    strictly-increasing-real-map-proper-closed-interval-ℝ
+      ( l ⊔ l1 ⊔ l2)
+      ( l ⊔ l1 ⊔ l2)
+      ( I))
+  where abstract
+
+  is-equiv-map-is-strictly-increasing-map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    is-strictly-increasing-real-map-proper-closed-interval-ℝ
+      ( im-strictly-increasing-real-map-proper-closed-interval-ℝ f)
+      ( map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ f) →
+    is-equiv
+      ( clamp-strictly-increasing-real-map-proper-closed-interval-ℝ f)
+  is-equiv-map-is-strictly-increasing-map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
+    K =
+    is-equiv-right-factor
+      ( in-interval-map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( f))
+      ( clamp-strictly-increasing-real-map-proper-closed-interval-ℝ f)
+      ( is-equiv-map-inv-is-strictly-increasing-map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( f)
+        ( K))
+      ( is-equiv-htpy
+        ( id)
+        ( is-retraction-map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
+          ( f))
+        ( is-equiv-id))
 ```

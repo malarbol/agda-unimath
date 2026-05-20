@@ -12,6 +12,7 @@ module real-numbers.inverses-epsilon-delta-continuous-strictly-increasing-real-m
 open import elementary-number-theory.rational-numbers
 open import elementary-number-theory.strict-inequality-rational-numbers
 
+open import foundation.action-on-identifications-functions
 open import foundation.binary-transport
 open import foundation.dependent-pair-types
 open import foundation.disjunction
@@ -726,4 +727,113 @@ module _
           ( cont-f))
         ( is-retraction-map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
           ( f))
+```
+
+### The inverse of an ε-δ continuous strictly increasing map is strictly increasing
+
+```agda
+module _
+  { l l1 l2 : Level}
+  { I : proper-closed-interval-ℝ l1 l2}
+  ( f :
+    strictly-increasing-real-map-proper-closed-interval-ℝ
+      ( l ⊔ l1 ⊔ l2)
+      ( l ⊔ l1 ⊔ l2)
+      ( I))
+  ( cont-f :
+    is-pointwise-ε-δ-continuous-map-Metric-Space
+      ( metric-space-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I)
+      ( metric-space-ℝ (l ⊔ l1 ⊔ l2))
+      ( map-strictly-increasing-real-map-proper-closed-interval-ℝ f))
+  where abstract
+
+  preserves-le-map-inv-is-ε-δ-continuous-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    ( y@(v , _ , _) y'@(v' , _ , _) :
+      type-im-strictly-increasing-real-map-proper-closed-interval-ℝ
+        ( l ⊔ l1 ⊔ l2)
+        ( f)) →
+    le-ℝ v v' →
+    le-ℝ
+      ( map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ f y)
+      ( map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ f y')
+  preserves-le-map-inv-is-ε-δ-continuous-strictly-increasing-real-map-proper-closed-interval-ℝ
+    y@(v , lo-y , hi-y) y'@(v' , lo-y' , hi-y') Kvv' =
+    let
+      open
+        do-syntax-trunc-Prop
+          ( le-prop-ℝ
+            ( map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
+              ( f)
+              ( y))
+            ( map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
+              ( f)
+              ( y')))
+    in do
+      (z , lo-z , hi-z) ← dense-le-ℝ v v' Kvv'
+
+      let
+        is-in-interval-z :
+          is-in-proper-closed-interval-ℝ
+            ( im-strictly-increasing-real-map-proper-closed-interval-ℝ f)
+            ( z)
+        is-in-interval-z =
+          ( leq-le-ℝ (concatenate-leq-le-ℝ _ _ _ lo-y lo-z) ,
+            leq-le-ℝ (concatenate-le-leq-ℝ _ _ _ hi-z hi-y'))
+
+        x : type-proper-closed-interval-ℝ (l ⊔ l1 ⊔ l2) I
+        x =
+          in-interval-map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
+            ( f)
+            ( raise-type-proper-closed-interval-ℝ
+              ( im-strictly-increasing-real-map-proper-closed-interval-ℝ f)
+              ( l ⊔ l1 ⊔ l2)
+              ( z , is-in-interval-z))
+
+        compute-fx :
+          map-strictly-increasing-real-map-proper-closed-interval-ℝ f x ＝
+          raise-ℝ (l ⊔ l1 ⊔ l2) z
+        compute-fx =
+          ap
+            ( pr1)
+            ( is-section-map-inv-ε-δ-continuous-strictly-increasing-real-map-proper-closed-interval-ℝ
+              ( f)
+              ( cont-f)
+              ( raise-type-proper-closed-interval-ℝ
+                ( im-strictly-increasing-real-map-proper-closed-interval-ℝ f)
+                ( l ⊔ l1 ⊔ l2)
+                ( z , is-in-interval-z)))
+
+        lemma-le-y :
+          le-ℝ
+            ( map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ f y)
+            ( pr1 x)
+        lemma-le-y =
+          interchange-le-left-map-is-ε-δ-continuous-strictly-increasing-real-map-proper-closed-interval-ℝ
+            ( f)
+            ( x)
+            ( y)
+            ( cont-f x)
+            ( inv-tr
+              ( le-ℝ v)
+              ( compute-fx)
+              ( preserves-le-right-raise-ℝ (l ⊔ l1 ⊔ l2) lo-z))
+
+        lemma-le-y' :
+          le-ℝ
+            ( pr1 x)
+            ( map-inv-strictly-increasing-real-map-proper-closed-interval-ℝ
+              ( f)
+              ( y'))
+        lemma-le-y' =
+          interchange-le-right-map-is-ε-δ-continuous-strictly-increasing-real-map-proper-closed-interval-ℝ
+            ( f)
+            ( x)
+            ( y')
+            ( cont-f x)
+            ( inv-tr
+              ( λ w → le-ℝ w v')
+              ( compute-fx)
+              ( preserves-le-left-raise-ℝ (l ⊔ l1 ⊔ l2) hi-z))
+
+      transitive-le-ℝ _ _ _ lemma-le-y' lemma-le-y
 ```

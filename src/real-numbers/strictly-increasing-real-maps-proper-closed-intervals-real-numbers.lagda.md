@@ -361,6 +361,20 @@ module _
       ( I)
       ( map-strictly-increasing-real-map-proper-closed-interval-ℝ f)
       ( le-map-strictly-increasing-real-map-proper-closed-interval-ℝ f)
+
+module _
+  { l1 l2 l3 l4 : Level}
+  { I : proper-closed-interval-ℝ l3 l4}
+  ( l : Level)
+  ( f :
+    strictly-increasing-real-map-proper-closed-interval-ℝ (l1 ⊔ l3 ⊔ l4) l2 I)
+  where
+
+  type-im-strictly-increasing-real-map-proper-closed-interval-ℝ :
+    UU (l2 ⊔ lsuc l)
+  type-im-strictly-increasing-real-map-proper-closed-interval-ℝ =
+    type-proper-closed-interval-ℝ l
+      ( im-strictly-increasing-real-map-proper-closed-interval-ℝ f)
 ```
 
 ### A strictly increasing map `f : [a, b] → ℝ` induces a map `f : [a, b] → [f(a), f(b)]`

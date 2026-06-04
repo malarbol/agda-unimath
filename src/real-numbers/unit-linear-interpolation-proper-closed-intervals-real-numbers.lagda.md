@@ -63,7 +63,7 @@ open import real-numbers.unit-closed-interval-real-numbers
 ## Idea
 
 The
-{{#concept "unit linear interpolation" Disambiguation="of a proper closed interval of real numbers" Agda=real-map-unit-linear-interpolation-proper-closed-interval-ℝ WDID=Q2266329}}
+{{#concept "unit linear interpolation" Disambiguation="of a proper closed interval of real numbers" WD="linear interpolation" WDID=Q2266329 Agda=real-map-unit-linear-interpolation-proper-closed-interval-ℝ}}
 w.r.t. a
 [proper closed interval](real-numbers.proper-closed-intervals-real-numbers.md)
 `[a, b]` is the map `ℝ → ℝ` defined by

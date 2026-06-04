@@ -153,6 +153,7 @@ open import real-numbers.uniform-homeomorphism-unit-interval-proper-closed-inter
 open import real-numbers.uniformly-continuous-endomaps-real-numbers public
 open import real-numbers.uniformly-continuous-real-maps-proper-closed-intervals-real-numbers public
 open import real-numbers.unit-closed-interval-real-numbers public
+open import real-numbers.unit-linear-interpolation-proper-closed-intervals-real-numbers public
 open import real-numbers.upper-dedekind-real-numbers public
 open import real-numbers.zero-nonnegative-real-numbers public
 open import real-numbers.zero-real-numbers public

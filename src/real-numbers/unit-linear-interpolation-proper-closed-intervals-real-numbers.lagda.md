@@ -21,6 +21,8 @@ open import foundation.subtypes
 open import foundation.transport-along-identifications
 open import foundation.universe-levels
 
+open import logic.functoriality-existential-quantification
+
 open import metric-spaces.isometries-metric-spaces
 open import metric-spaces.lipschitz-maps-metric-spaces
 open import metric-spaces.metric-spaces
@@ -77,7 +79,7 @@ It is [invertible](foundation.equivalences.md) with inverse
 ```
 
 The linear interpolation map and its inverse are
-[lipschitz maps](metric-spaces.lipschitz-maps-metric-spaces.md) and preserve
+[lipschitz maps](metric-spaces.lipschitz-maps-metric-spaces.md), preserve
 [strict inequality](real-numbers.strict-inequality-real-numbers.md) and induce
 an equivalence `[0,1] ≃ [a,b]`.
 
@@ -558,6 +560,48 @@ module _
   equiv-map-unit-linear-interpolation-proper-closed-interval-ℝ =
     ( map-unit-linear-interpolation-proper-closed-interval-ℝ (l1 ⊔ l2 ⊔ l) I ,
       is-equiv-map-unit-linear-interpolation-proper-closed-interval-ℝ)
+```
+
+### The unit linear interpolation on `[a,b]` induces a uniform homemoorphism `[0,1] ≃ [a,b]`
+
+```agda
+module _
+  {l1 l2 : Level}
+  (l : Level)
+  (I@(a , b , a<b) : proper-closed-interval-ℝ l1 l2)
+  where
+
+  uniform-homeo-unit-linear-interpolation-proper-closed-interval-ℝ :
+    uniform-homeo-Metric-Space
+      ( metric-space-unit-interval-ℝ (l1 ⊔ l2 ⊔ l))
+      ( metric-space-proper-closed-interval-ℝ (l1 ⊔ l2 ⊔ l) I)
+  uniform-homeo-unit-linear-interpolation-proper-closed-interval-ℝ =
+    ( map-unit-linear-interpolation-proper-closed-interval-ℝ (l1 ⊔ l2 ⊔ l) I ,
+      is-equiv-map-unit-linear-interpolation-proper-closed-interval-ℝ
+        ( l)
+        ( I) ,
+      is-uniformly-continuous-map-is-lipschitz-map-Metric-Space
+        ( metric-space-unit-interval-ℝ (l1 ⊔ l2 ⊔ l))
+        ( metric-space-proper-closed-interval-ℝ (l1 ⊔ l2 ⊔ l) I)
+        ( map-unit-linear-interpolation-proper-closed-interval-ℝ
+          ( l1 ⊔ l2 ⊔ l)
+          ( I))
+        ( map-tot-exists
+          ( λ k H δ (x , _ , _) (y , _ , _) → H δ x y)
+          ( is-lipschitz-real-map-unit-linear-interpolation-proper-closed-interval-ℝ
+            ( l1 ⊔ l2 ⊔ l)
+            ( I))) ,
+      is-uniformly-continuous-map-is-lipschitz-map-Metric-Space
+        ( metric-space-proper-closed-interval-ℝ (l1 ⊔ l2 ⊔ l) I)
+        ( metric-space-unit-interval-ℝ (l1 ⊔ l2 ⊔ l))
+        ( map-inv-unit-linear-interpolation-proper-closed-interval-ℝ
+          ( l1 ⊔ l2 ⊔ l)
+          ( I))
+        ( map-tot-exists
+          ( λ k H δ (x , _ , _) (y , _ , _) → H δ x y)
+          ( is-lipschitz-real-map-inv-unit-linear-interpolation-proper-closed-interval-ℝ
+            ( l1 ⊔ l2 ⊔ l)
+            ( I))))
 ```
 
 ## External links

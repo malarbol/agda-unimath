@@ -36,15 +36,11 @@ open import univalent-combinatorics.standard-finite-types
 ## Idea
 
 The
-{{#concept "convolution" WD="convolution" Disambiguation="of sequences in commutative rings" Agda=convolution-sequence-Commutative-Ring WDID=Q210857}}
-of two [sequences](lists.sequences.md) `aₙ` and `bₙ` of elements in a
-[commutative ring](commutative-algebra.commutative-rings.md) is the new sequence
-
-```text
-  cₙ = ∑_{0 ≤ i ≤ n} aₙ bₙ₋ᵢ
-```
-
-With pairwise addition, this operation forms a new commutative ring.
+{{#concept "convolution" WD="convolution" Disambiguation="ring of sequences in commutative rings" Agda=convolution-sequence-Commutative-Ring WDID=Q210857}}
+[commutative ring](commutative-algebra.commutative-rings.md)
+[sequences](ring-theory.sequences-rings.md) in a commutative ring is the
+[ring](ring-theory.rings.md) of sequences with pointwise addition and
+[convolution product](ring-theory.convolution-sequences-rings.md).
 
 ## Definitions
 

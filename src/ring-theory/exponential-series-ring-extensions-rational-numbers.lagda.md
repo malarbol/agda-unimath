@@ -249,7 +249,22 @@ module _
       ( ring-Rational-Extension-Ring R)
       ( succ-ℕ n)
       ( inv ∘ htpy-expand-term-binomial-exponential) ∙
-    lemma-rhs
+    inv
+      ( eq-sum-finite-sum-count-Ring
+        ( ring-Rational-Extension-Ring R)
+        ( Fin-Finite-Type (succ-ℕ n))
+        ( count-Fin (succ-ℕ n))
+        ( expand-term-binomial-exponential)) ∙
+    sum-equiv-finite-Ring
+      ( ring-Rational-Extension-Ring R)
+      ( Fin-Finite-Type (succ-ℕ n))
+      ( finite-type-binary-sum-decomposition-ℕ n)
+      ( equiv-index-binomial-sum)
+      ( expand-term-binomial-exponential) ∙
+    htpy-sum-finite-Ring
+      ( ring-Rational-Extension-Ring R)
+      ( finite-type-binary-sum-decomposition-ℕ n)
+      ( htpy-interchange-expand-term-binomial-exponential)
     where
 
     term-xy :
@@ -371,16 +386,6 @@ module _
           ap
             ( pr1)
             ( is-section-map-inv-equiv equiv-index-binomial-sum ij)
-
-        lemma-j : dist-ℕ (nat-Fin (succ-ℕ n) idx) n ＝ j
-        lemma-j =
-          inv-tr
-            ( λ k → dist-ℕ k n ＝ j)
-            ( lemma-i)
-            ( inv
-              ( rewrite-right-add-dist-ℕ i j n
-                ( commutative-add-ℕ i j ∙ K)))
-
       in
         binary-tr
           ( λ u v →
@@ -389,38 +394,9 @@ module _
               ( term-ev-exponential-series-Rational-Extension-Ring R x u)
               ( term-ev-exponential-series-Rational-Extension-Ring R y v))
           ( lemma-i)
-          ( lemma-j)
-        ( lemma-interchange-expand-term-binomial-exponential
-          ( nat-Fin (succ-ℕ n) idx)
-          ( dist-ℕ (nat-Fin (succ-ℕ n) idx) n))
-
-    lemma-rhs :
-      sum-fin-sequence-type-Ring
-        ( ring-Rational-Extension-Ring R)
-        ( succ-ℕ n)
-        ( expand-term-binomial-exponential) ＝
-      sum-finite-Ring
-        ( ring-Rational-Extension-Ring R)
-        ( finite-type-binary-sum-decomposition-ℕ n)
-        ( λ (i , j , _) →
-          mul-Rational-Extension-Ring R
-            ( term-ev-exponential-series-Rational-Extension-Ring R x i)
-            ( term-ev-exponential-series-Rational-Extension-Ring R y j))
-    lemma-rhs =
-      inv
-        ( eq-sum-finite-sum-count-Ring
-          ( ring-Rational-Extension-Ring R)
-          ( Fin-Finite-Type (succ-ℕ n))
-          ( count-Fin (succ-ℕ n))
-          ( expand-term-binomial-exponential)) ∙
-      sum-equiv-finite-Ring
-        ( ring-Rational-Extension-Ring R)
-        ( Fin-Finite-Type (succ-ℕ n))
-        ( finite-type-binary-sum-decomposition-ℕ n)
-        ( equiv-index-binomial-sum)
-        ( expand-term-binomial-exponential) ∙
-      htpy-sum-finite-Ring
-        ( ring-Rational-Extension-Ring R)
-        ( finite-type-binary-sum-decomposition-ℕ n)
-        ( htpy-interchange-expand-term-binomial-exponential)
+          ( ap (λ k → dist-ℕ k n) lemma-i ∙
+            inv (rewrite-left-add-dist-ℕ j i n K))
+          ( lemma-interchange-expand-term-binomial-exponential
+            ( nat-Fin (succ-ℕ n) idx)
+            ( dist-ℕ (nat-Fin (succ-ℕ n) idx) n))
 ```

@@ -25,6 +25,7 @@ open import foundation.action-on-identifications-functions
 open import foundation.binary-transport
 open import foundation.dependent-pair-types
 open import foundation.equivalences
+open import foundation.function-extensionality
 open import foundation.function-types
 open import foundation.homotopies
 open import foundation.identity-types
@@ -43,6 +44,7 @@ open import ring-theory.commuting-elements-rings
 open import ring-theory.convolution-sequences-rings
 open import ring-theory.convolution-sequences-semirings
 open import ring-theory.integer-multiples-of-elements-rings
+open import ring-theory.invertible-elements-rings
 open import ring-theory.multiples-of-elements-rings
 open import ring-theory.powers-of-elements-rings
 open import ring-theory.ring-extensions-rational-numbers
@@ -399,6 +401,102 @@ module _
           ( lemma-interchange-expand-term-binomial-exponential
             ( nat-Fin (succ-ℕ n) idx)
             ( dist-ℕ (nat-Fin (succ-ℕ n) idx) n))
+```
+
+### Exponential series are invertible elements of the convolution ring
+
+```agda
+module _
+  {l : Level} (R : Rational-Extension-Ring l)
+  (x : type-Rational-Extension-Ring R)
+  where abstract
+
+  htpy-left-inverse-law-mul-convolution-exponential-series-Rational-Extension-Ring :
+    mul-convolution-sequence-Ring
+      ( ring-Rational-Extension-Ring R)
+      ( term-ev-exponential-series-Rational-Extension-Ring R
+        ( neg-Ring (ring-Rational-Extension-Ring R) x))
+      ( term-ev-exponential-series-Rational-Extension-Ring R x) ~
+    one-Ring (convolution-sequence-Ring (ring-Rational-Extension-Ring R))
+  htpy-left-inverse-law-mul-convolution-exponential-series-Rational-Extension-Ring
+    n =
+    inv
+      ( htpy-term-ev-add-mul-convolution-exponential-series-Rational-Extension-Ring
+        ( R)
+        ( neg-Ring (ring-Rational-Extension-Ring R) x)
+        ( x)
+        ( symmetric-commute-Ring
+          ( ring-Rational-Extension-Ring R)
+          ( x)
+          ( neg-Ring (ring-Rational-Extension-Ring R) x)
+          ( commute-neg-Ring
+            ( ring-Rational-Extension-Ring R)
+            ( refl-commute-Ring (ring-Rational-Extension-Ring R) x)))
+        ( n)) ∙
+    ap
+      ( λ u → term-ev-exponential-series-Rational-Extension-Ring R u n)
+      ( left-inverse-law-add-Ring (ring-Rational-Extension-Ring R) x) ∙
+    htpy-term-ev-zero-exponential-series-Rational-Extension-Ring R n
+
+  left-inverse-law-mul-convolution-exponential-series-Rational-Extension-Ring :
+    mul-convolution-sequence-Ring
+      ( ring-Rational-Extension-Ring R)
+      ( term-ev-exponential-series-Rational-Extension-Ring R
+        ( neg-Ring (ring-Rational-Extension-Ring R) x))
+      ( term-ev-exponential-series-Rational-Extension-Ring R x) ＝
+    one-Ring (convolution-sequence-Ring (ring-Rational-Extension-Ring R))
+  left-inverse-law-mul-convolution-exponential-series-Rational-Extension-Ring
+    =
+    eq-htpy
+      htpy-left-inverse-law-mul-convolution-exponential-series-Rational-Extension-Ring
+
+  htpy-right-inverse-law-mul-convolution-exponential-series-Rational-Extension-Ring :
+    mul-convolution-sequence-Ring
+      ( ring-Rational-Extension-Ring R)
+      ( term-ev-exponential-series-Rational-Extension-Ring R x)
+      ( term-ev-exponential-series-Rational-Extension-Ring R
+        ( neg-Ring (ring-Rational-Extension-Ring R) x)) ~
+    one-Ring (convolution-sequence-Ring (ring-Rational-Extension-Ring R))
+  htpy-right-inverse-law-mul-convolution-exponential-series-Rational-Extension-Ring
+    n =
+    inv
+      ( htpy-term-ev-add-mul-convolution-exponential-series-Rational-Extension-Ring
+        ( R)
+        ( x)
+        ( neg-Ring (ring-Rational-Extension-Ring R) x)
+        ( commute-neg-Ring
+          ( ring-Rational-Extension-Ring R)
+          ( refl-commute-Ring (ring-Rational-Extension-Ring R) x))
+        ( n)) ∙
+    ap
+      ( λ u → term-ev-exponential-series-Rational-Extension-Ring R u n)
+      ( right-inverse-law-add-Ring (ring-Rational-Extension-Ring R) x) ∙
+    htpy-term-ev-zero-exponential-series-Rational-Extension-Ring R n
+
+  right-inverse-law-mul-convolution-exponential-series-Rational-Extension-Ring :
+    mul-convolution-sequence-Ring
+      ( ring-Rational-Extension-Ring R)
+      ( term-ev-exponential-series-Rational-Extension-Ring R x)
+      ( term-ev-exponential-series-Rational-Extension-Ring R
+        ( neg-Ring (ring-Rational-Extension-Ring R) x)) ＝
+    one-Ring (convolution-sequence-Ring (ring-Rational-Extension-Ring R))
+  right-inverse-law-mul-convolution-exponential-series-Rational-Extension-Ring
+    =
+    eq-htpy
+      htpy-right-inverse-law-mul-convolution-exponential-series-Rational-Extension-Ring
+
+  is-invertible-mul-convolution-exponential-series-Rational-Extension-Ring :
+    is-invertible-element-Ring
+      ( convolution-sequence-Ring (ring-Rational-Extension-Ring R))
+      ( term-ev-exponential-series-Rational-Extension-Ring R x)
+  pr1 is-invertible-mul-convolution-exponential-series-Rational-Extension-Ring
+    =
+    term-ev-exponential-series-Rational-Extension-Ring R
+      ( neg-Ring (ring-Rational-Extension-Ring R) x)
+  pr2 is-invertible-mul-convolution-exponential-series-Rational-Extension-Ring
+      =
+      ( right-inverse-law-mul-convolution-exponential-series-Rational-Extension-Ring ,
+        left-inverse-law-mul-convolution-exponential-series-Rational-Extension-Ring)
 ```
 
 ## External links

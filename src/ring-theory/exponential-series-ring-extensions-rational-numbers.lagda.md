@@ -65,7 +65,7 @@ open import univalent-combinatorics.standard-finite-types
 ## Idea
 
 The
-{{#concept "exponential series" Disambiguation="in a ring extension of the rational numbers" Agda=coefficient-exponential-series-Rational-Extension-Ring}}
+{{#concept "exponential series" Disambiguation="in a ring extension of the rational numbers" Agda=coefficient-exponential-series-Rational-Extension-Ring WD="natural exponential function" WDID=Q47306354}}
 in a [ring extension of ℚ](ring-theory.ring-extensions-rational-numbers.md) `R`
 is the series with coefficients `n ↦ 1/n!`.
 
@@ -400,3 +400,9 @@ module _
             ( nat-Fin (succ-ℕ n) idx)
             ( dist-ℕ (nat-Fin (succ-ℕ n) idx) n))
 ```
+
+## External links
+
+- [exponential map](https://ncatlab.org/nlab/show/exponential+map) at $n$Lab
+- [Exponential function](https://en.wikipedia.org/wiki/Exponential_function) at
+  Wikipedia

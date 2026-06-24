@@ -30,6 +30,7 @@ open import ring-theory.dependent-products-rings public
 open import ring-theory.dependent-products-semirings public
 open import ring-theory.dirac-sequences-semirings public
 open import ring-theory.division-rings public
+open import ring-theory.exponential-series-ring-extensions-rational-numbers public
 open import ring-theory.free-rings-with-one-generator public
 open import ring-theory.full-ideals-rings public
 open import ring-theory.function-rings public

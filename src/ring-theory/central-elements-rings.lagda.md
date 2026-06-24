@@ -22,9 +22,9 @@ open import group-theory.central-elements-monoids
 
 open import ring-theory.central-elements-semirings
 open import ring-theory.commuting-elements-rings
+open import ring-theory.homomorphisms-rings
 open import ring-theory.integer-multiples-of-elements-rings
 open import ring-theory.invertible-elements-rings
-open import ring-theory.homomorphisms-rings
 open import ring-theory.rings
 ```
 

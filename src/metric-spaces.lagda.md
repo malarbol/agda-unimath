@@ -71,6 +71,7 @@ open import metric-spaces.action-on-modulated-cauchy-sequences-modulated-uniform
 open import metric-spaces.apartness-located-metric-spaces public
 open import metric-spaces.approximations-located-metric-spaces public
 open import metric-spaces.approximations-metric-spaces public
+open import metric-spaces.bisequential-diagrams-isometries-metric-spaces public
 open import metric-spaces.bounded-distance-decompositions-of-metric-spaces public
 open import metric-spaces.cartesian-products-metric-spaces public
 open import metric-spaces.category-of-metric-spaces-and-isometries public

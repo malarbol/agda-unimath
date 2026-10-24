@@ -556,44 +556,27 @@ module _
 module _
   {l : Level} (V : cauchy-filter-ℚ l) (ε : ℚ⁺) (r : ℚ)
   (Vr : is-in-cauchy-filter-ℚ V ε r)
-  where
-
-  lemma-is-in-lower-cut-real-cauchy-filter-ℚ :
-    (p : ℚ) →
-    le-ℚ (p +ℚ rational-ℚ⁺ ε) r →
-    is-in-lower-cut-ℝ
-      ( real-cauchy-filter-ℚ V)
-      ( p)
-  lemma-is-in-lower-cut-real-cauchy-filter-ℚ p Hp =
-    intro-exists (ε , r) (Hp , Vr)
-
-  lemma-is-in-upper-cut-real-cauchy-filter-ℚ :
-    (q : ℚ) →
-    le-ℚ (r +ℚ rational-ℚ⁺ ε) q →
-    is-in-upper-cut-ℝ
-      ( real-cauchy-filter-ℚ V)
-      ( q)
-  lemma-is-in-upper-cut-real-cauchy-filter-ℚ q Hq =
-    intro-exists (ε , r) (Hq , Vr)
+  where abstract
 
   opaque
     unfolding leq-ℝ leq-ℝ' real-ℚ
 
-    lemma-leq-real-cauchy-filter-ℚ :
+    leq-real-is-in-cauchy-filter-ℚ :
       leq-ℝ (real-ℚ (r -ℚ rational-ℚ⁺ ε)) (real-cauchy-filter-ℚ V)
-    lemma-leq-real-cauchy-filter-ℚ p Hp =
-      lemma-is-in-lower-cut-real-cauchy-filter-ℚ
-        ( p)
-        ( le-transpose-right-diff-ℚ
-          ( p)
-          ( r)
-          ( rational-ℚ⁺ ε)
-          ( Hp))
+    leq-real-is-in-cauchy-filter-ℚ p Hp =
+      intro-exists
+        ( ε , r)
+        ( ( le-transpose-right-diff-ℚ
+            ( p)
+            ( r)
+            ( rational-ℚ⁺ ε)
+            ( Hp)) ,
+          ( Vr))
 
-    lemma-leq'-real-cauchy-filter-ℚ :
+    leq'-real-is-in-cauchy-filter-ℚ :
       leq-ℝ' (real-cauchy-filter-ℚ V) (real-ℚ (r +ℚ rational-ℚ⁺ ε))
-    lemma-leq'-real-cauchy-filter-ℚ q Hq =
-      lemma-is-in-upper-cut-real-cauchy-filter-ℚ q Hq
+    leq'-real-is-in-cauchy-filter-ℚ q Hq =
+      intro-exists (ε , r) (Hq , Vr)
 
   is-in-neighborhood-real-is-in-cauchy-filter-ℚ :
     neighborhood-ℝ l ε (real-cauchy-filter-ℚ V) (raise-real-ℚ l r)
@@ -607,14 +590,14 @@ module _
         ( leq-leq'-ℝ
           ( real-cauchy-filter-ℚ V)
           ( real-ℚ (r +ℚ rational-ℚ⁺ ε))
-          ( lemma-leq'-real-cauchy-filter-ℚ)))
+          ( leq'-real-is-in-cauchy-filter-ℚ)))
       ( leq-transpose-left-diff-ℝ
         ( raise-real-ℚ l r)
         ( real-ℚ⁺ ε)
         ( real-cauchy-filter-ℚ V)
         ( preserves-leq-left-sim-ℝ
           ( lemma-sim-r-ε)
-          ( lemma-leq-real-cauchy-filter-ℚ)))
+          ( leq-real-is-in-cauchy-filter-ℚ)))
       where
 
       lemma-sim-r-ε :

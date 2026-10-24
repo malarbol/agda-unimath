@@ -26,6 +26,7 @@ open import foundation.dependent-pair-types
 open import foundation.dependent-products-propositions
 open import foundation.disjunction
 open import foundation.empty-types
+open import foundation.equivalences
 open import foundation.existential-quantification
 open import foundation.identity-types
 open import foundation.inhabited-subtypes
@@ -42,6 +43,7 @@ open import metric-spaces.cauchy-approximations-metric-spaces
 open import metric-spaces.cauchy-filters-metric-spaces
 open import metric-spaces.complete-metric-space-of-cauchy-filters-pseudometric-spaces
 open import metric-spaces.complete-metric-spaces
+open import metric-spaces.equality-of-metric-spaces
 open import metric-spaces.expansive-maps-metric-spaces
 open import metric-spaces.isometries-metric-spaces
 open import metric-spaces.limits-of-cauchy-approximations-metric-spaces
@@ -54,15 +56,21 @@ open import metric-spaces.saturated-rational-neighborhood-subtypes
 open import metric-spaces.short-maps-metric-spaces
 
 open import real-numbers.absolute-value-real-numbers
+open import real-numbers.addition-real-numbers
+open import real-numbers.cauchy-completeness-dedekind-real-numbers
 open import real-numbers.dedekind-real-numbers
 open import real-numbers.dense-subsets-real-numbers
 open import real-numbers.difference-real-numbers
 open import real-numbers.distance-real-numbers
+open import real-numbers.inequalities-addition-and-subtraction-real-numbers
 open import real-numbers.inequality-real-numbers
 open import real-numbers.lower-dedekind-real-numbers
 open import real-numbers.metric-space-of-real-numbers
+open import real-numbers.negation-real-numbers
+open import real-numbers.raising-universe-levels-real-numbers
 open import real-numbers.rational-approximates-of-real-numbers
 open import real-numbers.rational-real-numbers
+open import real-numbers.similarity-real-numbers
 open import real-numbers.upper-dedekind-real-numbers
 ```
 
@@ -542,12 +550,306 @@ module _
 
 ## Properties
 
-TODO:
+### Rational points of a Cauchy filter are neighbors of its real image
 
-- [x] `cauchy-filter-ℚ-ℝ` is an isometry;
-- [ ] `real-cauchy-filter-ℚ` is an isometry;
-- [x] `real-cauchy-filter-ℚ ∘ cauchy-filter-ℚ-ℝ ∼ id`;
-- [ ] `cauchy-filter-ℚ-ℝ ∘ real-cauchy-filter-ℚ ∼ id`;
+```agda
+module _
+  {l : Level} (V : cauchy-filter-ℚ l) (ε : ℚ⁺) (r : ℚ)
+  (Vr : is-in-cauchy-filter-ℚ V ε r)
+  where
+
+  lemma-is-in-lower-cut-real-cauchy-filter-ℚ :
+    (p : ℚ) →
+    le-ℚ (p +ℚ rational-ℚ⁺ ε) r →
+    is-in-lower-cut-ℝ
+      ( real-cauchy-filter-ℚ V)
+      ( p)
+  lemma-is-in-lower-cut-real-cauchy-filter-ℚ p Hp =
+    intro-exists (ε , r) (Hp , Vr)
+
+  lemma-is-in-upper-cut-real-cauchy-filter-ℚ :
+    (q : ℚ) →
+    le-ℚ (r +ℚ rational-ℚ⁺ ε) q →
+    is-in-upper-cut-ℝ
+      ( real-cauchy-filter-ℚ V)
+      ( q)
+  lemma-is-in-upper-cut-real-cauchy-filter-ℚ q Hq =
+    intro-exists (ε , r) (Hq , Vr)
+
+  opaque
+    unfolding leq-ℝ leq-ℝ' real-ℚ
+
+    lemma-leq-real-cauchy-filter-ℚ :
+      leq-ℝ (real-ℚ (r -ℚ rational-ℚ⁺ ε)) (real-cauchy-filter-ℚ V)
+    lemma-leq-real-cauchy-filter-ℚ p Hp =
+      lemma-is-in-lower-cut-real-cauchy-filter-ℚ
+        ( p)
+        ( le-transpose-right-diff-ℚ
+          ( p)
+          ( r)
+          ( rational-ℚ⁺ ε)
+          ( Hp))
+
+    lemma-leq'-real-cauchy-filter-ℚ :
+      leq-ℝ' (real-cauchy-filter-ℚ V) (real-ℚ (r +ℚ rational-ℚ⁺ ε))
+    lemma-leq'-real-cauchy-filter-ℚ q Hq =
+      lemma-is-in-upper-cut-real-cauchy-filter-ℚ q Hq
+
+  is-in-neighborhood-real-is-in-cauchy-filter-ℚ :
+    neighborhood-ℝ l ε (real-cauchy-filter-ℚ V) (raise-real-ℚ l r)
+  is-in-neighborhood-real-is-in-cauchy-filter-ℚ =
+    neighborhood-real-bound-each-leq-ℝ
+      ( ε)
+      ( real-cauchy-filter-ℚ V)
+      ( raise-real-ℚ l r)
+      ( preserves-leq-right-sim-ℝ
+        ( lemma-sim-r+ε)
+        ( leq-leq'-ℝ
+          ( real-cauchy-filter-ℚ V)
+          ( real-ℚ (r +ℚ rational-ℚ⁺ ε))
+          ( lemma-leq'-real-cauchy-filter-ℚ)))
+      ( leq-transpose-left-diff-ℝ
+        ( raise-real-ℚ l r)
+        ( real-ℚ⁺ ε)
+        ( real-cauchy-filter-ℚ V)
+        ( preserves-leq-left-sim-ℝ
+          ( lemma-sim-r-ε)
+          ( lemma-leq-real-cauchy-filter-ℚ)))
+      where
+
+      lemma-sim-r-ε :
+        sim-ℝ (real-ℚ (r -ℚ rational-ℚ⁺ ε)) (raise-real-ℚ l r -ℝ real-ℚ⁺ ε)
+      lemma-sim-r-ε =
+        similarity-reasoning-ℝ
+          real-ℚ (r -ℚ rational-ℚ⁺ ε)
+          ~ℝ (real-ℚ r) -ℝ (real-ℚ⁺ ε)
+            by sim-eq-ℝ (inv (diff-real-ℚ r (rational-ℚ⁺ ε)))
+          ~ℝ raise-real-ℚ l r -ℝ real-ℚ⁺ ε
+            by
+              preserves-sim-right-add-ℝ
+                ( neg-ℝ (real-ℚ⁺ ε))
+                ( real-ℚ r)
+                ( raise-real-ℚ l r)
+                ( sim-raise-ℝ l (real-ℚ r))
+
+      lemma-sim-r+ε :
+        sim-ℝ (real-ℚ (r +ℚ rational-ℚ⁺ ε)) (raise-real-ℚ l r +ℝ real-ℚ⁺ ε)
+      lemma-sim-r+ε =
+        similarity-reasoning-ℝ
+          real-ℚ (r +ℚ rational-ℚ⁺ ε)
+          ~ℝ (real-ℚ r) +ℝ (real-ℚ⁺ ε)
+            by sim-eq-ℝ (inv (add-real-ℚ r (rational-ℚ⁺ ε)))
+          ~ℝ raise-real-ℚ l r +ℝ real-ℚ⁺ ε
+            by
+              preserves-sim-right-add-ℝ
+                ( real-ℚ⁺ ε)
+                ( real-ℚ r)
+                ( raise-real-ℚ l r)
+                ( sim-raise-ℝ l (real-ℚ r))
+```
+
+### The map real-cauchy-filter-ℚ is short
+
+```agda
+module _
+  {l : Level}
+  where abstract
+
+  is-short-map-real-cauchy-filter-ℚ :
+    is-short-map-Metric-Space
+      ( metric-space-cauchy-filter-ℚ l)
+      ( metric-space-ℝ l)
+      ( real-cauchy-filter-ℚ)
+  is-short-map-real-cauchy-filter-ℚ d x y Nxy =
+    is-saturated-neighborhood-ℝ
+      ( d)
+      ( real-cauchy-filter-ℚ x)
+      ( real-cauchy-filter-ℚ y)
+      ( saturate-real-cauchy-Nxy)
+    where
+
+    saturate-real-cauchy-Nxy :
+      (μ : ℚ⁺) →
+      neighborhood-Metric-Space
+        ( metric-space-ℝ l)
+        ( d +ℚ⁺ μ)
+        ( real-cauchy-filter-ℚ x)
+        ( real-cauchy-filter-ℚ y)
+    saturate-real-cauchy-Nxy μ =
+      let
+        open
+          do-syntax-trunc-Prop
+            ( neighborhood-prop-ℝ
+              ( l)
+              ( d +ℚ⁺ μ)
+              ( real-cauchy-filter-ℚ x)
+              ( real-cauchy-filter-ℚ y))
+      in do
+        (ε , ε+ε<μ) ← double-le-ℚ⁺ μ
+        (δ , δ+δ<ε) ← double-le-ℚ⁺ ε
+        (p , xp) ← is-proper-cauchy-filter-ℚ x δ
+        (q , yq) ← is-proper-cauchy-filter-ℚ y δ
+
+        let
+          N-real-xy :
+            neighborhood-ℝ
+              ( l)
+              ( δ +ℚ⁺ (δ +ℚ⁺ δ +ℚ⁺ d) +ℚ⁺ δ)
+              ( real-cauchy-filter-ℚ x)
+              ( real-cauchy-filter-ℚ y)
+          N-real-xy =
+            is-triangular-neighborhood-ℝ
+              ( real-cauchy-filter-ℚ x)
+              ( raise-real-ℚ l q)
+              ( real-cauchy-filter-ℚ y)
+              ( δ +ℚ⁺ (δ +ℚ⁺ δ +ℚ⁺ d))
+              ( δ)
+              ( is-symmetric-neighborhood-ℝ
+                ( δ)
+                ( real-cauchy-filter-ℚ y)
+                ( raise-real-ℚ l q)
+                ( is-in-neighborhood-real-is-in-cauchy-filter-ℚ
+                  ( y)
+                  ( δ)
+                  ( q)
+                  ( yq)))
+              ( is-triangular-neighborhood-ℝ
+                ( real-cauchy-filter-ℚ x)
+                ( raise-real-ℚ l p)
+                ( raise-real-ℚ l q)
+                ( δ)
+                ( δ +ℚ⁺ δ +ℚ⁺ d)
+                ( preserves-neighborhoods-map-isometry-Metric-Space
+                  ( metric-space-ℚ)
+                  ( metric-space-ℝ l)
+                  ( isometry-raise-real-ℚ l)
+                  ( δ +ℚ⁺ δ +ℚ⁺ d)
+                  ( p)
+                  ( q)
+                  ( Nxy (δ , δ , p , q) xp yq))
+                ( is-in-neighborhood-real-is-in-cauchy-filter-ℚ
+                  ( x)
+                  ( δ)
+                  ( p)
+                  ( xp)))
+
+          interchange-δd :
+            (δ +ℚ⁺ (δ +ℚ⁺ δ +ℚ⁺ d) +ℚ⁺ δ) ＝ (d +ℚ⁺ (δ +ℚ⁺ δ +ℚ⁺ (δ +ℚ⁺ δ)))
+          interchange-δd =
+            commutative-add-ℚ⁺ (δ +ℚ⁺ (δ +ℚ⁺ δ +ℚ⁺ d)) δ ∙
+            inv (associative-add-ℚ⁺ δ δ (δ +ℚ⁺ δ +ℚ⁺ d)) ∙
+            commutative-add-ℚ⁺ (δ +ℚ⁺ δ) (δ +ℚ⁺ δ +ℚ⁺ d) ∙
+            ap (λ z → add-ℚ⁺ z (δ +ℚ⁺ δ)) (commutative-add-ℚ⁺ (δ +ℚ⁺ δ) d) ∙
+            associative-add-ℚ⁺ d (δ +ℚ⁺ δ) (δ +ℚ⁺ δ)
+
+          le-δμ : le-ℚ⁺ (δ +ℚ⁺ δ +ℚ⁺ (δ +ℚ⁺ δ)) μ
+          le-δμ =
+            transitive-le-ℚ⁺
+              ( δ +ℚ⁺ δ +ℚ⁺ (δ +ℚ⁺ δ))
+              ( ε +ℚ⁺ ε)
+              ( μ)
+              ( ε+ε<μ)
+              ( preserves-le-add-ℚ⁺
+                { δ +ℚ⁺ δ}
+                { ε}
+                { δ +ℚ⁺ δ}
+                { ε}
+                ( δ+δ<ε)
+                ( δ+δ<ε))
+
+        monotonic-neighborhood-ℝ
+          ( real-cauchy-filter-ℚ x)
+          ( real-cauchy-filter-ℚ y)
+          ( δ +ℚ⁺ (δ +ℚ⁺ δ +ℚ⁺ d) +ℚ⁺ δ)
+          ( d +ℚ⁺ μ)
+          ( inv-tr
+            ( λ z → le-ℚ⁺ z (d +ℚ⁺ μ))
+            ( interchange-δd)
+            ( preserves-le-right-add-ℚ⁺ d (δ +ℚ⁺ δ +ℚ⁺ (δ +ℚ⁺ δ)) μ le-δμ))
+          ( N-real-xy)
+```
+
+### The map real-cauchy-filter-ℚ is short
+
+```agda
+module _
+  {l : Level}
+  where abstract
+
+  is-expansive-map-real-cauchy-filter-ℚ :
+    is-expansive-map-Metric-Space
+      ( metric-space-cauchy-filter-ℚ l)
+      ( metric-space-ℝ l)
+      ( real-cauchy-filter-ℚ)
+  is-expansive-map-real-cauchy-filter-ℚ d x y Nxy (α , β , p , q) xp yq =
+    reflects-neighborhoods-map-isometry-Metric-Space
+      ( metric-space-ℚ)
+      ( metric-space-ℝ l)
+      ( isometry-raise-real-ℚ l)
+      ( α +ℚ⁺ β +ℚ⁺ d)
+      ( p)
+      ( q)
+      ( inv-tr
+        ( λ ε → neighborhood-ℝ l ε (raise-real-ℚ l p) (raise-real-ℚ l q))
+        ( associative-add-ℚ⁺ α β d ∙ ap (add-ℚ⁺ α) (commutative-add-ℚ⁺ β d))
+        ( Npq))
+      where
+        Npq :
+          neighborhood-ℝ
+            ( l)
+            ( α +ℚ⁺ (d +ℚ⁺ β))
+            ( raise-real-ℚ l p)
+            ( raise-real-ℚ l q)
+        Npq =
+          is-triangular-neighborhood-ℝ
+            ( raise-real-ℚ l p)
+            ( real-cauchy-filter-ℚ x)
+            ( raise-real-ℚ l q)
+            ( α)
+            ( d +ℚ⁺ β)
+            ( is-triangular-neighborhood-ℝ
+              ( real-cauchy-filter-ℚ x)
+              ( real-cauchy-filter-ℚ y)
+              ( raise-real-ℚ l q)
+              ( d)
+              ( β)
+              ( is-in-neighborhood-real-is-in-cauchy-filter-ℚ y β q yq)
+              ( Nxy))
+            ( is-symmetric-neighborhood-ℝ
+              ( α)
+              ( real-cauchy-filter-ℚ x)
+              ( raise-real-ℚ l p)
+              ( is-in-neighborhood-real-is-in-cauchy-filter-ℚ x α p xp))
+```
+
+### The map real-cauchy-filter-ℚ is an isometry
+
+```agda
+module _
+  {l : Level}
+  where
+
+  abstract
+    is-isometry-real-cauchy-filter-ℚ :
+      is-isometry-Metric-Space
+        ( metric-space-cauchy-filter-ℚ l)
+        ( metric-space-ℝ l)
+        ( real-cauchy-filter-ℚ)
+    is-isometry-real-cauchy-filter-ℚ =
+      is-isometry-is-expansive-map-is-short-map-Metric-Space
+        ( metric-space-cauchy-filter-ℚ l)
+        ( metric-space-ℝ l)
+        ( real-cauchy-filter-ℚ)
+        ( is-short-map-real-cauchy-filter-ℚ)
+        ( is-expansive-map-real-cauchy-filter-ℚ)
+
+  isometry-real-cauchy-filter-ℚ :
+    isometry-Metric-Space
+      ( metric-space-cauchy-filter-ℚ l)
+      ( metric-space-ℝ l)
+  isometry-real-cauchy-filter-ℚ =
+    ( real-cauchy-filter-ℚ , is-isometry-real-cauchy-filter-ℚ)
+```
 
 ### The map cauchy-filter-ℚ-ℝ is an isometry
 
@@ -795,4 +1097,44 @@ module _
         ( x)
         ( is-lower-section-real-cauchy-filter-ℚ))
       ( is-upper-section-real-cauchy-filter-ℚ)
+```
+
+### The isometric equivalence between real numbers and Cauchy filters on the rational numbers
+
+```agda
+module _
+  {l : Level}
+  where
+
+  equiv-real-cauchy-filter-ℚ : cauchy-filter-ℚ l ≃ ℝ l
+  equiv-real-cauchy-filter-ℚ =
+    ( real-cauchy-filter-ℚ ,
+      is-equiv-is-section-isometry-Metric-Space
+        ( metric-space-cauchy-filter-ℚ l)
+        ( metric-space-ℝ l)
+        ( isometry-real-cauchy-filter-ℚ)
+        ( isometry-cauchy-filter-ℚ-ℝ)
+        ( is-section-real-cauchy-filter-ℚ))
+
+  isometric-equiv-real-cauchy-filter-ℚ :
+    isometric-equiv-Metric-Space
+      ( metric-space-cauchy-filter-ℚ l)
+      ( metric-space-ℝ l)
+  isometric-equiv-real-cauchy-filter-ℚ =
+    ( equiv-real-cauchy-filter-ℚ , is-isometry-real-cauchy-filter-ℚ)
+
+  eq-metric-space-real-cauchy-filter-ℚ :
+    metric-space-cauchy-filter-ℚ l ＝ metric-space-ℝ l
+  eq-metric-space-real-cauchy-filter-ℚ =
+    eq-isometric-equiv-Metric-Space
+      ( metric-space-cauchy-filter-ℚ l)
+      ( metric-space-ℝ l)
+      ( isometric-equiv-real-cauchy-filter-ℚ)
+
+  eq-complete-metric-space-real-cauchy-filter-ℚ :
+    complete-metric-space-cauchy-filter-ℚ l ＝ complete-metric-space-ℝ l
+  eq-complete-metric-space-real-cauchy-filter-ℚ =
+    eq-type-subtype
+      ( is-complete-prop-Metric-Space)
+      ( eq-metric-space-real-cauchy-filter-ℚ)
 ```

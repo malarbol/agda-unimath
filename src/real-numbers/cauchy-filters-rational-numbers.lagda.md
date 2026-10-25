@@ -85,6 +85,41 @@ on the
 is [isometrically equivalent](metric-spaces.equality-of-metric-spaces.md) to the
 [metric space of real numbers](real-numbers.metric-space-of-real-numbers.md).
 
+Any [real number](real-numbers.dedekind-real-numbers.md) `x : ℝ` defines a
+[Cauchy filter](metric-spaces.cauchy-filters-metric-spaces.md) on
+[`ℚ`](elementary-number-theory.rational-numbers.md) via:
+
+```text
+  Vₓ ε q = neighborhood-ℝ ε x (ι q)
+```
+
+where `ι` is the canonical embedding of
+[rational real numbers](real-numbers.rational-real-numbers.md).
+
+Conversely, a Cauchy filter `V` on `ℚ` defines a
+[real number](real-numbers.dedekind-real-numbers.md) as the disjoint located
+pair of [lower](real-numbers.lower-dedekind-real-numbers.md) and
+[upper](real-numbers.upper-dedekind-real-numbers.md) `(L , U)` given by:
+
+- `L p = ∃ (ℚ⁺ × ℚ) (λ ε q → (p + ε < q) ∧ (V ε q))`; i.e. `L p` holds iff `p`
+  is `ε`-lower than some `V ε`-point;
+- `U q = ∃ (ℚ⁺ × ℚ) (λ ε p → (p + ε < q) ∧ (V ε p))`; i.e. `U q` holds iff `q`
+  is `ε`-greater than some `V ε`-point.
+
+These maps
+
+- `real-cauchy-filter-ℚ : cauchy-filter-ℚ l → ℝ l`
+- `cauchy-filter-ℚ-ℝ : ℝ l → cauchy-filter-ℚ`
+
+are [isometries](metric-spaces.isometries-metric-spaces.md) and satisfy
+
+```text
+  real-cauchy-filter-ℚ ∘ cauchy-filter-ℚ-ℝ ~ id
+```
+
+hence induce an isometric equivalence between Cauchy filters on rational numbers
+and Deddekind real numbers.
+
 ## Definitions
 
 ### The complete metric space of Cauchy filters of rational numbers
@@ -114,28 +149,28 @@ module _
 
 ```agda
 module _
-  {l : Level} (U : cauchy-filter-ℚ l)
+  {l : Level} (V : cauchy-filter-ℚ l)
   where
 
   neighborhood-subtype-cauchy-filter-ℚ : ℚ⁺ → ℚ → Prop l
   neighborhood-subtype-cauchy-filter-ℚ =
-    neighborhood-subtype-cauchy-filter-Metric-Space metric-space-ℚ U
+    neighborhood-subtype-cauchy-filter-Metric-Space metric-space-ℚ V
 
   is-in-cauchy-filter-ℚ : ℚ⁺ → ℚ → UU l
   is-in-cauchy-filter-ℚ =
-    is-in-cauchy-filter-Metric-Space metric-space-ℚ U
+    is-in-cauchy-filter-Metric-Space metric-space-ℚ V
 
   is-proper-cauchy-filter-ℚ :
     (ε : ℚ⁺) → exists ℚ (neighborhood-subtype-cauchy-filter-ℚ ε)
   is-proper-cauchy-filter-ℚ =
-    is-proper-cauchy-filter-Metric-Space metric-space-ℚ U
+    is-proper-cauchy-filter-Metric-Space metric-space-ℚ V
 
   is-saturated-cauchy-filter-ℚ :
     (ε : ℚ⁺) (p : ℚ) →
     ((μ : ℚ⁺) → is-in-cauchy-filter-ℚ (ε +ℚ⁺ μ) p) →
     is-in-cauchy-filter-ℚ ε p
   is-saturated-cauchy-filter-ℚ ε p =
-    is-saturated-cauchy-filter-Metric-Space metric-space-ℚ U (ε , p)
+    is-saturated-cauchy-filter-Metric-Space metric-space-ℚ V (ε , p)
 
   is-bounded-cauchy-filter-ℚ :
     (ε δ : ℚ⁺) (p q : ℚ) →
@@ -143,7 +178,7 @@ module _
     is-in-cauchy-filter-ℚ δ q →
     neighborhood-Metric-Space metric-space-ℚ (ε +ℚ⁺ δ) p q
   is-bounded-cauchy-filter-ℚ =
-    is-bounded-cauchy-filter-Metric-Space metric-space-ℚ U
+    is-bounded-cauchy-filter-Metric-Space metric-space-ℚ V
 
   is-enclosing-cauchy-filter-ℚ :
     (ε δ : ℚ⁺) (p q : ℚ) →
@@ -151,7 +186,7 @@ module _
     neighborhood-Metric-Space metric-space-ℚ δ p q →
     is-in-cauchy-filter-ℚ (ε +ℚ⁺ δ) q
   is-enclosing-cauchy-filter-ℚ =
-    is-enclosing-cauchy-filter-Metric-Space metric-space-ℚ U
+    is-enclosing-cauchy-filter-Metric-Space metric-space-ℚ V
 
   is-monotonic-cauchy-filter-ℚ :
     (p : ℚ) (ε δ : ℚ⁺) →
@@ -159,305 +194,7 @@ module _
     is-in-cauchy-filter-ℚ ε p →
     is-in-cauchy-filter-ℚ δ p
   is-monotonic-cauchy-filter-ℚ =
-    is-monotonic-cauchy-filter-Metric-Space metric-space-ℚ U
-```
-
-### Lower real number induced by a Cauchy filter on the rational numbers
-
-```agda
-module _
-  {l : Level} (U : cauchy-filter-ℚ l)
-  where
-
-  lower-cut-cauchy-filter-ℚ : subtype l ℚ
-  lower-cut-cauchy-filter-ℚ p =
-    ∃ ( ℚ⁺ × ℚ)
-      ( λ ( ε , q) →
-        ( ( le-ℚ-Prop (p +ℚ rational-ℚ⁺ ε) q)) ∧
-          ( neighborhood-subtype-cauchy-filter-ℚ U ε q))
-
-  is-in-lower-cut-cauchy-filter-ℚ : ℚ → UU l
-  is-in-lower-cut-cauchy-filter-ℚ = is-in-subtype lower-cut-cauchy-filter-ℚ
-
-  is-inhabited-lower-cut-cauchy-filter-ℚ :
-    is-inhabited-subtype lower-cut-cauchy-filter-ℚ
-  is-inhabited-lower-cut-cauchy-filter-ℚ =
-    let
-      open
-        do-syntax-trunc-Prop (∃ ℚ lower-cut-cauchy-filter-ℚ)
-    in do
-      ε ← is-inhabited-ℚ⁺
-      (q , Uq) ← is-proper-cauchy-filter-ℚ U ε
-      (p , p<q-ε) ← exists-lesser-ℚ (q -ℚ rational-ℚ⁺ ε)
-      let
-        p+ε<q : le-ℚ (p +ℚ rational-ℚ⁺ ε) q
-        p+ε<q =
-          le-transpose-right-diff-ℚ
-            ( p)
-            ( q)
-            ( rational-ℚ⁺ ε)
-            ( p<q-ε)
-
-      intro-exists p (intro-exists (ε , q) (p+ε<q , Uq))
-
-  is-upper-open-lower-cut-cauchy-filter-ℚ :
-    (p : ℚ) →
-    is-in-lower-cut-cauchy-filter-ℚ p →
-    exists
-      ( ℚ)
-      ( λ q → le-ℚ-Prop p q ∧ lower-cut-cauchy-filter-ℚ q)
-  is-upper-open-lower-cut-cauchy-filter-ℚ p Lp =
-    let
-      open
-        do-syntax-trunc-Prop
-          ( ∃ ( ℚ)
-              ( λ q → le-ℚ-Prop p q ∧ lower-cut-cauchy-filter-ℚ q))
-    in do
-      ((ε , r) , (p+ε<r , Ur)) ← Lp
-      (q , p+ε<q , q<r) ← dense-le-ℚ p+ε<r
-
-      intro-exists
-        ( q -ℚ rational-ℚ⁺ ε)
-        ( ( le-transpose-left-add-ℚ p (rational-ℚ⁺ ε) q p+ε<q) ,
-          ( intro-exists
-            ( ε , r)
-            ( ( le-transpose-right-diff-ℚ
-                ( q -ℚ rational-ℚ⁺ ε)
-                ( r)
-                ( rational-ℚ⁺ ε)
-                ( preserves-le-left-add-ℚ
-                  ( neg-ℚ (rational-ℚ⁺ ε))
-                  ( q)
-                  ( r)
-                  ( q<r))) ,
-              ( Ur))))
-
-  is-lower-subset-lower-cut-cauchy-filter-ℚ :
-    (p q : ℚ) →
-    le-ℚ p q →
-    is-in-lower-cut-cauchy-filter-ℚ q →
-    is-in-lower-cut-cauchy-filter-ℚ p
-  is-lower-subset-lower-cut-cauchy-filter-ℚ p q p<q Lq =
-    let
-      open
-        do-syntax-trunc-Prop (lower-cut-cauchy-filter-ℚ p)
-    in do
-      ( (ε , r) , (q+ε<r , Ur)) ← Lq
-      intro-exists
-        ( ε , r)
-        ( ( transitive-le-ℚ
-            ( p +ℚ rational-ℚ⁺ ε)
-            ( q +ℚ rational-ℚ⁺ ε)
-            ( r)
-            ( q+ε<r)
-            ( preserves-le-left-add-ℚ (rational-ℚ⁺ ε) p q p<q)) ,
-          ( Ur))
-
-  is-dedekind-lower-cut-cauchy-filter-ℚ :
-    is-lower-dedekind-cut lower-cut-cauchy-filter-ℚ
-  is-dedekind-lower-cut-cauchy-filter-ℚ =
-    ( is-inhabited-lower-cut-cauchy-filter-ℚ ,
-      λ p →
-        ( is-upper-open-lower-cut-cauchy-filter-ℚ p ,
-          elim-exists
-            ( lower-cut-cauchy-filter-ℚ p)
-            ( λ q (p<q , Uq) →
-              is-lower-subset-lower-cut-cauchy-filter-ℚ p q p<q Uq)))
-
-  lower-real-cauchy-filter-ℚ : lower-ℝ l
-  lower-real-cauchy-filter-ℚ =
-    ( lower-cut-cauchy-filter-ℚ , is-dedekind-lower-cut-cauchy-filter-ℚ)
-```
-
-### Upper real number induced by a Cauchy filter on the rational numbers
-
-```agda
-module _
-  {l : Level} (U : cauchy-filter-ℚ l)
-  where
-
-  upper-cut-cauchy-filter-ℚ : subtype l ℚ
-  upper-cut-cauchy-filter-ℚ q =
-    ∃ ( ℚ⁺ × ℚ)
-      ( λ (ε , p) →
-        ( ( le-ℚ-Prop (p +ℚ rational-ℚ⁺ ε) q)) ∧
-          ( neighborhood-subtype-cauchy-filter-ℚ U ε p))
-
-  is-in-upper-cut-cauchy-filter-ℚ : ℚ → UU l
-  is-in-upper-cut-cauchy-filter-ℚ = is-in-subtype upper-cut-cauchy-filter-ℚ
-
-  is-inhabited-upper-cut-cauchy-filter-ℚ :
-    is-inhabited-subtype upper-cut-cauchy-filter-ℚ
-  is-inhabited-upper-cut-cauchy-filter-ℚ =
-    let
-      open do-syntax-trunc-Prop (∃ ℚ upper-cut-cauchy-filter-ℚ)
-    in do
-      ε ← is-inhabited-ℚ⁺
-      (p , Up) ← is-proper-cauchy-filter-ℚ U ε
-      (q , p+ε<q) ← exists-greater-ℚ (p +ℚ rational-ℚ⁺ ε)
-      intro-exists q (intro-exists (ε , p) (p+ε<q , Up))
-
-  is-lower-open-upper-cut-cauchy-filter-ℚ :
-    (q : ℚ) →
-    is-in-upper-cut-cauchy-filter-ℚ q →
-    exists
-      ( ℚ)
-      ( λ p → le-ℚ-Prop p q ∧ upper-cut-cauchy-filter-ℚ p)
-  is-lower-open-upper-cut-cauchy-filter-ℚ q Uq =
-    let
-      open
-        do-syntax-trunc-Prop
-          ( ∃ ( ℚ)
-              ( λ p → le-ℚ-Prop p q ∧ upper-cut-cauchy-filter-ℚ p))
-    in do
-      ((ε , r) , (r+ε<q , Ur)) ← Uq
-      (p , r+ε<p , p<q) ← dense-le-ℚ r+ε<q
-      intro-exists p (p<q , intro-exists (ε , r) (r+ε<p , Ur))
-
-  is-upper-subset-upper-cut-cauchy-filter-ℚ :
-    (p q : ℚ) →
-    le-ℚ p q →
-    is-in-upper-cut-cauchy-filter-ℚ p →
-    is-in-upper-cut-cauchy-filter-ℚ q
-  is-upper-subset-upper-cut-cauchy-filter-ℚ p q p<q Up =
-    let
-      open
-        do-syntax-trunc-Prop
-          ( upper-cut-cauchy-filter-ℚ q)
-    in do
-      ( (ε , r) , (r+ε<p , Ur)) ← Up
-      intro-exists
-        ( ε , r)
-        ( transitive-le-ℚ (r +ℚ rational-ℚ⁺ ε) p q p<q r+ε<p , Ur)
-
-  is-dedekind-upper-cut-cauchy-filter-ℚ :
-    is-upper-dedekind-cut upper-cut-cauchy-filter-ℚ
-  is-dedekind-upper-cut-cauchy-filter-ℚ =
-    ( is-inhabited-upper-cut-cauchy-filter-ℚ ,
-      λ q →
-        ( is-lower-open-upper-cut-cauchy-filter-ℚ q ,
-          elim-exists
-            ( upper-cut-cauchy-filter-ℚ q)
-            ( λ p (p<q , Up) →
-              is-upper-subset-upper-cut-cauchy-filter-ℚ p q p<q Up)))
-
-  upper-real-cauchy-filter-ℚ : upper-ℝ l
-  upper-real-cauchy-filter-ℚ =
-    ( upper-cut-cauchy-filter-ℚ , is-dedekind-upper-cut-cauchy-filter-ℚ)
-```
-
-### Dedekind real number induced by a Cauchy filter on the rational numbers
-
-```agda
-module _
-  {l : Level} (U : cauchy-filter-ℚ l)
-  where
-
-  is-disjoint-lower-upper-cauchy-filter-ℚ :
-    is-disjoint-lower-upper-ℝ
-      ( lower-real-cauchy-filter-ℚ U)
-      ( upper-real-cauchy-filter-ℚ U)
-  is-disjoint-lower-upper-cauchy-filter-ℚ p (Lp , Up) =
-    let
-      open
-        do-syntax-trunc-Prop empty-Prop
-    in do
-      ((α , q) , (p+α<q , Uq)) ← Lp
-      ((β , r) , (r+β<p , Ur)) ← Up
-
-      not-leq-le-ℚ
-        ( rational-ℚ⁺ (α +ℚ⁺ β))
-        ( diff-ℚ q r)
-        ( le-transpose-left-add-ℚ
-            ( rational-ℚ⁺ (α +ℚ⁺ β))
-            ( r)
-            ( q)
-            ( tr
-              ( λ z → le-ℚ z q)
-              ( commutative-add-ℚ r (rational-ℚ⁺ (α +ℚ⁺ β)))
-              ( transitive-le-ℚ
-                ( r +ℚ rational-ℚ⁺ (α +ℚ⁺ β))
-                ( p +ℚ rational-ℚ⁺ α)
-                ( q)
-                ( p+α<q)
-                ( tr
-                  ( λ z → le-ℚ z (p +ℚ rational-ℚ⁺ α))
-                  ( associative-add-ℚ r (rational-ℚ⁺ β) (rational-ℚ⁺ α) ∙
-                    ap
-                      ( add-ℚ r)
-                      ( commutative-add-ℚ (rational-ℚ⁺ β) (rational-ℚ⁺ α)))
-                  ( preserves-le-left-add-ℚ
-                    ( rational-ℚ⁺ α)
-                    ( r +ℚ rational-ℚ⁺ β)
-                    ( p)
-                    ( r+β<p))))))
-        ( transitive-leq-ℚ
-            ( diff-ℚ q r)
-            ( rational-dist-ℚ q r)
-            ( rational-ℚ⁺ (α +ℚ⁺ β))
-            ( leq-dist-neighborhood-ℚ
-              ( α +ℚ⁺ β)
-              ( q)
-              ( r)
-              ( is-bounded-cauchy-filter-ℚ U α β q r Uq Ur))
-            ( leq-diff-dist-ℚ q r))
-
-  is-located-lower-upper-cauchy-filter-ℚ :
-    is-located-lower-upper-ℝ
-      ( lower-real-cauchy-filter-ℚ U)
-      ( upper-real-cauchy-filter-ℚ U)
-  is-located-lower-upper-cauchy-filter-ℚ q r q<r =
-    let
-      ε : ℚ⁺
-      ε = positive-diff-le-ℚ q<r
-
-      open
-        do-syntax-trunc-Prop
-          ( (lower-cut-cauchy-filter-ℚ U q) ∨ (upper-cut-cauchy-filter-ℚ U r))
-    in do
-      (δ , δ+δ<ε) ← double-le-ℚ⁺ ε
-      (p , Up) ← is-proper-cauchy-filter-ℚ U δ
-
-      let
-        q+δ<r-δ : le-ℚ (q +ℚ rational-ℚ⁺ δ) (r -ℚ rational-ℚ⁺ δ)
-        q+δ<r-δ =
-          le-transpose-left-add-ℚ
-            ( q +ℚ rational-ℚ⁺ δ)
-            ( rational-ℚ⁺ δ)
-            ( r)
-            ( binary-tr
-              ( le-ℚ)
-              ( inv (associative-add-ℚ q (rational-ℚ⁺ δ) (rational-ℚ⁺ δ)))
-              ( right-law-positive-diff-le-ℚ q<r)
-              ( preserves-le-right-add-ℚ
-                ( q)
-                ( rational-ℚ⁺ (δ +ℚ⁺ δ))
-                ( rational-ℚ⁺ ε)
-                ( δ+δ<ε)))
-
-      elim-disjunction
-        ( (lower-cut-cauchy-filter-ℚ U q) ∨ (upper-cut-cauchy-filter-ℚ U r))
-        ( λ q+δ<p → inl-disjunction (intro-exists (δ , p) (q+δ<p , Up)))
-        ( λ p<r-δ →
-          inr-disjunction
-            ( intro-exists
-              ( δ , p)
-              ( le-transpose-right-diff-ℚ p r (rational-ℚ⁺ δ) p<r-δ , Up)))
-        ( located-le-ℚ p (q +ℚ rational-ℚ⁺ δ) (r -ℚ rational-ℚ⁺ δ) q+δ<r-δ)
-
-  is-dedekind-lower-upper-cauchy-filter-ℚ :
-    is-dedekind-lower-upper-ℝ
-      ( lower-real-cauchy-filter-ℚ U)
-      ( upper-real-cauchy-filter-ℚ U)
-  is-dedekind-lower-upper-cauchy-filter-ℚ =
-    ( is-disjoint-lower-upper-cauchy-filter-ℚ ,
-      is-located-lower-upper-cauchy-filter-ℚ)
-
-  real-cauchy-filter-ℚ : ℝ l
-  real-cauchy-filter-ℚ =
-    ( lower-real-cauchy-filter-ℚ U ,
-      upper-real-cauchy-filter-ℚ U ,
-      is-dedekind-lower-upper-cauchy-filter-ℚ)
+    is-monotonic-cauchy-filter-Metric-Space metric-space-ℚ V
 ```
 
 ### Cauchy filter on the rational numbers induced by a Dedekind real number
@@ -546,6 +283,304 @@ module _
       exists-rational-approximate-ℝ x ,
       is-saturated-neighborhood-subtype-ℚ-ℝ ,
       is-local-neighborhood-subtype-ℚ-ℝ)
+```
+
+### Lower real number induced by a Cauchy filter on the rational numbers
+
+```agda
+module _
+  {l : Level} (V : cauchy-filter-ℚ l)
+  where
+
+  lower-cut-cauchy-filter-ℚ : subtype l ℚ
+  lower-cut-cauchy-filter-ℚ p =
+    ∃ ( ℚ⁺ × ℚ)
+      ( λ ( ε , q) →
+        ( ( le-ℚ-Prop (p +ℚ rational-ℚ⁺ ε) q)) ∧
+          ( neighborhood-subtype-cauchy-filter-ℚ V ε q))
+
+  is-in-lower-cut-cauchy-filter-ℚ : ℚ → UU l
+  is-in-lower-cut-cauchy-filter-ℚ = is-in-subtype lower-cut-cauchy-filter-ℚ
+
+  is-inhabited-lower-cut-cauchy-filter-ℚ :
+    is-inhabited-subtype lower-cut-cauchy-filter-ℚ
+  is-inhabited-lower-cut-cauchy-filter-ℚ =
+    let
+      open
+        do-syntax-trunc-Prop (∃ ℚ lower-cut-cauchy-filter-ℚ)
+    in do
+      ε ← is-inhabited-ℚ⁺
+      (q , Vq) ← is-proper-cauchy-filter-ℚ V ε
+      (p , p<q-ε) ← exists-lesser-ℚ (q -ℚ rational-ℚ⁺ ε)
+      let
+        p+ε<q : le-ℚ (p +ℚ rational-ℚ⁺ ε) q
+        p+ε<q =
+          le-transpose-right-diff-ℚ
+            ( p)
+            ( q)
+            ( rational-ℚ⁺ ε)
+            ( p<q-ε)
+
+      intro-exists p (intro-exists (ε , q) (p+ε<q , Vq))
+
+  is-upper-open-lower-cut-cauchy-filter-ℚ :
+    (p : ℚ) →
+    is-in-lower-cut-cauchy-filter-ℚ p →
+    exists
+      ( ℚ)
+      ( λ q → le-ℚ-Prop p q ∧ lower-cut-cauchy-filter-ℚ q)
+  is-upper-open-lower-cut-cauchy-filter-ℚ p Lp =
+    let
+      open
+        do-syntax-trunc-Prop
+          ( ∃ ( ℚ)
+              ( λ q → le-ℚ-Prop p q ∧ lower-cut-cauchy-filter-ℚ q))
+    in do
+      ((ε , r) , (p+ε<r , Ur)) ← Lp
+      (q , p+ε<q , q<r) ← dense-le-ℚ p+ε<r
+
+      intro-exists
+        ( q -ℚ rational-ℚ⁺ ε)
+        ( ( le-transpose-left-add-ℚ p (rational-ℚ⁺ ε) q p+ε<q) ,
+          ( intro-exists
+            ( ε , r)
+            ( ( le-transpose-right-diff-ℚ
+                ( q -ℚ rational-ℚ⁺ ε)
+                ( r)
+                ( rational-ℚ⁺ ε)
+                ( preserves-le-left-add-ℚ
+                  ( neg-ℚ (rational-ℚ⁺ ε))
+                  ( q)
+                  ( r)
+                  ( q<r))) ,
+              ( Ur))))
+
+  is-lower-subset-lower-cut-cauchy-filter-ℚ :
+    (p q : ℚ) →
+    le-ℚ p q →
+    is-in-lower-cut-cauchy-filter-ℚ q →
+    is-in-lower-cut-cauchy-filter-ℚ p
+  is-lower-subset-lower-cut-cauchy-filter-ℚ p q p<q Lq =
+    let
+      open
+        do-syntax-trunc-Prop (lower-cut-cauchy-filter-ℚ p)
+    in do
+      ( (ε , r) , (q+ε<r , Ur)) ← Lq
+      intro-exists
+        ( ε , r)
+        ( ( transitive-le-ℚ
+            ( p +ℚ rational-ℚ⁺ ε)
+            ( q +ℚ rational-ℚ⁺ ε)
+            ( r)
+            ( q+ε<r)
+            ( preserves-le-left-add-ℚ (rational-ℚ⁺ ε) p q p<q)) ,
+          ( Ur))
+
+  is-dedekind-lower-cut-cauchy-filter-ℚ :
+    is-lower-dedekind-cut lower-cut-cauchy-filter-ℚ
+  is-dedekind-lower-cut-cauchy-filter-ℚ =
+    ( is-inhabited-lower-cut-cauchy-filter-ℚ ,
+      λ p →
+        ( is-upper-open-lower-cut-cauchy-filter-ℚ p ,
+          elim-exists
+            ( lower-cut-cauchy-filter-ℚ p)
+            ( λ q (p<q , Lq) →
+              is-lower-subset-lower-cut-cauchy-filter-ℚ p q p<q Lq)))
+
+  lower-real-cauchy-filter-ℚ : lower-ℝ l
+  lower-real-cauchy-filter-ℚ =
+    ( lower-cut-cauchy-filter-ℚ , is-dedekind-lower-cut-cauchy-filter-ℚ)
+```
+
+### Upper real number induced by a Cauchy filter on the rational numbers
+
+```agda
+module _
+  {l : Level} (V : cauchy-filter-ℚ l)
+  where
+
+  upper-cut-cauchy-filter-ℚ : subtype l ℚ
+  upper-cut-cauchy-filter-ℚ q =
+    ∃ ( ℚ⁺ × ℚ)
+      ( λ (ε , p) →
+        ( ( le-ℚ-Prop (p +ℚ rational-ℚ⁺ ε) q)) ∧
+          ( neighborhood-subtype-cauchy-filter-ℚ V ε p))
+
+  is-in-upper-cut-cauchy-filter-ℚ : ℚ → UU l
+  is-in-upper-cut-cauchy-filter-ℚ = is-in-subtype upper-cut-cauchy-filter-ℚ
+
+  is-inhabited-upper-cut-cauchy-filter-ℚ :
+    is-inhabited-subtype upper-cut-cauchy-filter-ℚ
+  is-inhabited-upper-cut-cauchy-filter-ℚ =
+    let
+      open do-syntax-trunc-Prop (∃ ℚ upper-cut-cauchy-filter-ℚ)
+    in do
+      ε ← is-inhabited-ℚ⁺
+      (p , Vp) ← is-proper-cauchy-filter-ℚ V ε
+      (q , p+ε<q) ← exists-greater-ℚ (p +ℚ rational-ℚ⁺ ε)
+      intro-exists q (intro-exists (ε , p) (p+ε<q , Vp))
+
+  is-lower-open-upper-cut-cauchy-filter-ℚ :
+    (q : ℚ) →
+    is-in-upper-cut-cauchy-filter-ℚ q →
+    exists
+      ( ℚ)
+      ( λ p → le-ℚ-Prop p q ∧ upper-cut-cauchy-filter-ℚ p)
+  is-lower-open-upper-cut-cauchy-filter-ℚ q Uq =
+    let
+      open
+        do-syntax-trunc-Prop
+          ( ∃ ( ℚ)
+              ( λ p → le-ℚ-Prop p q ∧ upper-cut-cauchy-filter-ℚ p))
+    in do
+      ((ε , r) , (r+ε<q , Ur)) ← Uq
+      (p , r+ε<p , p<q) ← dense-le-ℚ r+ε<q
+      intro-exists p (p<q , intro-exists (ε , r) (r+ε<p , Ur))
+
+  is-upper-subset-upper-cut-cauchy-filter-ℚ :
+    (p q : ℚ) →
+    le-ℚ p q →
+    is-in-upper-cut-cauchy-filter-ℚ p →
+    is-in-upper-cut-cauchy-filter-ℚ q
+  is-upper-subset-upper-cut-cauchy-filter-ℚ p q p<q Up =
+    let
+      open
+        do-syntax-trunc-Prop
+          ( upper-cut-cauchy-filter-ℚ q)
+    in do
+      ( (ε , r) , (r+ε<p , Ur)) ← Up
+      intro-exists
+        ( ε , r)
+        ( transitive-le-ℚ (r +ℚ rational-ℚ⁺ ε) p q p<q r+ε<p , Ur)
+
+  is-dedekind-upper-cut-cauchy-filter-ℚ :
+    is-upper-dedekind-cut upper-cut-cauchy-filter-ℚ
+  is-dedekind-upper-cut-cauchy-filter-ℚ =
+    ( is-inhabited-upper-cut-cauchy-filter-ℚ ,
+      λ q →
+        ( is-lower-open-upper-cut-cauchy-filter-ℚ q ,
+          elim-exists
+            ( upper-cut-cauchy-filter-ℚ q)
+            ( λ p (p<q , Up) →
+              is-upper-subset-upper-cut-cauchy-filter-ℚ p q p<q Up)))
+
+  upper-real-cauchy-filter-ℚ : upper-ℝ l
+  upper-real-cauchy-filter-ℚ =
+    ( upper-cut-cauchy-filter-ℚ , is-dedekind-upper-cut-cauchy-filter-ℚ)
+```
+
+### Dedekind real number induced by a Cauchy filter on the rational numbers
+
+```agda
+module _
+  {l : Level} (V : cauchy-filter-ℚ l)
+  where
+
+  is-disjoint-lower-upper-cauchy-filter-ℚ :
+    is-disjoint-lower-upper-ℝ
+      ( lower-real-cauchy-filter-ℚ V)
+      ( upper-real-cauchy-filter-ℚ V)
+  is-disjoint-lower-upper-cauchy-filter-ℚ p (Lp , Up) =
+    let
+      open
+        do-syntax-trunc-Prop empty-Prop
+    in do
+      ((α , q) , (p+α<q , Vq)) ← Lp
+      ((β , r) , (r+β<p , Vr)) ← Up
+
+      not-leq-le-ℚ
+        ( rational-ℚ⁺ (α +ℚ⁺ β))
+        ( diff-ℚ q r)
+        ( le-transpose-left-add-ℚ
+            ( rational-ℚ⁺ (α +ℚ⁺ β))
+            ( r)
+            ( q)
+            ( tr
+              ( λ z → le-ℚ z q)
+              ( commutative-add-ℚ r (rational-ℚ⁺ (α +ℚ⁺ β)))
+              ( transitive-le-ℚ
+                ( r +ℚ rational-ℚ⁺ (α +ℚ⁺ β))
+                ( p +ℚ rational-ℚ⁺ α)
+                ( q)
+                ( p+α<q)
+                ( tr
+                  ( λ z → le-ℚ z (p +ℚ rational-ℚ⁺ α))
+                  ( associative-add-ℚ r (rational-ℚ⁺ β) (rational-ℚ⁺ α) ∙
+                    ap
+                      ( add-ℚ r)
+                      ( commutative-add-ℚ (rational-ℚ⁺ β) (rational-ℚ⁺ α)))
+                  ( preserves-le-left-add-ℚ
+                    ( rational-ℚ⁺ α)
+                    ( r +ℚ rational-ℚ⁺ β)
+                    ( p)
+                    ( r+β<p))))))
+        ( transitive-leq-ℚ
+            ( diff-ℚ q r)
+            ( rational-dist-ℚ q r)
+            ( rational-ℚ⁺ (α +ℚ⁺ β))
+            ( leq-dist-neighborhood-ℚ
+              ( α +ℚ⁺ β)
+              ( q)
+              ( r)
+              ( is-bounded-cauchy-filter-ℚ V α β q r Vq Vr))
+            ( leq-diff-dist-ℚ q r))
+
+  is-located-lower-upper-cauchy-filter-ℚ :
+    is-located-lower-upper-ℝ
+      ( lower-real-cauchy-filter-ℚ V)
+      ( upper-real-cauchy-filter-ℚ V)
+  is-located-lower-upper-cauchy-filter-ℚ q r q<r =
+    let
+      ε : ℚ⁺
+      ε = positive-diff-le-ℚ q<r
+
+      open
+        do-syntax-trunc-Prop
+          ( (lower-cut-cauchy-filter-ℚ V q) ∨ (upper-cut-cauchy-filter-ℚ V r))
+    in do
+      (δ , δ+δ<ε) ← double-le-ℚ⁺ ε
+      (p , Vp) ← is-proper-cauchy-filter-ℚ V δ
+
+      let
+        q+δ<r-δ : le-ℚ (q +ℚ rational-ℚ⁺ δ) (r -ℚ rational-ℚ⁺ δ)
+        q+δ<r-δ =
+          le-transpose-left-add-ℚ
+            ( q +ℚ rational-ℚ⁺ δ)
+            ( rational-ℚ⁺ δ)
+            ( r)
+            ( binary-tr
+              ( le-ℚ)
+              ( inv (associative-add-ℚ q (rational-ℚ⁺ δ) (rational-ℚ⁺ δ)))
+              ( right-law-positive-diff-le-ℚ q<r)
+              ( preserves-le-right-add-ℚ
+                ( q)
+                ( rational-ℚ⁺ (δ +ℚ⁺ δ))
+                ( rational-ℚ⁺ ε)
+                ( δ+δ<ε)))
+
+      elim-disjunction
+        ( (lower-cut-cauchy-filter-ℚ V q) ∨ (upper-cut-cauchy-filter-ℚ V r))
+        ( λ q+δ<p → inl-disjunction (intro-exists (δ , p) (q+δ<p , Vp)))
+        ( λ p<r-δ →
+          inr-disjunction
+            ( intro-exists
+              ( δ , p)
+              ( le-transpose-right-diff-ℚ p r (rational-ℚ⁺ δ) p<r-δ , Vp)))
+        ( located-le-ℚ p (q +ℚ rational-ℚ⁺ δ) (r -ℚ rational-ℚ⁺ δ) q+δ<r-δ)
+
+  is-dedekind-lower-upper-cauchy-filter-ℚ :
+    is-dedekind-lower-upper-ℝ
+      ( lower-real-cauchy-filter-ℚ V)
+      ( upper-real-cauchy-filter-ℚ V)
+  is-dedekind-lower-upper-cauchy-filter-ℚ =
+    ( is-disjoint-lower-upper-cauchy-filter-ℚ ,
+      is-located-lower-upper-cauchy-filter-ℚ)
+
+  real-cauchy-filter-ℚ : ℝ l
+  real-cauchy-filter-ℚ =
+    ( lower-real-cauchy-filter-ℚ V ,
+      upper-real-cauchy-filter-ℚ V ,
+      is-dedekind-lower-upper-cauchy-filter-ℚ)
 ```
 
 ## Properties

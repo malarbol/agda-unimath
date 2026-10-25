@@ -107,7 +107,7 @@ module _
   cauchy-filter-ℝ = type-Metric-Space metric-space-cauchy-filter-ℝ
 ```
 
-### Components of Cauchy filters on the Dedekind real lnumbers
+### Components of Cauchy filters on the Dedekind real numbers
 
 ```agda
 module _
@@ -161,7 +161,7 @@ module _
 
 ## Properties
 
-### A Cauchy filter on the Dedekind real numbers induce a real number at the same level
+### A Cauchy filter on the Dedekind real numbers induces a real number at the same level
 
 ```agda
 module _

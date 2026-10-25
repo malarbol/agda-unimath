@@ -301,7 +301,29 @@ module _
       is-cauchy-filter-cauchy-filter-ℚ-cauchy-filter-ℝ)
 
   real-cauchy-filter-ℝ : ℝ l2
-  real-cauchy-filter-ℝ = real-cauchy-filter-ℚ cauchy-filter-ℚ-cauchy-filter-ℝ
+  real-cauchy-filter-ℝ =
+    real-cauchy-filter-ℚ cauchy-filter-ℚ-cauchy-filter-ℝ
+```
+
+```agda
+module _
+  {l1 l2 : Level}
+  where abstract
+
+  is-short-map-cauchy-filter-ℚ-cauchy-filter-ℝ :
+    is-short-map-Metric-Space
+      ( metric-space-cauchy-filter-ℝ l1 l2)
+      ( metric-space-cauchy-filter-ℚ l2)
+      ( cauchy-filter-ℚ-cauchy-filter-ℝ)
+  is-short-map-cauchy-filter-ℚ-cauchy-filter-ℝ d x y Nxy (α , β , p , q) xp yq =
+    reflects-neighborhoods-map-isometry-Metric-Space
+      ( metric-space-ℚ)
+      ( metric-space-ℝ l1)
+      ( isometry-raise-real-ℚ l1)
+      ( α +ℚ⁺ β +ℚ⁺ d)
+      ( p)
+      ( q)
+      ( Nxy (α , β , raise-real-ℚ l1 p , raise-real-ℚ l1 q) xp yq)
 ```
 
 ### The real number induced by a Cauchy filter of real numbers is in the filter

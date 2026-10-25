@@ -273,7 +273,9 @@ module _
 ## See also
 
 - The
-  [metric space of Cauchy filters on a pseudometric space](metric-spaces.metric-space-of-cauchy-filters-pseudometric-spaces.md)
+  [metric space of Cauchy filters on a pseudometric space](metric-spaces.metric-space-of-cauchy-filters-pseudometric-spaces.md);
+- the
+  [complete metric space of Cauchy filters on a pseudometric space](metric-spaces.complete-metric-space-of-cauchy-filters-pseudometric-spaces.md).
 
 ## References
 

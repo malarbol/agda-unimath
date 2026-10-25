@@ -86,7 +86,7 @@ module _
 
   neighborhood-prop-cauchy-filter-Pseudometric-Space :
     Rational-Neighborhood-Relation
-      (l1 ⊔ l2 ⊔ l)
+      ( l1 ⊔ l2 ⊔ l)
       ( cauchy-filter-Pseudometric-Space l M)
   neighborhood-prop-cauchy-filter-Pseudometric-Space d U V =
     Π-Prop
@@ -277,7 +277,7 @@ module _
   where abstract
 
   neighborhood-is-in-filter-sim-cauchy-filter-Pseudometric-Space :
-    (U V : cauchy-filter-Pseudometric-Space l M) →
+    ( U V : cauchy-filter-Pseudometric-Space l M) →
     sim-Pseudometric-Space
       ( pseudometric-space-cauchy-filter-Pseudometric-Space l M)
       ( U)
@@ -367,7 +367,7 @@ module _
           ( Vx)
 
   htpy-neighborhood-subtype-sim-cauchy-filter-Pseudometric-Space :
-    (U V : cauchy-filter-Pseudometric-Space l M) →
+    ( U V : cauchy-filter-Pseudometric-Space l M) →
     sim-Pseudometric-Space
       ( pseudometric-space-cauchy-filter-Pseudometric-Space l M)
       ( U)

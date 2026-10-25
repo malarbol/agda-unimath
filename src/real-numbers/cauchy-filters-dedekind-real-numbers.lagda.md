@@ -161,6 +161,8 @@ module _
 
 ## Properties
 
+### A Cauchy filter on the Dedekind real numbers induce a real number at the same level
+
 ```agda
 module _
   {l1 l2 : Level} (V : cauchy-filter-ℝ l1 l2)
@@ -300,4 +302,49 @@ module _
 
   real-cauchy-filter-ℝ : ℝ l2
   real-cauchy-filter-ℝ = real-cauchy-filter-ℚ cauchy-filter-ℚ-cauchy-filter-ℝ
+```
+
+### The real number induced by a Cauchy filter of real numbers is in the filter
+
+```agda
+module _
+  {l : Level} (V : cauchy-filter-ℝ l l)
+  where
+
+  is-in-filter-real-cauchy-filter-ℝ :
+    (ε : ℚ⁺) → is-in-cauchy-filter-ℝ V ε (real-cauchy-filter-ℝ V)
+  is-in-filter-real-cauchy-filter-ℝ ε =
+    let
+      open
+        do-syntax-trunc-Prop
+          ( neighborhood-subtype-cauchy-filter-ℝ
+            ( V)
+            ( ε)
+            ( real-cauchy-filter-ℝ V))
+    in do
+      (δ , δ+δ<ε) ← double-le-ℚ⁺ ε
+      (q , Vq) ← is-proper-cauchy-filter-ℚ-cauchy-filter-ℝ V δ
+
+      is-monotonic-cauchy-filter-ℝ
+        ( V)
+        ( real-cauchy-filter-ℝ V)
+        ( δ +ℚ⁺ δ)
+        ( ε)
+        ( δ+δ<ε)
+        ( is-enclosing-cauchy-filter-ℝ
+          ( V)
+          ( δ)
+          ( δ)
+          ( raise-real-ℚ l q)
+          ( real-cauchy-filter-ℝ V)
+          ( Vq)
+          ( is-symmetric-neighborhood-ℝ
+            ( δ)
+            ( real-cauchy-filter-ℝ V)
+            ( raise-real-ℚ l q)
+            ( is-in-neighborhood-real-is-in-cauchy-filter-ℚ
+              ( cauchy-filter-ℚ-cauchy-filter-ℝ V)
+              ( δ)
+              ( q)
+              ( Vq))))
 ```

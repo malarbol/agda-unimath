@@ -176,14 +176,14 @@ module _
     (ε δ : ℚ⁺) (p q : ℚ) →
     is-in-cauchy-filter-ℚ ε p →
     is-in-cauchy-filter-ℚ δ q →
-    neighborhood-Metric-Space metric-space-ℚ (ε +ℚ⁺ δ) p q
+    neighborhood-ℚ (ε +ℚ⁺ δ) p q
   is-bounded-cauchy-filter-ℚ =
     is-bounded-cauchy-filter-Metric-Space metric-space-ℚ V
 
   is-enclosing-cauchy-filter-ℚ :
     (ε δ : ℚ⁺) (p q : ℚ) →
     is-in-cauchy-filter-ℚ ε p →
-    neighborhood-Metric-Space metric-space-ℚ δ p q →
+    neighborhood-ℚ δ p q →
     is-in-cauchy-filter-ℚ (ε +ℚ⁺ δ) q
   is-enclosing-cauchy-filter-ℚ =
     is-enclosing-cauchy-filter-Metric-Space metric-space-ℚ V

@@ -33,7 +33,7 @@ of a [Cauchy filter](metric-spaces.cauchy-filters-pseudometric-spaces.md) `U` if
 neighborhood subtypes of the Cauchy filter.
 
 All limits are
-[similar](metric-sapces.similarity-of-elements-pseudometric-spaces.md).
+[similar](metric-spaces.similarity-of-elements-pseudometric-spaces.md).
 
 ## Definitions
 

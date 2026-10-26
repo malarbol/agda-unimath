@@ -120,3 +120,21 @@ module _
     ( limit-cauchy-filter-Metric-Space M U ,
       is-prop-limit-cauchy-filter-Metric-Space)
 ```
+
+### Points are limits of their image by the unit map of Cauchy filters in metric spaces
+
+```agda
+module _
+  {l1 l2 : Level} (M : Metric-Space l1 l2)
+  where
+
+  is-limit-map-unit-cauchy-filter-Metric-Space :
+    (x : type-Metric-Space M) →
+    is-limit-cauchy-filter-Metric-Space
+      ( M)
+      ( map-unit-cauchy-filter-Metric-Space M x)
+      ( x)
+  is-limit-map-unit-cauchy-filter-Metric-Space =
+    is-limit-map-unit-cauchy-filter-Pseudometric-Space
+      ( pseudometric-Metric-Space M)
+```

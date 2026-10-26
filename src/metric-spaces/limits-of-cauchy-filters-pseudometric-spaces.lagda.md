@@ -99,3 +99,20 @@ module _
             ( Ly ε)))
       ( double-le-ℚ⁺ d)
 ```
+
+### Points are limits of their image by the unit map of Cauchy filters in pseudometric spaces
+
+```agda
+module _
+  {l1 l2 : Level} (M : Pseudometric-Space l1 l2)
+  where
+
+  is-limit-map-unit-cauchy-filter-Pseudometric-Space :
+    (x : type-Pseudometric-Space M) →
+    is-limit-cauchy-filter-Pseudometric-Space
+      ( M)
+      ( map-unit-cauchy-filter-Pseudometric-Space M x)
+      ( x)
+  is-limit-map-unit-cauchy-filter-Pseudometric-Space x ε =
+    is-in-filter-map-unit-cauchy-filter-Pseudometric-Space M ε x
+```

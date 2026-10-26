@@ -84,22 +84,30 @@ module _
   (U : cauchy-filter-Metric-Space l M)
   where
 
+  all-eq-is-limit-cauchy-filter-Metric-Space :
+    (x y : type-Metric-Space M) →
+    is-limit-cauchy-filter-Metric-Space M U x →
+    is-limit-cauchy-filter-Metric-Space M U y →
+    x ＝ y
+  all-eq-is-limit-cauchy-filter-Metric-Space x y Lx Ly =
+    eq-sim-Metric-Space
+      ( M)
+      ( x)
+      ( y)
+      ( all-sim-is-limit-cauchy-filter-Pseudometric-Space
+        ( pseudometric-Metric-Space M)
+        ( U)
+        ( x)
+        ( y)
+        ( Lx)
+        ( Ly))
+
   all-eq-limit-cauchy-filter-Metric-Space :
     (x y : limit-cauchy-filter-Metric-Space M U) → x ＝ y
   all-eq-limit-cauchy-filter-Metric-Space (x , Lx) (y , Ly) =
     eq-type-subtype
       ( is-limit-prop-cauchy-filter-Metric-Space M U)
-      ( eq-sim-Metric-Space
-        ( M)
-        ( x)
-        ( y)
-        ( all-sim-is-limit-cauchy-filter-Pseudometric-Space
-          ( pseudometric-Metric-Space M)
-          ( U)
-          ( x)
-          ( y)
-          ( Lx)
-          ( Ly)))
+      ( all-eq-is-limit-cauchy-filter-Metric-Space x y Lx Ly)
 ```
 
 ### Having a limit is a property

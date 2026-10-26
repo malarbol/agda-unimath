@@ -199,7 +199,7 @@ module _
 
 ## Properties
 
-### A Cauchy filter on the Dedekind real numbers induces a real number at the same level
+### A Cauchy filter on the Dedekind real numbers induces a Cauchy filter in the rationals
 
 ```agda
 module _
@@ -337,13 +337,21 @@ module _
   cauchy-filter-ℚ-cauchy-filter-ℝ =
     ( neighborhood-subtype-cauchy-filter-ℚ-cauchy-filter-ℝ ,
       is-cauchy-filter-cauchy-filter-ℚ-cauchy-filter-ℝ)
+```
+
+### A Cauchy filter on the Dedekind real numbers induces a real number at the same level
+
+```agda
+module _
+  {l1 l2 : Level} (V : cauchy-filter-ℝ l1 l2)
+  where
 
   real-cauchy-filter-ℝ : ℝ l2
   real-cauchy-filter-ℝ =
-    real-cauchy-filter-ℚ cauchy-filter-ℚ-cauchy-filter-ℝ
+    real-cauchy-filter-ℚ (cauchy-filter-ℚ-cauchy-filter-ℝ V)
 ```
 
-### The map from Cauchy filters on real numbers to real numbers is an isometry
+### The map from Cauchy filters on real numbers to Cauchy filters on the rationals is an isometry
 
 ```agda
 module _

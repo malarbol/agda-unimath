@@ -521,7 +521,7 @@ module _
 ```agda
 module _
   {l : Level} (V : cauchy-filter-ℝ l l)
-  where
+  where abstract
 
   is-in-filter-real-cauchy-filter-ℝ :
     (ε : ℚ⁺) → is-in-cauchy-filter-ℝ V ε (real-cauchy-filter-ℝ V)

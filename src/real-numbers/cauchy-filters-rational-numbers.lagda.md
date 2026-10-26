@@ -118,7 +118,7 @@ are [isometries](metric-spaces.isometries-metric-spaces.md) and satisfy
 ```
 
 hence induce an isometric equivalence between Cauchy filters on rational numbers
-and Deddekind real numbers.
+and Dedekind real numbers.
 
 ## Definitions
 

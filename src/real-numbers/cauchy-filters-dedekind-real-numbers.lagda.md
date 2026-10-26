@@ -500,7 +500,7 @@ module _
       ( is-expansive-map-cauchy-filter-ℚ-cauchy-filter-ℝ)
 ```
 
-### The isometry from Cauchy filters on real numbers to real numbers
+### The isometry from Cauchy filters on real numbers to Cauchy filters on rational numbers
 
 ```agda
 module _
@@ -514,6 +514,26 @@ module _
   isometry-cauchy-filter-ℚ-cauchy-filter-ℝ =
     ( cauchy-filter-ℚ-cauchy-filter-ℝ ,
       is-isometry-cauchy-filter-ℚ-cauchy-filter-ℝ)
+```
+
+### The isometry from Cauchy filters on real numbers to Dedekind real numbers
+
+```agda
+module _
+  {l1 l2 : Level}
+  where
+
+  isometry-cauchy-real-cauchy-filter-ℝ :
+    isometry-Metric-Space
+      ( metric-space-cauchy-filter-ℝ l1 l2)
+      ( metric-space-ℝ l2)
+  isometry-cauchy-real-cauchy-filter-ℝ =
+    comp-isometry-Metric-Space
+      ( metric-space-cauchy-filter-ℝ l1 l2)
+      ( metric-space-cauchy-filter-ℚ l2)
+      ( metric-space-ℝ l2)
+      ( isometry-real-cauchy-filter-ℚ)
+      ( isometry-cauchy-filter-ℚ-cauchy-filter-ℝ)
 ```
 
 ### The real number induced by a Cauchy filter of real numbers is in the filter

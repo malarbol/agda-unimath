@@ -28,6 +28,8 @@ open import foundation.disjunction
 open import foundation.empty-types
 open import foundation.equivalences
 open import foundation.existential-quantification
+open import foundation.function-types
+open import foundation.homotopies
 open import foundation.identity-types
 open import foundation.inhabited-subtypes
 open import foundation.logical-equivalences
@@ -48,7 +50,9 @@ open import metric-spaces.equality-of-metric-spaces
 open import metric-spaces.expansive-maps-metric-spaces
 open import metric-spaces.isometries-metric-spaces
 open import metric-spaces.limits-of-cauchy-approximations-metric-spaces
+open import metric-spaces.limits-of-cauchy-filters-metric-spaces
 open import metric-spaces.local-rational-neighborhood-subtypes-pseudometric-spaces
+open import metric-spaces.metric-space-of-cauchy-filters-pseudometric-spaces
 open import metric-spaces.metric-space-of-rational-numbers
 open import metric-spaces.metric-spaces
 open import metric-spaces.proper-rational-neighborhood-subtypes
@@ -157,6 +161,40 @@ module _
     is-in-cauchy-filter-ℝ δ p
   is-monotonic-cauchy-filter-ℝ =
     is-monotonic-cauchy-filter-Metric-Space (metric-space-ℝ l1) V
+```
+
+### The unit map of Cauchy filters on Dedekind real numbers
+
+```agda
+module _
+  (l : Level)
+  where
+
+  isometry-unit-cauchy-filter-ℝ :
+    isometry-Metric-Space
+      ( metric-space-ℝ l)
+      ( metric-space-cauchy-filter-ℝ l l)
+  isometry-unit-cauchy-filter-ℝ =
+    isometry-unit-cauchy-filter-Pseudometric-Space
+      ( pseudometric-space-ℝ l)
+
+  map-unit-cauchy-filter-ℝ : ℝ l → cauchy-filter-ℝ l l
+  map-unit-cauchy-filter-ℝ =
+    map-isometry-Metric-Space
+      ( metric-space-ℝ l)
+      ( metric-space-cauchy-filter-ℝ l l)
+      ( isometry-unit-cauchy-filter-ℝ)
+
+  is-isometry-map-unit-cauchy-filter-ℝ :
+    is-isometry-Metric-Space
+      ( metric-space-ℝ l)
+      ( metric-space-cauchy-filter-ℝ l l)
+      ( map-unit-cauchy-filter-ℝ)
+  is-isometry-map-unit-cauchy-filter-ℝ =
+    is-isometry-map-isometry-Metric-Space
+      ( metric-space-ℝ l)
+      ( metric-space-cauchy-filter-ℝ l l)
+      ( isometry-unit-cauchy-filter-ℝ)
 ```
 
 ## Properties
@@ -523,11 +561,11 @@ module _
   {l1 l2 : Level}
   where
 
-  isometry-cauchy-real-cauchy-filter-ℝ :
+  isometry-real-cauchy-filter-ℝ :
     isometry-Metric-Space
       ( metric-space-cauchy-filter-ℝ l1 l2)
       ( metric-space-ℝ l2)
-  isometry-cauchy-real-cauchy-filter-ℝ =
+  isometry-real-cauchy-filter-ℝ =
     comp-isometry-Metric-Space
       ( metric-space-cauchy-filter-ℝ l1 l2)
       ( metric-space-cauchy-filter-ℚ l2)
@@ -536,16 +574,19 @@ module _
       ( isometry-cauchy-filter-ℚ-cauchy-filter-ℝ)
 ```
 
-### The real number induced by a Cauchy filter of real numbers is in the filter
+### The real number induced by a Cauchy filter of real numbers is its limit
 
 ```agda
 module _
   {l : Level} (V : cauchy-filter-ℝ l l)
   where abstract
 
-  is-in-filter-real-cauchy-filter-ℝ :
-    (ε : ℚ⁺) → is-in-cauchy-filter-ℝ V ε (real-cauchy-filter-ℝ V)
-  is-in-filter-real-cauchy-filter-ℝ ε =
+  is-limit-real-cauchy-filter-ℝ :
+    is-limit-cauchy-filter-Metric-Space
+      ( metric-space-ℝ l)
+      ( V)
+      ( real-cauchy-filter-ℝ V)
+  is-limit-real-cauchy-filter-ℝ ε =
     let
       open
         do-syntax-trunc-Prop
@@ -579,4 +620,52 @@ module _
               ( δ)
               ( q)
               ( Vq))))
+```
+
+### The unit map of Cauchy filters on real numbers is an equivalence
+
+```agda
+module _
+  {l : Level}
+  where abstract
+
+  is-section-real-cauchy-filter-ℝ :
+    real-cauchy-filter-ℝ ∘ map-unit-cauchy-filter-ℝ l ~ id
+  is-section-real-cauchy-filter-ℝ x =
+    all-eq-is-limit-cauchy-filter-Metric-Space
+      ( metric-space-ℝ l)
+      ( map-unit-cauchy-filter-ℝ l x)
+      ( real-cauchy-filter-ℝ (map-unit-cauchy-filter-ℝ l x))
+      ( x)
+      ( is-limit-real-cauchy-filter-ℝ (map-unit-cauchy-filter-ℝ l x))
+      ( is-limit-map-unit-cauchy-filter-Metric-Space (metric-space-ℝ l) x)
+
+  is-equiv-map-unit-cauchy-filter-ℝ :
+    is-equiv (map-unit-cauchy-filter-ℝ l)
+  is-equiv-map-unit-cauchy-filter-ℝ =
+    is-equiv-is-retraction-isometry-Metric-Space
+      ( metric-space-ℝ l)
+      ( metric-space-cauchy-filter-ℝ l l)
+      ( isometry-unit-cauchy-filter-ℝ l)
+      ( isometry-real-cauchy-filter-ℝ)
+      ( is-section-real-cauchy-filter-ℝ)
+```
+
+### Dedekind real numbers are isometrically equivalent to Cauchy filters on themselves
+
+```agda
+module _
+  {l : Level}
+  where
+
+  equiv-unit-cauchy-filter-ℝ : ℝ l ≃ cauchy-filter-ℝ l l
+  equiv-unit-cauchy-filter-ℝ =
+    ( map-unit-cauchy-filter-ℝ l , is-equiv-map-unit-cauchy-filter-ℝ)
+
+  isometric-equiv-unit-cauchy-filter-ℝ :
+    isometric-equiv-Metric-Space
+      ( metric-space-ℝ l)
+      ( metric-space-cauchy-filter-ℝ l l)
+  isometric-equiv-unit-cauchy-filter-ℝ =
+    ( equiv-unit-cauchy-filter-ℝ , is-isometry-map-unit-cauchy-filter-ℝ l)
 ```

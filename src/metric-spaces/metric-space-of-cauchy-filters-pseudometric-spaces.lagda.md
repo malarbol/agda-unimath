@@ -560,3 +560,44 @@ module _
     ( map-unit-cauchy-filter-Pseudometric-Space M ,
       is-isometry-map-unit-cauchy-filter-Pseudometric-Space)
 ```
+
+### The unit map of Cauchy filters of pseudometric spaces maps filter points to neighbors in the metric space of Cauchy filters
+
+```agda
+module _
+  {l1 l2 : Level} (M : Pseudometric-Space l1 l2)
+  (V : cauchy-filter-Pseudometric-Space l2 M)
+  where
+
+  is-in-neighborhood-map-unit-is-in-cauchy-filter-Pseudometric-Space :
+    (ε : ℚ⁺) →
+    (x : type-Pseudometric-Space M) →
+    is-in-cauchy-filter-Pseudometric-Space M V ε x →
+    neighborhood-cauchy-filter-Pseudometric-Space
+      ( M)
+      ( ε)
+      ( V)
+      ( map-unit-cauchy-filter-Pseudometric-Space M x)
+  is-in-neighborhood-map-unit-is-in-cauchy-filter-Pseudometric-Space
+    ε x Vx (α , β , y , z) Vy Nxz =
+    tr
+      ( is-upper-bound-dist-Pseudometric-Space M y z)
+      ( ap (add-ℚ⁺ α) (commutative-add-ℚ⁺ ε β) ∙ inv (associative-add-ℚ⁺ α β ε))
+      ( is-bounded-cauchy-filter-Pseudometric-Space
+        ( M)
+        ( V)
+        ( α)
+        ( ε +ℚ⁺ β)
+        ( y)
+        ( z)
+        ( Vy)
+        ( is-enclosing-cauchy-filter-Pseudometric-Space
+          ( M)
+          ( V)
+          ( ε)
+          ( β)
+          ( x)
+          ( z)
+          ( Vx)
+          ( Nxz)))
+```

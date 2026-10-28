@@ -30,7 +30,7 @@ In a [metric space](metric-spaces.metric-spaces.md), all
 [equal](foundation.identity-types.md).
 
 Therefore, the existence of a
-{{#concept "limit" Disambiguation="of a Cauchy filger in a metric space Agda=limit-cauchy-filter-Metric-Space}}
+{{#concept "limit" Disambiguation="of a Cauchy filter in a metric space Agda=limit-cauchy-filter-Metric-Space}}
 of a Cauchy filter is a [proposition](foundation.propositions.md).
 
 ## Definitions
